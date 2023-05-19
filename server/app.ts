@@ -1,5 +1,6 @@
 import cookieSession from 'cookie-session';
 import express, { NextFunction, Request, Response } from 'express';
+import { orderRouter } from './resources/orders/order-router';
 import { userRouter } from './resources/users/user.routes';
 
 export const app = express();
