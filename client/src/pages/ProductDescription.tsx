@@ -1,4 +1,4 @@
-import * as Icon from '@mui/icons-material'
+import * as Icon from '@mui/icons-material';
 import {
   Box,
   CardMedia,
@@ -8,37 +8,37 @@ import {
   SxProps,
   Theme,
   Typography,
-} from '@mui/material'
-import { useState } from 'react'
-import { NavLink, useParams } from 'react-router-dom'
-import { Product } from '../../data'
-import ProductBtnSection from '../components/ProductBtnSection'
-import { useProducts } from '../contexts/ProductsContext'
+} from '@mui/material';
+import { useState } from 'react';
+import { NavLink, useParams } from 'react-router-dom';
+import { Product } from '../../data';
+import ProductBtnSection from '../components/ProductBtnSection';
+import { useProducts } from '../contexts/ProductsContext';
 
 // get the product id from the url and find the product to display
 function ProductDescription() {
-  const { page, id } = useParams<{ page: string; id: string }>()
-  const { databaseProducts } = useProducts()
-  const product: Product | undefined = databaseProducts.find(p => p.id === id)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const { page, id } = useParams<{ page: string; id: string }>();
+  const { databaseProducts } = useProducts();
+  const product: Product | undefined = databaseProducts.find(p => p.id === id);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleLoad = () => {
-    setLoading(false)
-    setError(false)
-  }
+    setLoading(false);
+    setError(false);
+  };
 
   const handleError = () => {
-    setLoading(false)
-    setError(true)
-  }
+    setLoading(false);
+    setError(true);
+  };
 
   if (!product) {
     return (
       <Typography variant='h3' sx={{ ml: 3, marginBottom: '10rem' }}>
         Product not found
       </Typography>
-    )
+    );
   } else {
     return (
       // Show all the product details, and if statement for backbutton to admin or home from product.
@@ -86,8 +86,8 @@ function ProductDescription() {
                 {product.title}
               </Typography>
               <Typography variant='h6' data-cy='product-price'>
-                ${product.price} &nbsp; {'|'} &nbsp; {product.color} &nbsp; {'|'} &nbsp;{' '}
-                {product.size}
+                ${product.price} &nbsp; {'|'} &nbsp; {product.color} &nbsp;{' '}
+                {'|'} &nbsp; {product.size}
               </Typography>
               <Typography variant='h6' sx={{ mt: 2, mb: 1, fontSize: '1rem' }}>
                 Product Description
@@ -100,7 +100,10 @@ function ProductDescription() {
                 {product.description}
               </Typography>
               {product.details1 || product.details2 || product.details3 ? (
-                <Typography variant='h6' sx={{ mt: 2, mb: 1, fontSize: '1rem' }}>
+                <Typography
+                  variant='h6'
+                  sx={{ mt: 2, mb: 1, fontSize: '1rem' }}
+                >
                   Product Details
                 </Typography>
               ) : null}
@@ -135,7 +138,9 @@ function ProductDescription() {
                   <>
                     <Icon.HighlightOff sx={{ mr: 1, mt: 0.15, color: 'red' }} />
                     <Box>
-                      <Typography variant='body1'>Out of stock — awaiting next shipment</Typography>
+                      <Typography variant='body1'>
+                        Out of stock — awaiting next shipment
+                      </Typography>
                       <Typography sx={{ fontSize: '0.7rem' }}>
                         Back in store within 10 working days
                       </Typography>
@@ -143,7 +148,9 @@ function ProductDescription() {
                   </>
                 ) : (
                   <>
-                    <Icon.CheckCircleOutline sx={{ mr: 1, mt: 0.15, color: 'green' }} />
+                    <Icon.CheckCircleOutline
+                      sx={{ mr: 1, mt: 0.15, color: 'green' }}
+                    />
                     <Box>
                       <Typography variant='body1'>In stock</Typography>
                       <Typography sx={{ fontSize: '0.7rem' }}>
@@ -158,7 +165,7 @@ function ProductDescription() {
           </Box>
         </Paper>
       </Container>
-    )
+    );
   }
 }
 
@@ -171,7 +178,7 @@ const mainBoxStyle: SxProps<Theme> = theme => ({
   margin: '0 1rem',
   padding: '1.5rem',
   maxWidth: 'lg',
-})
+});
 
 const contentStyle: SxProps<Theme> = theme => ({
   display: 'flex',
@@ -179,7 +186,7 @@ const contentStyle: SxProps<Theme> = theme => ({
   [theme.breakpoints.up('md')]: {
     flexDirection: 'row',
   },
-})
+});
 
 const imgStyle: SxProps<Theme> = theme => ({
   maxWidth: '100%',
@@ -187,7 +194,7 @@ const imgStyle: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('md')]: {
     maxWidth: '70%',
   },
-})
+});
 
 const imgWrapperStyle: SxProps<Theme> = theme => ({
   flex: 1,
@@ -200,7 +207,7 @@ const imgWrapperStyle: SxProps<Theme> = theme => ({
       maxWidth: '80%',
     },
   },
-})
+});
 
 const skeletonSx: SxProps<Theme> = theme => ({
   width: '100%',
@@ -216,7 +223,7 @@ const skeletonSx: SxProps<Theme> = theme => ({
     width: '100%',
     height: '15rem',
   },
-})
+});
 
 const textAndBtnWrapperStyle: SxProps<Theme> = theme => ({
   flex: 1,
@@ -224,12 +231,12 @@ const textAndBtnWrapperStyle: SxProps<Theme> = theme => ({
   flexDirection: 'column',
   justifyContent: 'space-between',
   padding: '0 1rem',
-})
+});
 
 const flexAlignStyle: SxProps<Theme> = theme => ({
   display: 'flex',
   alignItems: 'center',
   margin: '1rem 0rem 3rem 1.4rem',
-})
+});
 
-export default ProductDescription
+export default ProductDescription;

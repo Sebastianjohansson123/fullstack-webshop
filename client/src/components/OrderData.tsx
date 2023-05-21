@@ -1,5 +1,12 @@
-import { Box, CardMedia, Skeleton, SxProps, Theme, Typography } from '@mui/material'
-import { useState } from 'react'
+import {
+  Box,
+  CardMedia,
+  Skeleton,
+  SxProps,
+  Theme,
+  Typography,
+} from '@mui/material';
+import { useState } from 'react';
 import {
   cardImgStyle,
   descriptionTextStyleSx,
@@ -8,31 +15,31 @@ import {
   productTotalStyleSx,
   quantityBoxStyleSx,
   quantityStyleSx,
-} from './CheckoutCard'
+} from './CheckoutCard';
 
 interface Props {
-  title: string
-  price: number
-  quantity: number
-  size: string
-  image: string
-  color: string
+  title: string;
+  price: number;
+  quantity: number;
+  size: string;
+  image: string;
+  color: string;
 }
 
 export default function OrderData(props: Props) {
   // Activates skeleton while image is loading or does not load
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleLoad = () => {
-    setLoading(false)
-    setError(false)
-  }
+    setLoading(false);
+    setError(false);
+  };
 
   const handleError = () => {
-    setLoading(false)
-    setError(true)
-  }
+    setLoading(false);
+    setError(true);
+  };
 
   return (
     <Box sx={{ pt: 1, borderBottom: 'solid black 1px', display: 'flex' }}>
@@ -62,7 +69,11 @@ export default function OrderData(props: Props) {
             }}
           ></Box>
           <Box sx={{ ml: 1 }}>
-            <Typography data-cy='product-title' variant='h3' sx={mediaFontSizeStyleSx}>
+            <Typography
+              data-cy='product-title'
+              variant='h3'
+              sx={mediaFontSizeStyleSx}
+            >
               {props.title}
             </Typography>
             <Typography
@@ -71,9 +82,14 @@ export default function OrderData(props: Props) {
               data-cy='product-price'
               sx={descriptionTextStyleSx}
             >
-              ${props.price} &nbsp; {'|'} &nbsp; {props.color} &nbsp; {'|'} &nbsp; {props.size}
+              ${props.price} &nbsp; {'|'} &nbsp; {props.color} &nbsp; {'|'}{' '}
+              &nbsp; {props.size}
             </Typography>
-            <Typography data-cy='product-price' variant='body2' sx={productTotalStyleSx}>
+            <Typography
+              data-cy='product-price'
+              variant='body2'
+              sx={productTotalStyleSx}
+            >
               Total: ${props.price * props.quantity}
             </Typography>
           </Box>
@@ -87,12 +103,16 @@ export default function OrderData(props: Props) {
           display: 'flex',
         }}
       >
-        <Typography data-cy='product-quantity' variant='body2' sx={quantityStyleSx}>
+        <Typography
+          data-cy='product-quantity'
+          variant='body2'
+          sx={quantityStyleSx}
+        >
           {props.quantity}
         </Typography>
       </Box>
     </Box>
-  )
+  );
 }
 
 /* ----------------------
@@ -113,7 +133,7 @@ const displayOrderItem: SxProps<Theme> = theme => ({
     pl: 0.5,
     flexDirection: 'column',
   },
-})
+});
 
 const imageBoxStyleSx: SxProps<Theme> = theme => ({
   maxWidth: '120px',
@@ -134,7 +154,7 @@ const imageBoxStyleSx: SxProps<Theme> = theme => ({
     maxHeight: '100px',
     minHeight: '100px',
   },
-})
+});
 
 const skeletonSx: SxProps<Theme> = theme => ({
   maxWidth: '120px',
@@ -153,4 +173,4 @@ const skeletonSx: SxProps<Theme> = theme => ({
     maxHeight: '100px',
     minHeight: '100px',
   },
-})
+});
