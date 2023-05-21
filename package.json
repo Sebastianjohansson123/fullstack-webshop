@@ -7,7 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "frontend": "cd client && npm run dev",
     "backend": "cd server && npm run dev",
-    "all": "npm run backend & npm run frontend"
+    "all": "npm run backend & npm run frontend",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --check \"src/**/.{ts,tsx}\"",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -19,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/Sebastianjohansson123/fullstack-webshop/issues"
   },
-  "homepage": "https://github.com/Sebastianjohansson123/fullstack-webshop#readme"
+  "homepage": "https://github.com/Sebastianjohansson123/fullstack-webshop#readme",
+  "dependencies": {
+    "prettier": "^2.8.8"
+  }
 }
