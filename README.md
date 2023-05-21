@@ -16,6 +16,8 @@ Vi har användt oss av följande ramverk och verktyg:
 
 ## Skapare
 
+Tomas Invarsson [github...], Sebastian Johansson[github...], Mergim Shalaa[github...], Yehad Moussaoui[github...]
+
 ## Kodbas
 
 Den här kodbasen är indelad i en [klientmapp](./client/) och en [servermapp](./server/).
