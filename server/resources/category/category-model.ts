@@ -1,7 +1,7 @@
-import { InferSchemaType, Schema, model } from "mongoose";
+import { InferSchemaType, Schema } from 'mongoose';
 
 export const categorySchema = new Schema({
-    name: { type: String, required: true }
+  name: { type: String, required: true },
 });
 
 export type Category = InferSchemaType<typeof categorySchema>;
