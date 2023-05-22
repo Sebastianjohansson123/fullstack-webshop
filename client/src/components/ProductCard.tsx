@@ -83,7 +83,7 @@ export default function ProductCard({ product }: Props) {
         <AddToCartButton
           product={product}
           quantity={defaultQuantity}
-          onAddToCart={() => {}}
+          onAddToCart={() => console.log('eslint = ägd')}
         />
       </Box>
     </Card>

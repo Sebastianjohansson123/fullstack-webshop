@@ -10,7 +10,7 @@ interface ProductsContextValue {
 }
 
 // Context setup
-const ProductsContext = createContext<ProductsContextValue>(null as any);
+const ProductsContext = createContext<ProductsContextValue>(null as never);
 
 export const useProducts = () => useContext(ProductsContext);
 
