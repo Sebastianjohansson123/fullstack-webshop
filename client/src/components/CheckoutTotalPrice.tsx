@@ -1,8 +1,8 @@
-import { Paper, Typography } from '@mui/material'
-import { Box, SxProps, Theme } from '@mui/system'
+import { Paper, Typography } from '@mui/material';
+import { Box, SxProps, Theme } from '@mui/system';
 
 interface Props {
-  totalPrice: number
+  totalPrice: number;
 }
 
 function CheckoutTotalPrice({ totalPrice }: Props) {
@@ -19,7 +19,7 @@ function CheckoutTotalPrice({ totalPrice }: Props) {
         </Typography>
       </Paper>
     </Box>
-  )
+  );
 }
 
 /* ----------------------
@@ -33,13 +33,13 @@ const totalPriceTextStyleSx: SxProps<Theme> = theme => ({
   fontSize: '1.1rem',
   borderRadius: '0.8rem',
   [theme.breakpoints.up('md')]: { px: 4, fontSize: '1.4rem' },
-})
+});
 const totalPriceBoxStyleSx: SxProps<Theme> = theme => ({
   display: 'flex',
   justifyContent: 'flex-end',
   width: '100%',
   mt: 2,
   // [theme.breakpoints.up('md')]: {},
-})
+});
 
-export default CheckoutTotalPrice
+export default CheckoutTotalPrice;

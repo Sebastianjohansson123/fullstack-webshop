@@ -1,11 +1,11 @@
-import * as Icon from '@mui/icons-material'
-import { Box, Button, Paper, SxProps, Theme, Typography } from '@mui/material'
-import { Container } from '@mui/system'
-import { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import OrderData from '../components/OrderData'
-import { useCart } from '../contexts/CartContext'
-import { FormContext } from '../contexts/FormContext'
+import * as Icon from '@mui/icons-material';
+import { Box, Button, Paper, SxProps, Theme, Typography } from '@mui/material';
+import { Container } from '@mui/system';
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import OrderData from '../components/OrderData';
+import { useCart } from '../contexts/CartContext';
+import { FormContext } from '../contexts/FormContext';
 
 function OrderConfirmation() {
   /* ---------------------------
@@ -14,9 +14,9 @@ function OrderConfirmation() {
 
   // PROPS //
 
-  const { formValues } = useContext(FormContext)
-  const { fullName, email, phoneNumber, address, city, zipcode } = formValues
-  const { cartItems, totalPrice, clearProductsFromCart } = useCart()
+  const { formValues } = useContext(FormContext);
+  const { fullName, email, phoneNumber, address, city, zipcode } = formValues;
+  const { cartItems, totalPrice, clearProductsFromCart } = useCart();
   const orderItems = cartItems.map(item => (
     <OrderData
       title={item.title}
@@ -26,18 +26,18 @@ function OrderConfirmation() {
       image={item.image}
       color={item.color}
     />
-  ))
+  ));
 
   // STATES //
 
-  const [newOrderItems, setNewOrderItems] = useState(orderItems)
-  const [newTotalPrice, setNewTotalPrice] = useState(totalPrice)
+  const [newOrderItems, setNewOrderItems] = useState(orderItems);
+  const [newTotalPrice, setNewTotalPrice] = useState(totalPrice);
 
   useEffect(() => {
-    setNewOrderItems(orderItems)
-    setNewTotalPrice(totalPrice)
-    clearProductsFromCart()
-  }, [])
+    setNewOrderItems(orderItems);
+    setNewTotalPrice(totalPrice);
+    clearProductsFromCart();
+  }, []);
 
   /* --------------------------------
         ORDER CONFIRMATION PAGE
@@ -66,7 +66,8 @@ function OrderConfirmation() {
             Thank you for your purchase!
           </Typography>
           <Typography variant='body1'>
-            A receipt for order <span>#{Math.floor(Math.random() * 100000) + 100000}</span> has been
+            A receipt for order{' '}
+            <span>#{Math.floor(Math.random() * 100000) + 100000}</span> has been
             sent to your e-mail.
           </Typography>
           <Typography variant='body1' sx={{ mx: 2, textAlign: 'center' }}>
@@ -83,7 +84,12 @@ function OrderConfirmation() {
 
         <Box sx={shippingDetailsStyleSX}>
           <Box sx={{ marginRight: '4rem' }}>
-            <Typography gutterBottom variant='h3' color='secondary.dark' sx={subHeaderStyleSX}>
+            <Typography
+              gutterBottom
+              variant='h3'
+              color='secondary.dark'
+              sx={subHeaderStyleSX}
+            >
               User details
             </Typography>
             <Typography sx={formDataStyleSX}>{fullName}</Typography>
@@ -91,7 +97,12 @@ function OrderConfirmation() {
             <Typography sx={formDataStyleSX}>{phoneNumber}</Typography>
           </Box>
           <Box>
-            <Typography gutterBottom variant='h3' color='secondary.dark' sx={subHeaderStyleSX}>
+            <Typography
+              gutterBottom
+              variant='h3'
+              color='secondary.dark'
+              sx={subHeaderStyleSX}
+            >
               Shipping details
             </Typography>
             <Typography sx={formDataStyleSX}>{address}</Typography>
@@ -102,12 +113,22 @@ function OrderConfirmation() {
 
         {/* LIST OF ORDERED PRODUCTS */}
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '1rem' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            paddingBottom: '1rem',
+          }}
+        >
           <Typography variant='h3' color='secondary.dark' sx={subHeaderStyleSX}>
             Products
           </Typography>
           <Box sx={{ display: 'flex' }}>
-            <Typography variant='h3' color='secondary.dark' sx={subHeaderStyleSX}>
+            <Typography
+              variant='h3'
+              color='secondary.dark'
+              sx={subHeaderStyleSX}
+            >
               Quantity
             </Typography>
           </Box>
@@ -119,7 +140,7 @@ function OrderConfirmation() {
         <Typography sx={priceStyleSX}>Total: ${newTotalPrice}</Typography>
       </Paper>
     </Container>
-  )
+  );
 }
 
 /* ---------------------
@@ -148,7 +169,7 @@ const confirmStyleBoxSX: SxProps<Theme> = theme => ({
       fontSize: '2rem',
     },
   },
-})
+});
 
 const typographyStylesSX: SxProps<Theme> = theme => ({
   textAlign: 'center',
@@ -159,7 +180,7 @@ const typographyStylesSX: SxProps<Theme> = theme => ({
   [theme.breakpoints.up('md')]: {
     fontSize: '1rem',
   },
-})
+});
 
 const iconStylesSX: SxProps<Theme> = theme => ({
   fontSize: '30px',
@@ -169,7 +190,7 @@ const iconStylesSX: SxProps<Theme> = theme => ({
   [theme.breakpoints.up('md')]: {
     fontSize: '4rem',
   },
-})
+});
 
 const buttonStyleSX: SxProps<Theme> = theme => ({
   fontWeight: '600',
@@ -183,7 +204,7 @@ const buttonStyleSX: SxProps<Theme> = theme => ({
   [theme.breakpoints.up('md')]: {
     scale: '1.5',
   },
-})
+});
 
 const priceStyleSX: SxProps<Theme> = theme => ({
   textAlign: 'end',
@@ -199,7 +220,7 @@ const priceStyleSX: SxProps<Theme> = theme => ({
     fontSize: '1.5rem',
     mr: '2.8rem',
   },
-})
+});
 
 const ItemStyleSX: SxProps<Theme> = theme => ({
   marginLeft: '0.5rem',
@@ -212,7 +233,7 @@ const ItemStyleSX: SxProps<Theme> = theme => ({
     marginLeft: '2.8rem',
     marginRight: '2.8rem',
   },
-})
+});
 
 const subHeaderStyleSX: SxProps<Theme> = theme => ({
   paddingTop: '3rem',
@@ -228,7 +249,7 @@ const subHeaderStyleSX: SxProps<Theme> = theme => ({
     ml: '1.6rem',
     mr: '1.6rem',
   },
-})
+});
 
 const formDataStyleSX: SxProps<Theme> = theme => ({
   fontStyle: 'italic',
@@ -242,7 +263,7 @@ const formDataStyleSX: SxProps<Theme> = theme => ({
     ml: '3rem',
     fontSize: '1.2rem',
   },
-})
+});
 
 const shippingDetailsStyleSX: SxProps<Theme> = theme => ({
   display: 'flex',
@@ -251,6 +272,6 @@ const shippingDetailsStyleSX: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
   },
-})
+});
 
-export default OrderConfirmation
+export default OrderConfirmation;

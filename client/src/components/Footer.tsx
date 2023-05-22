@@ -1,4 +1,4 @@
-import * as Icon from '@mui/icons-material'
+import * as Icon from '@mui/icons-material';
 import {
   Alert,
   Box,
@@ -9,26 +9,28 @@ import {
   TextField,
   Theme,
   Typography,
-} from '@mui/material'
-import { useFormik } from 'formik'
-import { useState } from 'react'
-import * as Yup from 'yup'
-import '../index.css'
+} from '@mui/material';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import * as Yup from 'yup';
+import '../index.css';
 
 const newsletterSchema = Yup.object().shape({
   email: Yup.string()
-    .email("Your e-mail seems to be incorrectly formatted. Please make sure it's correct.")
+    .email(
+      "Your e-mail seems to be incorrectly formatted. Please make sure it's correct."
+    )
     .required('Please tell us your email.')
     .min(
       7,
       'The e-mail you have given us it too short. Please give us an e-mail of minimum 7 characters.'
     ),
-})
+});
 
-type newsletterValues = Yup.InferType<typeof newsletterSchema>
+type newsletterValues = Yup.InferType<typeof newsletterSchema>;
 
 function Footer() {
-  const [openSnack, setOpenSnack] = useState(false)
+  const [openSnack, setOpenSnack] = useState(false);
 
   const formik = useFormik<newsletterValues>({
     initialValues: {
@@ -36,18 +38,18 @@ function Footer() {
     },
     validationSchema: newsletterSchema,
     onSubmit: values => {
-      setOpenSnack(true)
-      values.email = ''
+      setOpenSnack(true);
+      values.email = '';
     },
     onReset: values => {
-      setOpenSnack(true)
-      values.email = ''
+      setOpenSnack(true);
+      values.email = '';
     },
-  })
+  });
 
   const handleClose = () => {
-    setOpenSnack(false)
-  }
+    setOpenSnack(false);
+  };
 
   return (
     <Box sx={footerStyle}>
@@ -102,9 +104,13 @@ function Footer() {
               Thank you for joining our newsletter!
             </Alert>
           </Snackbar>
-          <Typography sx={{ color: '#AAA', margin: '1rem' }} align='center' variant='caption'>
-            This form is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service
-            apply
+          <Typography
+            sx={{ color: '#AAA', margin: '1rem' }}
+            align='center'
+            variant='caption'
+          >
+            This form is protected by reCAPTCHA and the Google Privacy Policy
+            and Terms of Service apply
           </Typography>
           <Typography sx={{ paddingTop: '1rem' }} variant='body2'>
             Copyright 2023. Design by Gent's Hat{' '}
@@ -131,7 +137,7 @@ function Footer() {
         </Box>
       </Box>
     </Box>
-  )
+  );
 }
 
 /* ----------------------
@@ -157,7 +163,7 @@ const footerStyle: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('sm')]: {
     height: 'var(--footer-height-sm)',
   },
-})
+});
 
 const footerContent: SxProps<Theme> = theme => ({
   display: 'flex',
@@ -170,7 +176,7 @@ const footerContent: SxProps<Theme> = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-})
+});
 
 const socialMediaContainer: SxProps<Theme> = theme => ({
   marginTop: '1.6rem',
@@ -180,7 +186,7 @@ const socialMediaContainer: SxProps<Theme> = theme => ({
     width: '100%',
     textAlign: 'center',
   },
-})
+});
 
 const socialMediaIcons: SxProps<Theme> = theme => ({
   '& > * > *': {
@@ -193,7 +199,7 @@ const socialMediaIcons: SxProps<Theme> = theme => ({
       marginLeft: '1rem',
     },
   },
-})
+});
 
 const newsletterContainer: SxProps<Theme> = theme => ({
   display: 'flex',
@@ -207,7 +213,7 @@ const newsletterContainer: SxProps<Theme> = theme => ({
     order: 3,
     width: '100%',
   },
-})
+});
 
 const inputContainer: SxProps<Theme> = theme => ({
   display: 'flex',
@@ -216,7 +222,7 @@ const inputContainer: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
   },
-})
+});
 
 const inputField: SxProps<Theme> = theme => ({
   backgroundColor: '#DCDCDC',
@@ -234,7 +240,7 @@ const inputField: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('sm')]: {
     width: '15rem',
   },
-})
+});
 
 const joinButton: SxProps<Theme> = theme => ({
   width: '7rem',
@@ -250,7 +256,7 @@ const joinButton: SxProps<Theme> = theme => ({
     marginLeft: '0rem',
     marginTop: '0.8rem',
   },
-})
+});
 
 const contactContainer: SxProps<Theme> = theme => ({
   display: 'flex',
@@ -263,6 +269,6 @@ const contactContainer: SxProps<Theme> = theme => ({
     marginTop: '3rem',
     width: '100%',
   },
-})
+});
 
-export default Footer
+export default Footer;
