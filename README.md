@@ -44,7 +44,7 @@ Här är en lista på de olika skripten som kan köras i terminalen.
 - [ ] Checkoutflödet i frontendapplikationen ska ha validering på samtliga fält (G)
 ### VG
 
-- [ ] Ett CI flöde ska sättas upp (i början av projektet) som kontrollerar prettier, eslint, typescript & tester i varje PR, tester kan lånas ifrån tidigare uppgifter (VG)
+- [x] Ett CI flöde ska sättas upp (i början av projektet) som kontrollerar prettier, eslint, typescript & tester i varje PR, tester kan lånas ifrån tidigare uppgifter (VG)
 - [ ] När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG)
 - [ ] Administratörer ska kunna redigera produkt inklusive vilka kategorier den tillhör (VG)
 - [ ] Administratörer ska kunna lägga till och ta bort produkter (VG)
