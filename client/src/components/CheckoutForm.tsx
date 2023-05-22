@@ -107,7 +107,7 @@ export default function CheckoutForm() {
   });
 
   interface CustomFormHelperTextProps
-    extends Partial<FormHelperTextProps<'p', {}>> {
+    extends Partial<FormHelperTextProps<'p', `object`>> {
     'data-cy'?: string;
   }
 

@@ -12,7 +12,7 @@ interface CartContextValue {
   totalProductsInCart: number;
 }
 
-const CartContext = createContext<CartContextValue>(null as any);
+const CartContext = createContext<CartContextValue>(null as never);
 
 export const useCart = () => useContext(CartContext);
 

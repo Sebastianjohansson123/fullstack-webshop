@@ -23,7 +23,12 @@ const defaultFormData: FormContextTypes = {
     zipcode: '',
     city: '',
   },
-  setFormValues: () => {},
+  // setFormValues: () => {},
+  setFormValues: () => {
+    console.warn(
+      'setFormValues has been called without a proper implementation.'
+    );
+  },
 };
 
 // Context to share form data between components

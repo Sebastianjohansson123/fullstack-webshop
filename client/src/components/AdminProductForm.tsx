@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { generateId, Product } from '../../data';
+import { Product, generateId } from '../../data';
 import { useProducts } from '../contexts/ProductsContext';
 
 /* ----------------------
@@ -129,7 +129,7 @@ function AdminProductForm({ onSave, product }: Props) {
         setDatabaseProducts(updatedDatabaseProducts);
       } else {
         // Generates new ID
-        let newId = generateId();
+        const newId = generateId();
 
         // Adds new product
         const newProduct: Product = {
@@ -190,7 +190,7 @@ function AdminProductForm({ onSave, product }: Props) {
                   style: { fontFamily: 'Lora' },
                 }}
                 FormHelperTextProps={
-                  { 'data-cy': 'product-title-error' } as any
+                  { 'data-cy': 'product-title-error' } as never
                 }
               />
 
@@ -214,7 +214,7 @@ function AdminProductForm({ onSave, product }: Props) {
                   ),
                 }}
                 FormHelperTextProps={
-                  { 'data-cy': 'product-price-error' } as any
+                  { 'data-cy': 'product-price-error' } as never
                 }
               />
 
@@ -293,7 +293,7 @@ function AdminProductForm({ onSave, product }: Props) {
                   style: { fontFamily: 'Lora' },
                 }}
                 FormHelperTextProps={
-                  { 'data-cy': 'product-image-error' } as any
+                  { 'data-cy': 'product-image-error' } as never
                 }
               />
 
@@ -317,7 +317,7 @@ function AdminProductForm({ onSave, product }: Props) {
                   style: { fontFamily: 'Lora' },
                 }}
                 FormHelperTextProps={
-                  { 'data-cy': 'product-description-error' } as any
+                  { 'data-cy': 'product-description-error' } as never
                 }
               />
 
