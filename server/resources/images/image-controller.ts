@@ -6,7 +6,3 @@ export async function getImageById(req: Request, res: Response) {
 export async function uploadImage(req: Request, res: Response) {
   // logic for upload
 }
-
-export async function deleteImageById(req: Request, res: Response) {
-  // logic for deleting
-}
