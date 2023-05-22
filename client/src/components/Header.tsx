@@ -1,16 +1,19 @@
-import * as Icon from '@mui/icons-material'
-import { AppBar, Badge, Box, SxProps, Theme, Typography } from '@mui/material'
-import { CSSProperties } from 'react'
-import { NavLink } from 'react-router-dom'
-import { useCart } from '../contexts/CartContext'
-import adminIcon from '../icons/adminicon.png'
-import '../index.css'
+import * as Icon from '@mui/icons-material';
+import { AppBar, Badge, Box, SxProps, Theme, Typography } from '@mui/material';
+import { CSSProperties } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useCart } from '../contexts/CartContext';
+import adminIcon from '../icons/adminicon.png';
+import '../index.css';
 
 function Header() {
-  const { totalProductsInCart } = useCart()
+  const { totalProductsInCart } = useCart();
   return (
     <AppBar sx={headerStyleSx}>
-      <NavLink style={{ marginTop: '5px', color: 'white', textDecoration: 'none' }} to='/'>
+      <NavLink
+        style={{ marginTop: '5px', color: 'white', textDecoration: 'none' }}
+        to='/'
+      >
         <Typography sx={typographyStylesSX} variant='h4'>
           Gent's Hat
         </Typography>
@@ -22,7 +25,9 @@ function Header() {
         <NavLink to='/checkout'>
           <Badge
             sx={badgeStylesSX}
-            badgeContent={<Typography variant='body2'>{totalProductsInCart}</Typography>}
+            badgeContent={
+              <Typography variant='body2'>{totalProductsInCart}</Typography>
+            }
             showZero
             color='success'
             data-cy='cart-items-count-badge'
@@ -43,7 +48,7 @@ function Header() {
         </NavLink>
       </Box>
     </AppBar>
-  )
+  );
 }
 
 /* ----------------------
@@ -57,7 +62,7 @@ const imageMustaschStyleSx: CSSProperties = {
   top: '69%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-}
+};
 
 const badgeBoxStylesSX: SxProps<Theme> = theme => ({
   position: 'relative',
@@ -83,7 +88,7 @@ const badgeBoxStylesSX: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('sm')]: {
     fontSize: '10px',
   },
-})
+});
 
 const typographyStylesSX: SxProps<Theme> = theme => ({
   fontSize: '40px',
@@ -95,7 +100,7 @@ const typographyStylesSX: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('sm')]: {
     fontSize: '25px',
   },
-})
+});
 
 const headerStyleSx: SxProps<Theme> = theme => ({
   backgroundColor: 'black',
@@ -113,7 +118,7 @@ const headerStyleSx: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('sm')]: {
     height: 'var(--header-height-sm)',
   },
-})
+});
 // Todo, länka till home när man klickar på Loggan
 const iconWrapperStylesSX: SxProps<Theme> = theme => ({
   display: 'flex',
@@ -135,7 +140,7 @@ const iconWrapperStylesSX: SxProps<Theme> = theme => ({
       paddingTop: '3px',
     },
   },
-})
+});
 
 const iconStylesSX: SxProps<Theme> = theme => ({
   fontSize: '66px',
@@ -150,7 +155,7 @@ const iconStylesSX: SxProps<Theme> = theme => ({
     fontSize: '35px',
     top: '4px',
   },
-})
+});
 
 const badgeStylesSX: SxProps<Theme> = theme => ({
   '& .MuiBadge-badge': {
@@ -166,6 +171,6 @@ const badgeStylesSX: SxProps<Theme> = theme => ({
       right: '2px',
     },
   },
-})
+});
 
-export default Header
+export default Header;

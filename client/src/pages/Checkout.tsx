@@ -1,5 +1,5 @@
-import { KeyboardDoubleArrowLeft } from '@mui/icons-material'
-import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown'
+import { KeyboardDoubleArrowLeft } from '@mui/icons-material';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import {
   Box,
   Button,
@@ -9,31 +9,31 @@ import {
   Theme,
   Typography,
   useMediaQuery,
-} from '@mui/material'
-import { useRef } from 'react'
-import { Link } from 'react-router-dom'
-import CheckoutCard from '../components/CheckoutCard'
-import CheckoutCardSubheaders from '../components/CheckoutCardSubheaders'
-import CheckoutEmpty from '../components/CheckoutEmpty'
-import CheckoutForm from '../components/CheckoutForm'
-import CheckoutTotalPrice from '../components/CheckoutTotalPrice'
-import { useCart } from '../contexts/CartContext'
-import '../index.css'
+} from '@mui/material';
+import { useRef } from 'react';
+import { Link } from 'react-router-dom';
+import CheckoutCard from '../components/CheckoutCard';
+import CheckoutCardSubheaders from '../components/CheckoutCardSubheaders';
+import CheckoutEmpty from '../components/CheckoutEmpty';
+import CheckoutForm from '../components/CheckoutForm';
+import CheckoutTotalPrice from '../components/CheckoutTotalPrice';
+import { useCart } from '../contexts/CartContext';
+import '../index.css';
 
 /* ---------------------------
       PROPS AND VARIABLES
 --------------------------- */
 
 function Checkout() {
-  const isMediumScreen = useMediaQuery('(min-width:900px)')
-  const { cartItems, totalPrice } = useCart()
+  const isMediumScreen = useMediaQuery('(min-width:900px)');
+  const { cartItems, totalPrice } = useCart();
 
-  const formRef = useRef<HTMLDivElement>(null)
+  const formRef = useRef<HTMLDivElement>(null);
   const scrollToForm = () => {
     if (formRef.current) {
-      formRef.current.scrollIntoView({ behavior: 'smooth' })
+      formRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }
+  };
 
   /* ----------------------
         CHECKOUT PAGE
@@ -73,7 +73,11 @@ function Checkout() {
           ))}
         </Stack>
 
-        {cartItems.length > 0 ? <CheckoutTotalPrice totalPrice={totalPrice} /> : <CheckoutEmpty />}
+        {cartItems.length > 0 ? (
+          <CheckoutTotalPrice totalPrice={totalPrice} />
+        ) : (
+          <CheckoutEmpty />
+        )}
 
         {/* FORM COMPONENT */}
 
@@ -84,7 +88,7 @@ function Checkout() {
         )}
       </Box>
     </Container>
-  )
+  );
 }
 
 /* ----------------------
@@ -99,7 +103,7 @@ const formMediaQueries: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('sm')]: {
     paddingTop: `calc(var(--header-height-sm) + 1rem)`,
   },
-})
+});
 
 const buttonSx: SxProps<Theme> = theme => ({
   fontWeight: '800',
@@ -112,7 +116,7 @@ const buttonSx: SxProps<Theme> = theme => ({
     width: '18rem',
     m: 1.5,
   },
-})
+});
 
 const buttonContainer: SxProps<Theme> = theme => ({
   display: 'flex',
@@ -123,6 +127,6 @@ const buttonContainer: SxProps<Theme> = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-})
+});
 
-export default Checkout
+export default Checkout;

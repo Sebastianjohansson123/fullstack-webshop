@@ -1,50 +1,61 @@
-import { Box, Button, CardActionArea, Skeleton, styled, SxProps, Theme } from '@mui/material'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardMedia from '@mui/material/CardMedia'
-import Typography from '@mui/material/Typography'
-import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { Product } from '../../data'
-import { useProducts } from '../contexts/ProductsContext'
-import AdminDeleteDialog from './AdminDeleteDialog'
+import {
+  Box,
+  Button,
+  CardActionArea,
+  Skeleton,
+  styled,
+  SxProps,
+  Theme,
+} from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { Product } from '../../data';
+import { useProducts } from '../contexts/ProductsContext';
+import AdminDeleteDialog from './AdminDeleteDialog';
 
 interface Props {
-  dataProduct: Product
+  dataProduct: Product;
 }
 // Function for the cards to delete and edit inc. skeleton.
 export default function ProductCard({ dataProduct }: Props) {
-  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false)
-  const { databaseProducts, setDatabaseProducts } = useProducts()
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const { databaseProducts, setDatabaseProducts } = useProducts();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleLoad = () => {
-    setLoading(false)
-    setError(false)
-  }
+    setLoading(false);
+    setError(false);
+  };
 
   const handleError = () => {
-    setLoading(false)
-    setError(true)
-  }
+    setLoading(false);
+    setError(true);
+  };
 
   const handleDelete = () => {
-    setOpenDeleteDialog(true)
-  }
+    setOpenDeleteDialog(true);
+  };
 
   const handleCloseDeleteDialog = () => {
-    setOpenDeleteDialog(false)
-  }
+    setOpenDeleteDialog(false);
+  };
 
   const handleDeleteProduct = (product: Product) => {
-    const updatedProducts = databaseProducts.filter(p => p.id !== product.id)
-    setDatabaseProducts(updatedProducts)
-  }
+    const updatedProducts = databaseProducts.filter(p => p.id !== product.id);
+    setDatabaseProducts(updatedProducts);
+  };
 
   return (
     <Card sx={cardStyle} data-cy='product'>
-      <Link style={{ textDecoration: 'none' }} to={`/database/${dataProduct.id}`}>
+      <Link
+        style={{ textDecoration: 'none' }}
+        to={`/database/${dataProduct.id}`}
+      >
         <StyledCardActionArea>
           <Box sx={{ position: 'relative' }}>
             <Box sx={hatHoverStyle}>View Product</Box>
@@ -67,11 +78,21 @@ export default function ProductCard({ dataProduct }: Props) {
           </Box>
 
           <CardContent>
-            <Typography sx={priceTagStyle} variant='body2' data-cy='product-price'>
+            <Typography
+              sx={priceTagStyle}
+              variant='body2'
+              data-cy='product-price'
+            >
               ${dataProduct.price}
             </Typography>
             <Typography variant='body2' component='div'>
-              <span style={{ paddingRight: '0.3rem', fontSize: '0.8rem', fontWeight: '900' }}>
+              <span
+                style={{
+                  paddingRight: '0.3rem',
+                  fontSize: '0.8rem',
+                  fontWeight: '900',
+                }}
+              >
                 ID:
               </span>
               <span style={{ fontSize: '0.8rem' }} data-cy='product-id'>
@@ -91,9 +112,19 @@ export default function ProductCard({ dataProduct }: Props) {
         </StyledCardActionArea>
       </Link>
       <Box sx={{ marginTop: 'auto' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+          }}
+        >
           <NavLink to={`/admin/product/${dataProduct.id}`}>
-            <Button data-cy='admin-edit-product' sx={editBtnStyle} variant='contained'>
+            <Button
+              data-cy='admin-edit-product'
+              sx={editBtnStyle}
+              variant='contained'
+            >
               <Typography variant='body2'>Edit Product</Typography>
             </Button>
           </NavLink>
@@ -116,7 +147,7 @@ export default function ProductCard({ dataProduct }: Props) {
         dataProduct={dataProduct}
       />
     </Card>
-  )
+  );
 }
 
 /* ----------------------
@@ -127,7 +158,7 @@ const imageStyle: SxProps<Theme> = theme => ({
   objectFit: 'contain',
   pt: 2,
   pb: 2,
-})
+});
 
 const cardStyle: SxProps<Theme> = theme => ({
   display: 'flex',
@@ -138,13 +169,13 @@ const cardStyle: SxProps<Theme> = theme => ({
   '&:hover': {
     backgroundColor: 'transparent',
   },
-})
+});
 
 const StyledCardActionArea = styled(CardActionArea)(({ theme }) => ({
   '& .MuiCardActionArea-focusHighlight': {
     backgroundColor: 'transparent',
   },
-}))
+}));
 
 const hatHoverStyle: SxProps<Theme> = theme => ({
   position: 'absolute',
@@ -163,7 +194,7 @@ const hatHoverStyle: SxProps<Theme> = theme => ({
     background: '#d9d9d977',
     color: 'black',
   },
-})
+});
 
 const priceTagStyle: SxProps<Theme> = theme => ({
   border: '1px solid black',
@@ -173,7 +204,7 @@ const priceTagStyle: SxProps<Theme> = theme => ({
   position: 'absolute',
   right: '1.5rem',
   top: '8.5rem',
-})
+});
 
 const editBtnStyle: SxProps<Theme> = theme => ({
   mb: 2,
@@ -181,7 +212,7 @@ const editBtnStyle: SxProps<Theme> = theme => ({
   '&:hover': {
     color: 'white',
   },
-})
+});
 
 const deleteBtnSX: SxProps<Theme> = theme => ({
   mb: 2,
@@ -190,4 +221,4 @@ const deleteBtnSX: SxProps<Theme> = theme => ({
     backgroundColor: 'white',
     color: 'red',
   },
-})
+});

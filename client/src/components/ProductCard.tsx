@@ -1,32 +1,39 @@
-import { Box, CardActionArea, Skeleton, styled, SxProps, Theme } from '@mui/material'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardMedia from '@mui/material/CardMedia'
-import Typography from '@mui/material/Typography'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Product } from '../../data'
-import AddToCartButton from './AddToCartButton'
+import {
+  Box,
+  CardActionArea,
+  Skeleton,
+  styled,
+  SxProps,
+  Theme,
+} from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Product } from '../../data';
+import AddToCartButton from './AddToCartButton';
 
 interface Props {
-  product: Product
+  product: Product;
 }
 
 export default function ProductCard({ product }: Props) {
-  const defaultQuantity = 1
+  const defaultQuantity = 1;
 
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleLoad = () => {
-    setLoading(false)
-    setError(false)
-  }
+    setLoading(false);
+    setError(false);
+  };
 
   const handleError = () => {
-    setLoading(false)
-    setError(true)
-  }
+    setLoading(false);
+    setError(true);
+  };
 
   return (
     <Card sx={cardStyle} data-cy='product'>
@@ -53,7 +60,11 @@ export default function ProductCard({ product }: Props) {
           </Box>
 
           <CardContent>
-            <Typography sx={priceTagStyle} variant='body2' data-cy='product-price'>
+            <Typography
+              sx={priceTagStyle}
+              variant='body2'
+              data-cy='product-price'
+            >
               ${product.price}
             </Typography>
             <Typography
@@ -69,10 +80,14 @@ export default function ProductCard({ product }: Props) {
         </StyledCardActionArea>
       </Link>
       <Box sx={{ marginTop: 'auto' }}>
-        <AddToCartButton product={product} quantity={defaultQuantity} onAddToCart={() => {}} />
+        <AddToCartButton
+          product={product}
+          quantity={defaultQuantity}
+          onAddToCart={() => {}}
+        />
       </Box>
     </Card>
-  )
+  );
 }
 
 /* ----------------------
@@ -83,7 +98,7 @@ const imageStyle: SxProps<Theme> = theme => ({
   objectFit: 'contain',
   pt: 2,
   pb: 2,
-})
+});
 const cardStyle: SxProps<Theme> = theme => ({
   display: 'flex',
   flexDirection: 'column',
@@ -93,13 +108,13 @@ const cardStyle: SxProps<Theme> = theme => ({
   '&:hover': {
     backgroundColor: 'transparent',
   },
-})
+});
 
 const StyledCardActionArea = styled(CardActionArea)(({ theme }) => ({
   '& .MuiCardActionArea-focusHighlight': {
     backgroundColor: 'transparent',
   },
-}))
+}));
 
 const hatHoverStyle: SxProps<Theme> = theme => ({
   position: 'absolute',
@@ -119,7 +134,7 @@ const hatHoverStyle: SxProps<Theme> = theme => ({
     background: '#d9d9d977',
     color: 'black',
   },
-})
+});
 
 const priceTagStyle: SxProps<Theme> = theme => ({
   border: '1px solid black',
@@ -129,4 +144,4 @@ const priceTagStyle: SxProps<Theme> = theme => ({
   position: 'absolute',
   right: '1.5rem',
   top: '8.5rem',
-})
+});

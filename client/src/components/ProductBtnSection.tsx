@@ -1,41 +1,41 @@
-import { Button, Input, Theme } from '@mui/material'
-import { Box, SxProps } from '@mui/system'
-import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { Product } from '../../data'
-import AddToCartButton from './AddToCartButton'
+import { Button, Input, Theme } from '@mui/material';
+import { Box, SxProps } from '@mui/system';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { Product } from '../../data';
+import AddToCartButton from './AddToCartButton';
 
 interface Props {
-  product: Product
+  product: Product;
 }
 
 function ProductBtnSection({ product }: Props) {
-  const [quantity, setQuantity] = useState<number>(1)
+  const [quantity, setQuantity] = useState<number>(1);
 
   // Define an event handler function that is called when the user changes the value of the input field associated with the component.
   // The function takes an event object as its argument and extracts the current value of the input field.
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value
+    const inputValue = e.target.value;
 
     // Updates the quantity state based on the user input in the input field,
     // making sure that the new value is valid and greater than or equal to 1.
     if (inputValue === '') {
-      setQuantity(NaN)
+      setQuantity(NaN);
     } else {
-      const newQuantity = parseInt(inputValue)
+      const newQuantity = parseInt(inputValue);
       if (isNaN(newQuantity) || newQuantity < 1) {
-        return
+        return;
       }
-      setQuantity(newQuantity)
+      setQuantity(newQuantity);
     }
-  }
+  };
 
   // Define an event handler function that is called when the input field associated with the component loses focus.
   const handleQuantityBlur = () => {
     if (isNaN(quantity)) {
-      setQuantity(1)
+      setQuantity(1);
     }
-  }
+  };
 
   return (
     <Box>
@@ -69,7 +69,7 @@ function ProductBtnSection({ product }: Props) {
         </Box>
       </NavLink>
     </Box>
-  )
+  );
 }
 
 /* ----------------------
@@ -94,7 +94,7 @@ const quantityBoxStyle: SxProps<Theme> = theme => ({
     '-moz-appearance': 'inner-spin-button',
     appearance: 'auto',
   },
-})
+});
 
 const checkOutBtnStyle: SxProps<Theme> = theme => ({
   background: 'black',
@@ -104,6 +104,6 @@ const checkOutBtnStyle: SxProps<Theme> = theme => ({
     background: theme.palette.secondary.main,
     color: 'black',
   },
-})
+});
 
-export default ProductBtnSection
+export default ProductBtnSection;

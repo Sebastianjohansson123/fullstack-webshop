@@ -13,11 +13,11 @@ import {
   TextField,
   Theme,
   Typography,
-} from '@mui/material'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import { generateId, Product } from '../../data'
-import { useProducts } from '../contexts/ProductsContext'
+} from '@mui/material';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { generateId, Product } from '../../data';
+import { useProducts } from '../contexts/ProductsContext';
 
 /* ----------------------
       YUP VALIDATION
@@ -68,21 +68,21 @@ const adminFormSchema = Yup.object().shape({
     'The detail you have given us it too short. Please give us a detail of minimum 3 characters.'
   ),
   inStock: Yup.string(),
-})
+});
 
 /* ----------------------
          FORMIK
 ---------------------- */
 
-type adminFormValues = Yup.InferType<typeof adminFormSchema>
+type adminFormValues = Yup.InferType<typeof adminFormSchema>;
 
 interface Props {
-  product?: Product
-  onSave: () => void
+  product?: Product;
+  onSave: () => void;
 }
 
 function AdminProductForm({ onSave, product }: Props) {
-  const { databaseProducts, setDatabaseProducts } = useProducts()
+  const { databaseProducts, setDatabaseProducts } = useProducts();
 
   const formik = useFormik<adminFormValues>({
     validationSchema: adminFormSchema,
@@ -113,21 +113,23 @@ function AdminProductForm({ onSave, product }: Props) {
           size: values.size as string,
           color: values.color as string,
           inStock: values.inStock as string,
-        }
+        };
 
-        const productIndex = databaseProducts.findIndex(p => p.id === product?.id)
+        const productIndex = databaseProducts.findIndex(
+          p => p.id === product?.id
+        );
 
         const updatedDatabaseProducts = [
           ...databaseProducts.slice(0, productIndex),
           updatedProduct,
           ...databaseProducts.slice(productIndex + 1),
-        ]
+        ];
 
         // Updates product
-        setDatabaseProducts(updatedDatabaseProducts)
+        setDatabaseProducts(updatedDatabaseProducts);
       } else {
         // Generates new ID
-        let newId = generateId()
+        let newId = generateId();
 
         // Adds new product
         const newProduct: Product = {
@@ -142,14 +144,14 @@ function AdminProductForm({ onSave, product }: Props) {
           size: values.size as string,
           color: values.color as string,
           inStock: values.inStock as string,
-        }
-        setDatabaseProducts([...databaseProducts, newProduct])
+        };
+        setDatabaseProducts([...databaseProducts, newProduct]);
       }
 
       // Closes form
-      onSave()
+      onSave();
     },
-  })
+  });
 
   /* --------------------------
        ADMIN FORM COMPONENT
@@ -183,8 +185,13 @@ function AdminProductForm({ onSave, product }: Props) {
                 error={formik.touched.title && Boolean(formik.errors.title)}
                 helperText={formik.touched.title && formik.errors.title}
                 margin='normal'
-                inputProps={{ 'data-cy': 'product-title', style: { fontFamily: 'Lora' } }}
-                FormHelperTextProps={{ 'data-cy': 'product-title-error' } as any}
+                inputProps={{
+                  'data-cy': 'product-title',
+                  style: { fontFamily: 'Lora' },
+                }}
+                FormHelperTextProps={
+                  { 'data-cy': 'product-title-error' } as any
+                }
               />
 
               {/* Price */}
@@ -197,17 +204,26 @@ function AdminProductForm({ onSave, product }: Props) {
                 error={formik.touched.price && Boolean(formik.errors.price)}
                 helperText={formik.touched.price && formik.errors.price}
                 margin='normal'
-                inputProps={{ 'data-cy': 'product-price', style: { fontFamily: 'Lora' } }}
-                InputProps={{
-                  startAdornment: <InputAdornment position='start'>$</InputAdornment>,
+                inputProps={{
+                  'data-cy': 'product-price',
+                  style: { fontFamily: 'Lora' },
                 }}
-                FormHelperTextProps={{ 'data-cy': 'product-price-error' } as any}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>$</InputAdornment>
+                  ),
+                }}
+                FormHelperTextProps={
+                  { 'data-cy': 'product-price-error' } as any
+                }
               />
 
               {/* Size */}
               <Box sx={{ mt: 2, ml: 1.7, mb: '0.6rem' }}>
                 <FormControl>
-                  <FormLabel id='demo-radio-buttons-group-label'>Size</FormLabel>
+                  <FormLabel id='demo-radio-buttons-group-label'>
+                    Size
+                  </FormLabel>
                   <RadioGroup
                     id='size'
                     row
@@ -216,11 +232,36 @@ function AdminProductForm({ onSave, product }: Props) {
                     value={formik.values.size}
                     onChange={formik.handleChange}
                   >
-                    <FormControlLabel name='size' value={'XS'} control={<Radio />} label='XS' />
-                    <FormControlLabel name='size' value={'S'} control={<Radio />} label='S' />
-                    <FormControlLabel name='size' value={'M'} control={<Radio />} label='M' />
-                    <FormControlLabel name='size' value={'L'} control={<Radio />} label='L' />
-                    <FormControlLabel name='size' value={'XL'} control={<Radio />} label='XL' />
+                    <FormControlLabel
+                      name='size'
+                      value={'XS'}
+                      control={<Radio />}
+                      label='XS'
+                    />
+                    <FormControlLabel
+                      name='size'
+                      value={'S'}
+                      control={<Radio />}
+                      label='S'
+                    />
+                    <FormControlLabel
+                      name='size'
+                      value={'M'}
+                      control={<Radio />}
+                      label='M'
+                    />
+                    <FormControlLabel
+                      name='size'
+                      value={'L'}
+                      control={<Radio />}
+                      label='L'
+                    />
+                    <FormControlLabel
+                      name='size'
+                      value={'XL'}
+                      control={<Radio />}
+                      label='XL'
+                    />
                   </RadioGroup>
                 </FormControl>
               </Box>
@@ -247,8 +288,13 @@ function AdminProductForm({ onSave, product }: Props) {
                 error={formik.touched.image && Boolean(formik.errors.image)}
                 helperText={formik.touched.image && formik.errors.image}
                 margin='normal'
-                inputProps={{ 'data-cy': 'product-image', style: { fontFamily: 'Lora' } }}
-                FormHelperTextProps={{ 'data-cy': 'product-image-error' } as any}
+                inputProps={{
+                  'data-cy': 'product-image',
+                  style: { fontFamily: 'Lora' },
+                }}
+                FormHelperTextProps={
+                  { 'data-cy': 'product-image-error' } as any
+                }
               />
 
               {/* Description */}
@@ -258,11 +304,21 @@ function AdminProductForm({ onSave, product }: Props) {
                 label='Product description'
                 value={formik.values.description}
                 onChange={formik.handleChange}
-                error={formik.touched.description && Boolean(formik.errors.description)}
-                helperText={formik.touched.description && formik.errors.description}
+                error={
+                  formik.touched.description &&
+                  Boolean(formik.errors.description)
+                }
+                helperText={
+                  formik.touched.description && formik.errors.description
+                }
                 margin='normal'
-                inputProps={{ 'data-cy': 'product-description', style: { fontFamily: 'Lora' } }}
-                FormHelperTextProps={{ 'data-cy': 'product-description-error' } as any}
+                inputProps={{
+                  'data-cy': 'product-description',
+                  style: { fontFamily: 'Lora' },
+                }}
+                FormHelperTextProps={
+                  { 'data-cy': 'product-description-error' } as any
+                }
               />
 
               {/* Detail 1 */}
@@ -272,7 +328,9 @@ function AdminProductForm({ onSave, product }: Props) {
                 label='Product detail #1 (optional)'
                 value={formik.values.details1}
                 onChange={formik.handleChange}
-                error={formik.touched.details1 && Boolean(formik.errors.details1)}
+                error={
+                  formik.touched.details1 && Boolean(formik.errors.details1)
+                }
                 helperText={formik.touched.details1 && formik.errors.details1}
                 margin='normal'
               />
@@ -284,7 +342,9 @@ function AdminProductForm({ onSave, product }: Props) {
                 label='Product detail #2 (optional)'
                 value={formik.values.details2}
                 onChange={formik.handleChange}
-                error={formik.touched.details2 && Boolean(formik.errors.details2)}
+                error={
+                  formik.touched.details2 && Boolean(formik.errors.details2)
+                }
                 helperText={formik.touched.details2 && formik.errors.details2}
                 margin='normal'
               />
@@ -296,7 +356,9 @@ function AdminProductForm({ onSave, product }: Props) {
                 label='Product detail #3 (optional)'
                 value={formik.values.details3}
                 onChange={formik.handleChange}
-                error={formik.touched.details3 && Boolean(formik.errors.details3)}
+                error={
+                  formik.touched.details3 && Boolean(formik.errors.details3)
+                }
                 helperText={formik.touched.details3 && formik.errors.details3}
                 margin='normal'
               />
@@ -304,7 +366,9 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* In stock */}
               <Box sx={{ mt: 1, ml: 1.7, mb: '1rem' }}>
                 <FormControl>
-                  <FormLabel id='demo-radio-buttons-group-label'>In stock</FormLabel>
+                  <FormLabel id='demo-radio-buttons-group-label'>
+                    In stock
+                  </FormLabel>
                   <RadioGroup
                     id='inStock'
                     row
@@ -331,10 +395,20 @@ function AdminProductForm({ onSave, product }: Props) {
 
               {/* Buttons */}
               <Box sx={buttonContainer}>
-                <Button sx={editBtnSx} color='primary' variant='contained' type='submit'>
+                <Button
+                  sx={editBtnSx}
+                  color='primary'
+                  variant='contained'
+                  type='submit'
+                >
                   {product ? `Edit "${product.title}"` : 'Add product'}
                 </Button>
-                <Button sx={closeBtnSx} variant='contained' onClick={onSave} color='error'>
+                <Button
+                  sx={closeBtnSx}
+                  variant='contained'
+                  onClick={onSave}
+                  color='error'
+                >
                   Close
                 </Button>
               </Box>
@@ -343,7 +417,7 @@ function AdminProductForm({ onSave, product }: Props) {
         </Paper>
       </Container>
     </>
-  )
+  );
 }
 
 /* ----------------------
@@ -354,7 +428,7 @@ const formContainer: SxProps<Theme> = theme => ({
   width: '70%',
   paddingTop: '5rem',
   paddingBottom: '4rem',
-})
+});
 
 const buttonContainer: SxProps<Theme> = theme => ({
   mt: 3,
@@ -364,7 +438,7 @@ const buttonContainer: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
   },
-})
+});
 
 const editBtnSx: SxProps<Theme> = theme => ({
   ml: 3,
@@ -375,7 +449,7 @@ const editBtnSx: SxProps<Theme> = theme => ({
     ml: 0,
     mb: 2,
   },
-})
+});
 const closeBtnSx: SxProps<Theme> = theme => ({
   ml: 3,
   '&:hover': {
@@ -386,7 +460,7 @@ const closeBtnSx: SxProps<Theme> = theme => ({
     ml: 0,
     mb: 2,
   },
-})
+});
 
 const fontStyle: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('md')]: {
@@ -395,6 +469,6 @@ const fontStyle: SxProps<Theme> = theme => ({
   [theme.breakpoints.down('sm')]: {
     fontSize: '1.3rem',
   },
-})
+});
 
-export default AdminProductForm
+export default AdminProductForm;

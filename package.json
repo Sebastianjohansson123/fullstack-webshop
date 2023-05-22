@@ -1,0 +1,29 @@
+{
+  "name": "fullstack-webshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "frontend": "cd client && npm run dev",
+    "backend": "cd server && npm run dev",
+    "all": "npm run backend & npm run frontend",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --check \"client/src/**/*.ts\" \"client/src/**/*.tsx\" \"server/src/**/*.ts\" \"server/src/**/*.tsx\"",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sebastianjohansson123/fullstack-webshop.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sebastianjohansson123/fullstack-webshop/issues"
+  },
+  "homepage": "https://github.com/Sebastianjohansson123/fullstack-webshop#readme",
+  "dependencies": {
+    "prettier": "^2.8.8"
+  }
+}

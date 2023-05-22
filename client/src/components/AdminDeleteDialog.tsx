@@ -1,28 +1,28 @@
-import { Theme } from '@emotion/react'
-import { SxProps } from '@mui/material'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
-import * as React from 'react'
-import { Product } from '../../data'
+import { Theme } from '@emotion/react';
+import { SxProps } from '@mui/material';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import * as React from 'react';
+import { Product } from '../../data';
 
 interface Props {
-  open: boolean
-  handleClose: () => void
-  handleDelete: (product: Product) => void
-  dataProduct: Product
+  open: boolean;
+  handleClose: () => void;
+  handleDelete: (product: Product) => void;
+  dataProduct: Product;
 }
 
 export default function AdminDeleteDialog(props: Props) {
-  const { open, handleClose, handleDelete, dataProduct } = props
+  const { open, handleClose, handleDelete, dataProduct } = props;
 
   const handleConfirmDelete = () => {
-    handleDelete(dataProduct)
-    handleClose()
-  }
+    handleDelete(dataProduct);
+    handleClose();
+  };
 
   return (
     <Dialog
@@ -34,7 +34,8 @@ export default function AdminDeleteDialog(props: Props) {
       <DialogTitle id='alert-dialog-title'>{'Delete Product'}</DialogTitle>
       <DialogContent>
         <DialogContentText id='alert-dialog-description'>
-          Are you sure you want to delete {dataProduct.title} from your assortment?
+          Are you sure you want to delete {dataProduct.title} from your
+          assortment?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -53,7 +54,7 @@ export default function AdminDeleteDialog(props: Props) {
         </Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 }
 
 /* ----------------------
@@ -64,11 +65,11 @@ const cancelBtnSX: SxProps<Theme> = theme => ({
   '&:hover': {
     color: 'white',
   },
-})
+});
 
 const deleteBtnSX: SxProps<Theme> = theme => ({
   '&:hover': {
     backgroundColor: 'white',
     color: 'red',
   },
-})
+});

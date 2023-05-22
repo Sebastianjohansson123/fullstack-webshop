@@ -1,10 +1,10 @@
-import { Box, Button, Grid, SxProps, Theme, Typography } from '@mui/material'
-import { Link, Outlet } from 'react-router-dom'
-import AdminCardProduct from '../components/AdminCardProduct'
-import { useProducts } from '../contexts/ProductsContext'
+import { Box, Button, Grid, SxProps, Theme, Typography } from '@mui/material';
+import { Link, Outlet } from 'react-router-dom';
+import AdminCardProduct from '../components/AdminCardProduct';
+import { useProducts } from '../contexts/ProductsContext';
 
 function Admin() {
-  const { databaseProducts } = useProducts()
+  const { databaseProducts } = useProducts();
 
   return (
     <>
@@ -14,7 +14,11 @@ function Admin() {
           <Box sx={headerSx}>
             <Typography variant={'h3'}>Admin</Typography>
             <Link to='/admin/product/new-product'>
-              <Button data-cy='admin-add-product' sx={addProductBtnSx} variant='contained'>
+              <Button
+                data-cy='admin-add-product'
+                sx={addProductBtnSx}
+                variant='contained'
+              >
                 <Typography variant={'body2'}>Add New Product</Typography>
               </Button>
             </Link>
@@ -38,7 +42,7 @@ function Admin() {
         </Box>
       </Box>
     </>
-  )
+  );
 }
 
 /* ----------------------
@@ -63,24 +67,24 @@ const headerSx: SxProps<Theme> = theme => ({
     width: '100%',
     pr: '0rem',
   },
-})
+});
 
 const addProductBtnSx: SxProps<Theme> = theme => ({
   height: '40px',
   '&:hover': {
     color: 'white',
   },
-})
+});
 const AdminCardListSx: SxProps<Theme> = theme => ({
   display: 'flex',
-})
+});
 
 const adminPageContainerSx: SxProps<Theme> = theme => ({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
   alignItems: 'center',
-})
+});
 
 const productContainerSx: SxProps<Theme> = theme => ({
   display: 'flex',
@@ -100,6 +104,6 @@ const productContainerSx: SxProps<Theme> = theme => ({
     width: '242px',
     paddingLeft: '0rem',
   },
-})
+});
 
-export default Admin
+export default Admin;
