@@ -128,7 +128,7 @@ const iconWrapperStylesSX: SxProps<Theme> = theme => ({
   display: 'flex',
   mr: '1rem',
   alignItems: 'center',
-  gap: '10px',
+  gap: '5px',
   '& img': {
     width: '70px',
   },
