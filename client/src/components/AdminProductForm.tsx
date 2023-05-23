@@ -83,6 +83,7 @@ interface Props {
 }
 
 function AdminProductForm({ onSave, product }: Props) {
+  const [imageUploaded, setImageUploaded] = useState<boolean>(false);
   const { databaseProducts, setDatabaseProducts } = useProducts();
 
   const formik = useFormik<adminFormValues>({
@@ -153,36 +154,30 @@ function AdminProductForm({ onSave, product }: Props) {
       onSave();
     },
   });
-  // image form
-  // const FileUploader = () => {
-  const [file, setFile] = useState<File | null>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length <= 0) {
+      return;
     }
-  };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
 
-    if (file) {
-      const formData = new FormData();
-      formData.append('image', file);
+    try {
+      const response = await fetch('/api/images', {
+        method: 'POST',
+        body: formData,
+      });
 
-      try {
-        const response = await fetch('http://localhost:3000/api/images', {
-          method: 'POST',
-          body: formData,
-        });
+      if (!response.ok) throw new Error('Something went wrong');
 
-        if (!response.ok) throw new Error('Something went wrong');
-
-        const data = await response.json();
-        console.log('answer from post image:', data);
-      } catch (error) {
-        console.error(error);
-      }
+      const data = await response.json();
+      console.log('answer from post image:', data);
+      formik.setFieldValue('image', data);
+      setImageUploaded(true);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -194,18 +189,15 @@ function AdminProductForm({ onSave, product }: Props) {
     <>
       <Container>
         <Paper elevation={3}>
-          <Box sx={{ flexGrow: 1 }}>
-            <form onSubmit={handleSubmit}>
+          <Container sx={formContainer}>
+            <Typography sx={fontStyle} variant='h3'>
+              {product ? `Editing "${product.title}"` : 'Add new product'}
+            </Typography>
+            {/* <Box sx={{ flexGrow: 1, margin: '1rem' }}>
               <input type='file' accept='image/*' onChange={handleFileChange} />
-              <button type='submit'>Upload</button>
-            </form>
-          </Box>
-          <form data-cy='product-form' onSubmit={formik.handleSubmit}>
-            <Container sx={formContainer}>
+            </Box> */}
+            <form data-cy='product-form' onSubmit={formik.handleSubmit}>
               {/* Header */}
-              <Typography sx={fontStyle} variant='h3'>
-                {product ? `Editing "${product.title}"` : 'Add new product'}
-              </Typography>
               <Typography
                 sx={{ ml: '0.2rem', mt: '0.4rem', mb: '1rem' }}
                 variant='body2'
@@ -213,6 +205,31 @@ function AdminProductForm({ onSave, product }: Props) {
               >
                 {product ? `ID: "${product.id}"` : ''}
               </Typography>
+
+              {/* Image */}
+              {imageUploaded ? (
+                <></>
+              ) : (
+                <TextField
+                  fullWidth
+                  id='image'
+                  // label='Product title'
+                  value={formik.values.title}
+                  // onChange={formik.handleChange}
+                  onChange={handleFileChange}
+                  error={formik.touched.title && Boolean(formik.errors.title)}
+                  helperText={formik.touched.title && formik.errors.title}
+                  margin='normal'
+                  type='file'
+                  inputProps={{
+                    'data-cy': 'product-title',
+                    style: { fontFamily: 'Lora' },
+                  }}
+                  FormHelperTextProps={
+                    { 'data-cy': 'product-title-error' } as never
+                  }
+                />
+              )}
 
               {/* Title */}
               <TextField
@@ -451,8 +468,8 @@ function AdminProductForm({ onSave, product }: Props) {
                   Close
                 </Button>
               </Box>
-            </Container>
-          </form>
+            </form>
+          </Container>
         </Paper>
       </Container>
     </>

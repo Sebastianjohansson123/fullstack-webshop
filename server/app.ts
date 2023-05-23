@@ -9,10 +9,7 @@ import { userRouter } from './resources/users/user-router';
 export const app = express();
 
 app.use(express.json());
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-  next();
-});
+
 app.use(
   cookieSession({
     name: 'login',
@@ -22,6 +19,11 @@ app.use(
     maxAge: 1000 * 60 * 20,
   })
 );
+
+app.use((req, res, next) => {
+  console.log(req.method, req.path, req.params);
+  next();
+});
 
 // Routers
 app.use(userRouter);
@@ -34,7 +36,7 @@ app.use(imageRouter);
 
 // Error Handling --------------------------------------------------------------------------------------------------------------------
 app.use((req, res, next) => {
-  res.status(401).json('The resource you are looking for does not exist');
+  res.status(404).json('The resource you are looking for does not exist');
 });
 
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
