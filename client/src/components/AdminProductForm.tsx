@@ -208,7 +208,11 @@ function AdminProductForm({ onSave, product }: Props) {
 
               {/* Image */}
               {imageUploaded ? (
-                <></>
+                <TextField
+                  fullWidth
+                  aria-readonly
+                  value={'File successfully uploaded!'}
+                />
               ) : (
                 <TextField
                   fullWidth
