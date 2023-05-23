@@ -19,6 +19,7 @@ import Checkout from './pages/Checkout';
 import Home from './pages/Home';
 import OrderConfirmation from './pages/OrderConfirmation';
 import ProductDescription from './pages/ProductDescription';
+import Login from './components/Login';
 
 declare module '@mui/material/styles' {
   interface ThemeOptions {
@@ -104,6 +105,7 @@ const router = createBrowserRouter(
     <Route path='/' element={<App />}>
       <Route index element={<Home />} />
       <Route path='/:page/:id' element={<ProductDescription />} />
+      <Route path='login' element={<Login />} />
       <Route path='checkout' element={<Checkout />} />
       <Route path='admin' element={<Admin />} />
       <Route path='admin/product/:id' element={<AdminUpdateDatabase />} />

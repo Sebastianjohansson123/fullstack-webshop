@@ -4,6 +4,7 @@ import { CSSProperties } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import adminIcon from '../icons/adminicon.png';
+import account from '../icons/account.png';
 import '../index.css';
 
 function Header() {
@@ -19,8 +20,11 @@ function Header() {
         </Typography>
       </NavLink>
       <Box sx={iconWrapperStylesSX}>
+      <NavLink to='/login'>
+          <img style={{width: '3rem'}} src={account} />
+        </NavLink>
         <NavLink data-cy='admin-link' to='/admin'>
-          <img src={adminIcon} />
+          <img style={{width: '3rem'}} src={adminIcon} />
         </NavLink>
         <NavLink to='/checkout'>
           <Badge
@@ -143,7 +147,7 @@ const iconWrapperStylesSX: SxProps<Theme> = theme => ({
 });
 
 const iconStylesSX: SxProps<Theme> = theme => ({
-  fontSize: '66px',
+  fontSize: '3rem',
   color: 'white',
   position: 'relative',
   top: '3px',
