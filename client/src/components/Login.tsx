@@ -15,7 +15,7 @@ function LoginPage() {
                 >
             <img src={ManInHat}/>
             <span style={{ fontSize: '30px'}}>Log in</span>
-            <TextField fullWidth id="outlined-basic" label="Email" type="email" variant="outlined" />
+            <TextField fullWidth id="outlined-basic" label="Username" type="username" variant="outlined" />
             <TextField fullWidth id="outlined-basic" label="Password" type="password" variant="outlined" />
             <Button
                     component={Link}
