@@ -3,8 +3,8 @@ import { AppBar, Badge, Box, SxProps, Theme, Typography } from '@mui/material';
 import { CSSProperties } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
-import adminIcon from '../icons/adminicon.png';
 import account from '../icons/account.png';
+import adminIcon from '../icons/adminicon.png';
 import '../index.css';
 
 function Header() {

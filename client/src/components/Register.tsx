@@ -1,5 +1,5 @@
 import { Box, Button, TextField } from "@mui/material";
-import ManInHat from '../icons/manInHat.png'
+import ManInHat from '../icons/manInHat.png';
 
 function RegisterPage() {
     return (

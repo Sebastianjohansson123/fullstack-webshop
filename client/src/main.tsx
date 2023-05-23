@@ -9,6 +9,8 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import App from './App';
+import Login from './components/Login';
+import Register from './components/Register';
 import { CartProvider } from './contexts/CartContext';
 import { FormProvider } from './contexts/FormContext';
 import { ProductsProvider } from './contexts/ProductsContext';
@@ -19,8 +21,6 @@ import Checkout from './pages/Checkout';
 import Home from './pages/Home';
 import OrderConfirmation from './pages/OrderConfirmation';
 import ProductDescription from './pages/ProductDescription';
-import Login from './components/Login';
-import Register from './components/Register';
 
 declare module '@mui/material/styles' {
   interface ThemeOptions {
