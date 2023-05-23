@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
+import * as yup from 'yup';
 import { UserModel } from './user-model';
-import * as yup from "yup";
 
 export async function registerUser(req: Request, res: Response) {
-  const {username, password} = req.body;
+  const { username, password } = req.body;
 
   // Checks for missing or incorrect values
   const userSchema = yup.object().shape({
@@ -18,17 +18,12 @@ export async function registerUser(req: Request, res: Response) {
     return;
   }
 
-
   //Checking username to existing one
   const existingUser = await UserModel.findOne({
     username,
   });
   if (existingUser) {
-    res
-      .status(409)
-      .json(
-        "This username is taken. Please chose another one"
-      );
+    res.status(409).json('This username is taken. Please chose another one');
     return;
   }
 
@@ -43,7 +38,6 @@ export async function registerUser(req: Request, res: Response) {
     username: newUser.username,
     isAdmin: newUser.isAdmin,
   });
-
 }
 
 export async function loginUser(req: Request, res: Response) {}

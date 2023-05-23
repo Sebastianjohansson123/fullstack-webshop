@@ -20,11 +20,11 @@ function Header() {
         </Typography>
       </NavLink>
       <Box sx={iconWrapperStylesSX}>
-      <NavLink to='/login'>
-          <img style={{width: '3rem'}} src={account} />
+        <NavLink to='/login'>
+          <img style={{ width: '3rem' }} src={account} />
         </NavLink>
         <NavLink data-cy='admin-link' to='/admin'>
-          <img style={{width: '3rem'}} src={adminIcon} />
+          <img style={{ width: '3rem' }} src={adminIcon} />
         </NavLink>
         <NavLink to='/checkout'>
           <Badge
