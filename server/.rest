@@ -1,0 +1,13 @@
+# api/images
+
+
+### Upload image
+POST http://localhost:3000/api/images
+Content-Type: multipart/form-data; boundary=FormDataRow
+
+--FormDataRow
+Content-Disposition: form-data; name="image"; filename="earth.jpg"
+Content-Type: image/jpeg
+
+< ./earth.jpg
+--FormDataRow--
