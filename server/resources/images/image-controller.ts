@@ -18,6 +18,7 @@ export async function uploadImage(req: Request, res: Response) {
       .openUploadStream(filename, { contentType: mimeType })
       .on('finish', (data: mongoose.mongo.GridFSFile) => {
         res.status(201).json(data._id);
+        console.log('image id is: ', data._id);
       });
 
     const resizer = sharp().resize(300).jpeg({ quality: 90 });

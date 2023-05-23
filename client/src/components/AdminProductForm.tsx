@@ -15,6 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
+import { useState } from 'react';
 import * as Yup from 'yup';
 import { Product, generateId } from '../../data';
 import { useProducts } from '../contexts/ProductsContext';
@@ -152,6 +153,38 @@ function AdminProductForm({ onSave, product }: Props) {
       onSave();
     },
   });
+  // image form
+  // const FileUploader = () => {
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (file) {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      try {
+        const response = await fetch('http://localhost:3000/api/images', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) throw new Error('Something went wrong');
+
+        const data = await response.json();
+        console.log('answer from post image:', data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   /* --------------------------
        ADMIN FORM COMPONENT
@@ -161,6 +194,12 @@ function AdminProductForm({ onSave, product }: Props) {
     <>
       <Container>
         <Paper elevation={3}>
+          <Box sx={{ flexGrow: 1 }}>
+            <form onSubmit={handleSubmit}>
+              <input type='file' accept='image/*' onChange={handleFileChange} />
+              <button type='submit'>Upload</button>
+            </form>
+          </Box>
           <form data-cy='product-form' onSubmit={formik.handleSubmit}>
             <Container sx={formContainer}>
               {/* Header */}
