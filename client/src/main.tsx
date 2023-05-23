@@ -9,6 +9,8 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import App from './App';
+import Login from './components/Login';
+import Register from './components/Register';
 import { CartProvider } from './contexts/CartContext';
 import { FormProvider } from './contexts/FormContext';
 import { ProductsProvider } from './contexts/ProductsContext';
@@ -104,6 +106,8 @@ const router = createBrowserRouter(
     <Route path='/' element={<App />}>
       <Route index element={<Home />} />
       <Route path='/:page/:id' element={<ProductDescription />} />
+      <Route path='login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
       <Route path='checkout' element={<Checkout />} />
       <Route path='admin' element={<Admin />} />
       <Route path='admin/product/:id' element={<AdminUpdateDatabase />} />
