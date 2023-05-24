@@ -28,6 +28,7 @@ function Home() {
   // Gridstyle on the main page
   return (
     <Box sx={homeContainerSx}>
+        {localStorage.getItem("loggedInUsername") && <span style={{fontSize: '2rem'}}>Welcome {localStorage.getItem("loggedInUsername")}!</span>}
       <Box sx={logoStyleSx}>
         <Skeleton
           variant='rounded'
