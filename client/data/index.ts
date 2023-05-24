@@ -9,7 +9,7 @@ export interface Product {
   details3: string;
   size: string;
   color: string;
-  inStock?: number;
+  inStock: number;
   category: string[];
 }
 
@@ -42,7 +42,7 @@ export const products: Product[] = [
     size: 'L',
     color: 'Dark brown',
     inStock: 1,
-    categories: [],
+    categories: [''],
   },
   {
     id: 'FD9263',

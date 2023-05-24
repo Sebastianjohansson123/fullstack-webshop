@@ -8,7 +8,7 @@ const productSchema = new Schema(
     color: String,
     description: String,
     details: [],
-    quantity: Number,
+    inStock: Number,
     category: [],
     image: {
       type: SchemaTypes.ObjectId,

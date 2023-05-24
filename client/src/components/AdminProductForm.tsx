@@ -102,9 +102,15 @@ function AdminProductForm({ onSave, product }: Props) {
       category: [],
     },
     onSubmit: async values => {
-      // Creates new product or updates existing one
-      const productData = values;
-      // Send product data to the server
+      const details = [
+        values.details1,
+        values.details2,
+        values.details3,
+      ].filter(d => d !== '');
+      const productData = {
+        ...values, // Takes all the values of the form
+        details: details, // sets details into whatever those 3 was combined
+      };
       try {
         const response = await fetch('/api/product/add', {
           method: 'POST',
@@ -116,8 +122,8 @@ function AdminProductForm({ onSave, product }: Props) {
         if (!response.ok) throw new Error('Something went wrong');
 
         const data = await response.json();
-        console.log('answer from post/put product:', data);
-        // Closes form
+        console.log('answer from post product:', data);
+
         onSave();
       } catch (error) {
         console.error(error);
@@ -362,7 +368,7 @@ function AdminProductForm({ onSave, product }: Props) {
               <TextField
                 fullWidth
                 name='details1'
-                id='details1'
+                id='details2'
                 label='Product detail #1 (optional)'
                 value={formik.values.details1}
                 onChange={formik.handleChange}
