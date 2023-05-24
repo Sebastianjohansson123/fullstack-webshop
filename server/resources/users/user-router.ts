@@ -10,8 +10,8 @@ import {
 
 export const userRouter = express
   .Router()
-  .get('api/users', auth, getUsers)
-  .get('api/users/:id', auth, getUserById)
-  .post('api/users/register', registerUser)
-  .post('api/users/login', loginUser)
-  .post('api/users/logout', logoutUser);
+  .get('/api/users', auth, getUsers)
+  .get('/api/users/:id', auth, getUserById)
+  .post('/api/users/register', registerUser)
+  .post('/api/users/login', loginUser)
+  .post('/api/users/logout', logoutUser);
