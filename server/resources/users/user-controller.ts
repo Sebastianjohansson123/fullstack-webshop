@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as yup from 'yup';
 import { UserModel } from './user-model';
+import argon2 from 'argon2';
 
 export async function registerUser(req: Request, res: Response) {
   const { username, password } = req.body;
@@ -41,7 +42,36 @@ export async function registerUser(req: Request, res: Response) {
   });
 }
 
-export async function loginUser(req: Request, res: Response) {}
+export async function loginUser(req: Request, res: Response) {
+  const { username, password } = req.body;
+  const user = await UserModel.findOne({
+    username,
+  });
+
+  if (!user) {
+    res.status(401).json("Incorrect username or password");
+    return;
+  }
+  const isAuth = await argon2.verify(
+    user.password,
+    password
+  );
+  if (!isAuth) {
+    res.status(401).json("Incorrect username or password");
+    return;
+  }
+
+  req.session!.username = user.username;
+  req.session!._id = user._id;
+  req.session!.isAdmin = user.isAdmin;
+
+  res.status(200).json({
+    _id: user!._id,
+    username: user!.username,
+    isAdmin: user!.isAdmin,
+  });
+}
+
 export async function logoutUser(req: Request, res: Response) {}
 export async function getUserById(req: Request, res: Response) {}
 
