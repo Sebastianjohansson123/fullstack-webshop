@@ -8,6 +8,7 @@ import {
   FormControlLabel,
   FormGroup,
   FormLabel,
+  Input,
   InputAdornment,
   Paper,
   Radio,
@@ -20,7 +21,7 @@ import {
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import * as Yup from 'yup';
-import { Product, generateId } from '../../data';
+import { Product } from '../../data';
 import { useProducts } from '../contexts/ProductsContext';
 
 /* ----------------------
@@ -47,12 +48,7 @@ const adminFormSchema = Yup.object().shape({
       1,
       'The name of the color you have given us it too short. Please give us a name of minimum 5 characters.'
     ),
-  image: Yup.string()
-    .matches(
-      /\.(png|jpg|jpeg)$/,
-      'The URL you have given us is not valid. Valid image formats are ".png", ".jpg", or "jpeg".'
-    )
-    .required('Please enter an image-URL for your product.'),
+  image: Yup.string().required(),
   description: Yup.string()
     .required('Please write a long product description.')
     .min(
@@ -71,7 +67,8 @@ const adminFormSchema = Yup.object().shape({
     3,
     'The detail you have given us it too short. Please give us a detail of minimum 3 characters.'
   ),
-  inStock: Yup.string(),
+  inStock: Yup.number(),
+  category: Yup.array(),
 });
 
 /* ----------------------
@@ -92,7 +89,6 @@ function AdminProductForm({ onSave, product }: Props) {
   const formik = useFormik<adminFormValues>({
     validationSchema: adminFormSchema,
     initialValues: product || {
-      id: '',
       image: '',
       title: '',
       description: '',
@@ -102,59 +98,30 @@ function AdminProductForm({ onSave, product }: Props) {
       details3: '',
       size: '',
       color: '',
-      inStock: 'true',
+      inStock: 0,
+      category: [],
     },
-    onSubmit: values => {
-      if (product) {
-        const updatedProduct: Product = {
-          id: product.id,
-          image: values.image,
-          title: values.title,
-          description: values.description,
-          price: values.price,
-          details1: values.details1 as string,
-          details2: values.details2 as string,
-          details3: values.details3 as string,
-          size: values.size as string,
-          color: values.color as string,
-          inStock: values.inStock as string,
-        };
+    onSubmit: async values => {
+      // Creates new product or updates existing one
+      const productData = values;
+      // Send product data to the server
+      try {
+        const response = await fetch('/api/product/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(productData),
+        });
+        if (!response.ok) throw new Error('Something went wrong');
 
-        const productIndex = databaseProducts.findIndex(
-          p => p.id === product?.id
-        );
-
-        const updatedDatabaseProducts = [
-          ...databaseProducts.slice(0, productIndex),
-          updatedProduct,
-          ...databaseProducts.slice(productIndex + 1),
-        ];
-
-        // Updates product
-        setDatabaseProducts(updatedDatabaseProducts);
-      } else {
-        // Generates new ID
-        const newId = generateId();
-
-        // Adds new product
-        const newProduct: Product = {
-          id: newId,
-          image: values.image,
-          title: values.title,
-          description: values.description,
-          price: values.price,
-          details1: values.details1 as string,
-          details2: values.details2 as string,
-          details3: values.details3 as string,
-          size: values.size as string,
-          color: values.color as string,
-          inStock: values.inStock as string,
-        };
-        setDatabaseProducts([...databaseProducts, newProduct]);
+        const data = await response.json();
+        console.log('answer from post/put product:', data);
+        // Closes form
+        onSave();
+      } catch (error) {
+        console.error(error);
       }
-
-      // Closes form
-      onSave();
     },
   });
 
@@ -220,6 +187,7 @@ function AdminProductForm({ onSave, product }: Props) {
               ) : (
                 <TextField
                   fullWidth
+                  name='image'
                   id='image'
                   // label='Product title'
                   value={formik.values.title}
@@ -242,6 +210,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Title */}
               <TextField
                 fullWidth
+                name='title'
                 id='title'
                 label='Product title'
                 value={formik.values.title}
@@ -261,6 +230,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Price */}
               <TextField
                 fullWidth
+                name='price'
                 id='price'
                 label='Product price'
                 value={formik.values.price}
@@ -289,10 +259,10 @@ function AdminProductForm({ onSave, product }: Props) {
                     Size
                   </FormLabel>
                   <RadioGroup
+                    name='size'
                     id='size'
                     row
                     aria-labelledby='demo-radio-buttons-group-label'
-                    name='inStock'
                     value={formik.values.size}
                     onChange={formik.handleChange}
                   >
@@ -333,6 +303,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Color */}
               <TextField
                 fullWidth
+                name='color'
                 id='color'
                 label='Hat color'
                 value={formik.values.color}
@@ -345,6 +316,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Image */}
               <TextField
                 fullWidth
+                name='image'
                 id='image'
                 label='Image (URL)'
                 value={formik.values.image}
@@ -364,6 +336,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Description */}
               <TextField
                 fullWidth
+                name='description'
                 id='description'
                 label='Product description'
                 value={formik.values.description}
@@ -388,6 +361,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Detail 1 */}
               <TextField
                 fullWidth
+                name='details1'
                 id='details1'
                 label='Product detail #1 (optional)'
                 value={formik.values.details1}
@@ -402,6 +376,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Detail 2 */}
               <TextField
                 fullWidth
+                name='details2'
                 id='details2'
                 label='Product detail #2 (optional)'
                 value={formik.values.details2}
@@ -416,6 +391,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Detail 3 */}
               <TextField
                 fullWidth
+                name='details3'
                 id='details3'
                 label='Product detail #3 (optional)'
                 value={formik.values.details3}
@@ -433,35 +409,70 @@ function AdminProductForm({ onSave, product }: Props) {
                   <FormLabel id='demo-radio-buttons-group-label'>
                     In stock
                   </FormLabel>
-                  <RadioGroup
-                    id='inStock'
-                    row
-                    aria-labelledby='demo-radio-buttons-group-label'
+                  <Input
                     name='inStock'
+                    id='inStock'
                     value={formik.values.inStock}
                     onChange={formik.handleChange}
-                  >
-                    <FormControlLabel
-                      name='inStock'
-                      value={'true'}
-                      control={<Radio />}
-                      label='Yes'
-                    />
-                    <FormControlLabel
-                      name='inStock'
-                      value={'false'}
-                      control={<Radio />}
-                      label='No'
-                    />
-                  </RadioGroup>
+                    fullWidth
+                    type='number'
+                  ></Input>
                 </FormControl>
 
                 {/* Categories */}
 
                 <FormGroup>
                   <FormLabel>Categories</FormLabel>
-                  <FormControlLabel control={<Checkbox />} label='Hats' />
-                  <FormControlLabel control={<Checkbox />} label='Coats' />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name='hats'
+                        // id='categories'
+                        checked={formik.values.category?.includes('Hats')}
+                        onChange={() => {
+                          if (formik.values.category?.includes('Hats')) {
+                            formik.setFieldValue(
+                              'category',
+                              formik.values.category?.filter(
+                                category => category !== 'Hats'
+                              )
+                            );
+                          } else {
+                            formik.setFieldValue('category', [
+                              ...formik.values.category!,
+                              'Hats',
+                            ]);
+                          }
+                        }}
+                      />
+                    }
+                    label='Hats'
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name='coat'
+                        // id='categories'
+                        checked={formik.values.category?.includes('Coats')}
+                        onChange={() => {
+                          if (formik.values.category?.includes('Coats')) {
+                            formik.setFieldValue(
+                              'category',
+                              formik.values.category?.filter(
+                                category => category !== 'Coats'
+                              )
+                            );
+                          } else {
+                            formik.setFieldValue('category', [
+                              ...formik.values.category!,
+                              'Coats',
+                            ]);
+                          }
+                        }}
+                      />
+                    }
+                    label='Coats'
+                  />
                 </FormGroup>
               </Box>
 

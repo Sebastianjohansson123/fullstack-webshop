@@ -3,14 +3,14 @@ import { array, number, object, string } from 'yup';
 import { ProductModel } from './product-model';
 
 export const ProductAddSchema = object({
-  name: string().required(),
-  price: number().required(),
-  size: string().required(),
-  color: string().required(),
+  name: string(),
+  price: number(),
+  size: string(),
+  color: string(),
   description: string(),
   details: array(),
-  quantity: number().required(),
-  category: array().required(),
+  quantity: number(),
+  category: array(),
   image: string(),
 });
 

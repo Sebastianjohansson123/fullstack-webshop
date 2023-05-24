@@ -1,29 +1,32 @@
 export interface Product {
-  id: string
-  image: string
-  title: string
-  description: string
-  price: number
-  details1: string
-  details2: string
-  details3: string
-  size: string
-  color: string
-  inStock: string
+  id?: string;
+  image: string;
+  title: string;
+  description: string;
+  price: number;
+  details1: string;
+  details2: string;
+  details3: string;
+  size: string;
+  color: string;
+  inStock?: number;
+  category: string[];
 }
 
 export interface CartItem extends Product {
-  quantity: number
+  quantity: number;
 }
 
 export const generateId = () => {
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  const letter = letters.charAt(Math.floor(Math.random() * letters.length))
-  const secondLetter = letters.charAt(Math.floor(Math.random() * letters.length))
-  const numbers = Math.floor(10 + Math.random() * 10000)
-  const newId = letter + secondLetter + numbers.toString()
-  return newId
-}
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const letter = letters.charAt(Math.floor(Math.random() * letters.length));
+  const secondLetter = letters.charAt(
+    Math.floor(Math.random() * letters.length)
+  );
+  const numbers = Math.floor(10 + Math.random() * 10000);
+  const newId = letter + secondLetter + numbers.toString();
+  return newId;
+};
 
 export const products: Product[] = [
   {
@@ -38,7 +41,8 @@ export const products: Product[] = [
     details3: 'Made of 100 percent wool.',
     size: 'L',
     color: 'Dark brown',
-    inStock: 'true',
+    inStock: 1,
+    categories: [],
   },
   {
     id: 'FD9263',
@@ -52,8 +56,8 @@ export const products: Product[] = [
     details3: 'Made from 100 percent wool felt.',
     size: 'M',
     color: 'Black',
-    inStock: 'true',
-
+    inStock: 1,
+    categories: [],
   },
   {
     id: 'XA9333',
@@ -67,7 +71,8 @@ export const products: Product[] = [
     details3: 'Made from 100 percent Panama straw.',
     size: 'M',
     color: 'Beige',
-    inStock: 'false',
+    inStock: 1,
+    categories: [],
   },
   {
     id: 'QF8822',
@@ -81,7 +86,8 @@ export const products: Product[] = [
     details3: 'Made from 100 percent cotton.',
     size: 'M',
     color: 'Black',
-    inStock: 'true',
+    inStock: 1,
+    categories: [],
   },
   {
     id: 'PP2226',
@@ -95,7 +101,8 @@ export const products: Product[] = [
     details3: 'Made from 100 percent buffalo leather.',
     size: 'S',
     color: 'Brown',
-    inStock: 'true',
+    inStock: 1,
+    categories: [],
   },
   {
     id: 'ZK6932',
@@ -109,7 +116,8 @@ export const products: Product[] = [
     details3: 'Made from 100 percent raffia straw.',
     size: 'M',
     color: 'Straw hat colored',
-    inStock: 'true',
+    inStock: 1,
+    categories: [],
   },
   {
     id: 'YG1824',
@@ -123,7 +131,8 @@ export const products: Product[] = [
     details3: 'Made from 100 percent wool felt (Asahi Guard).',
     size: 'L',
     color: 'Brown',
-    inStock: 'true',
+    inStock: 1,
+    categories: [],
   },
   {
     id: 'OW5885',
@@ -137,7 +146,8 @@ export const products: Product[] = [
     details3: 'Made from 100 percent wool felt.',
     size: 'L',
     color: 'Black',
-    inStock: 'false',
+    inStock: 1,
+    categories: [],
   },
   {
     id: 'RS2937',
@@ -151,7 +161,8 @@ export const products: Product[] = [
     details3: 'Made of 75 percent wool and 25 percent polyamide.',
     size: 'S',
     color: 'Black',
-    inStock: 'true',
+    inStock: 1,
+    categories: [],
   },
   {
     id: 'UF1283',
@@ -165,7 +176,8 @@ export const products: Product[] = [
     details3: 'Made from 100 percent wool felt (Asahi Guard).',
     size: 'M',
     color: 'Dark gray',
-    inStock: 'true',
+    inStock: 1,
+    categories: [],
   },
   {
     id: 'IP9642',
@@ -179,7 +191,8 @@ export const products: Product[] = [
     details3: 'Made from 100 percent wool felt.',
     size: 'M',
     color: 'Red',
-    inStock: 'true',
+    inStock: 1,
+    categories: [],
   },
   {
     id: 'KZ0032',
@@ -193,6 +206,7 @@ export const products: Product[] = [
     details3: 'Made from 100 percent wool felt.',
     size: 'L',
     color: 'Gray',
-    inStock: 'true',
+    inStock: 1,
+    categories: [],
   },
-]
+];

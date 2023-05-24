@@ -134,7 +134,7 @@ function ProductDescription() {
               </Box>
 
               <Box sx={{ display: 'flex', margin: '1.4rem 0rem 1rem 0rem' }}>
-                {(product.inStock as unknown) == 'false' ? (
+                {(product.inStock as never) < 1 ? (
                   <>
                     <Icon.HighlightOff sx={{ mr: 1, mt: 0.15, color: 'red' }} />
                     <Box>
