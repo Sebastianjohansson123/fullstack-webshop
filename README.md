@@ -29,7 +29,7 @@ Här är en lista på de olika skripten som kan köras i terminalen.
 - [ ] Alla sidor skall vara responsiva. (G)
 - [ ] Arbetet ska implementeras med en React frontend och en Express backend. (G)
 - [ ] Express backenden ska ha validering på samtliga endpoints. (G)
-- [ ] Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet (G)
+- [x] Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet (G)
 - [ ] Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet (G)
 - [ ] All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton mm) (G)
 - [ ] Man ska kunna logga in som administratör i systemet (G)
