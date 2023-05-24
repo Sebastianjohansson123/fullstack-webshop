@@ -1,9 +1,12 @@
+import * as Icon from '@mui/icons-material';
 import {
   Box,
   Button,
+  Checkbox,
   Container,
   FormControl,
   FormControlLabel,
+  FormGroup,
   FormLabel,
   InputAdornment,
   Paper,
@@ -208,11 +211,12 @@ function AdminProductForm({ onSave, product }: Props) {
 
               {/* Image */}
               {imageUploaded ? (
-                <TextField
-                  fullWidth
-                  aria-readonly
-                  value={'File successfully uploaded!'}
-                />
+                <>
+                  <Typography>
+                    Image successfully uploaded!{' '}
+                    <Icon.Check style={{ color: 'green' }} />
+                  </Typography>
+                </>
               ) : (
                 <TextField
                   fullWidth
@@ -451,6 +455,14 @@ function AdminProductForm({ onSave, product }: Props) {
                     />
                   </RadioGroup>
                 </FormControl>
+
+                {/* Categories */}
+
+                <FormGroup>
+                  <FormLabel>Categories</FormLabel>
+                  <FormControlLabel control={<Checkbox />} label='Hats' />
+                  <FormControlLabel control={<Checkbox />} label='Coats' />
+                </FormGroup>
               </Box>
 
               {/* Buttons */}
