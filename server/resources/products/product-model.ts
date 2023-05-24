@@ -12,6 +12,7 @@ const productSchema = new Schema(
     category: [],
     image: {
       type: SchemaTypes.ObjectId,
+      // ref: 'Image',
     },
   },
   {
