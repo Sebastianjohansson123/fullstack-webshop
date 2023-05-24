@@ -85,8 +85,7 @@ function LoginPage() {
           helperText={formik.touched.password && formik.errors.password}
         />
         <Button
-          component={Link}
-          to='/'
+          type='submit'
           variant='contained'
           sx={{ boxShadow: 'none', marginTop: '1rem' }}
         >
