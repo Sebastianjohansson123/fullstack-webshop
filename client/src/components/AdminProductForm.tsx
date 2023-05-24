@@ -368,7 +368,7 @@ function AdminProductForm({ onSave, product }: Props) {
               <TextField
                 fullWidth
                 name='details1'
-                id='details2'
+                id='details1'
                 label='Product detail #1 (optional)'
                 value={formik.values.details1}
                 onChange={formik.handleChange}
@@ -443,9 +443,9 @@ function AdminProductForm({ onSave, product }: Props) {
                                 category => category !== 'Hats'
                               )
                             );
-                          } else {
+                          } if (formik.values.category !== undefined) {
                             formik.setFieldValue('category', [
-                              ...formik.values.category!,
+                              ...formik.values.category,
                               'Hats',
                             ]);
                           }
@@ -468,9 +468,9 @@ function AdminProductForm({ onSave, product }: Props) {
                                 category => category !== 'Coats'
                               )
                             );
-                          } else {
+                          } if (formik.values.category !== undefined) {
                             formik.setFieldValue('category', [
-                              ...formik.values.category!,
+                              ...formik.values.category,
                               'Coats',
                             ]);
                           }
