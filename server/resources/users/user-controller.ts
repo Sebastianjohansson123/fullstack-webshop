@@ -23,7 +23,7 @@ export async function registerUser(req: Request, res: Response) {
     username,
   });
   if (existingUser) {
-    res.status(409).json('This username is taken. Please chose another one');
+    res.status(409).json('Användarnamnet är upptaget. Vänligen välj ett annat');
     return;
   }
 
@@ -31,6 +31,7 @@ export async function registerUser(req: Request, res: Response) {
     username,
     password,
   };
+
   const newUser = await UserModel.create(user);
 
   res.status(201).json({

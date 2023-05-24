@@ -1,113 +1,195 @@
-import { Box, Button, TextField } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Paper,
+  Portal,
+  Snackbar,
+  TextField,
+  useMediaQuery,
+} from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import ManInHat from '../icons/manInHat.png';
 
-
-const registerSchema = Yup.object({
-  username: Yup.string().required("Please enter an username!"),
-  password: Yup.string().required("Please enter your password!")
-})
-type RegisterValues = Yup.InferType<typeof registerSchema>
-
-function RegisterPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
-  const handleRegisterAccount = async (username: string, password: string) => {
-    const newUser = {
-      username,
-      password
-    };
-
-    const response = await fetch("/api/users/register", {
-      method: "POST",
-      body: JSON.stringify(newUser),
-      headers: { "Content-type": "application/json" },
-    });
-
-      const data = await response.json();
-    if (response.ok) {
-      localStorage.setItem("loggedInUsername", data.username);
-      localStorage.setItem("loggedInUserID", data._id);
-    }
-  };
-
-
-    const formik = useFormik<RegisterValues>({
-      initialValues: {
-        username: "",
-        password: "",
-      },
-      validationSchema: registerSchema,
-      onSubmit: async (registerValues) => {
-        const loggedinUser = await handleRegisterAccount(registerValues.username, registerValues.password);
-        console.log(loggedinUser);
-        navigate("/");
-      },
-    });
-
-  return (
-    <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          padding: '0 16px',
-          alignItems: 'center',
-          height: '75vh',
-        }}
-      >
-       <img src={ManInHat} />
-        <Box sx={{ width: '100%', maxWidth: '400px' }}>
-          <form onSubmit={formik.handleSubmit}> 
-            <TextField
-              id='username'
-              label='Username'
-              name='username'
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={Boolean(formik.touched.username && formik.errors.username)}
-              helperText={formik.touched.username && formik.errors.username}
-              type='text'
-              fullWidth
-              required
-              margin='normal'
-              variant='outlined'
-            />
-            <TextField
-              id='password'
-              label='Password'
-              type='password'
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={Boolean(formik.touched.password && formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-              fullWidth
-              required
-              margin='normal'
-              variant='outlined'
-            />
-            <Button
-              type='submit'
-              variant='contained'
-              size='large'
-              sx={{ mt: 3 }}
-              fullWidth
-            >
-              Register account
-            </Button>
-          </form>
-        </Box>
-      </Box>
-    </>
-  );
+interface RegisterValues {
+  username: string;
+  password: string;
+  confirmPassword: string;
 }
 
-export default RegisterPage;
+const registerSchema = Yup.object().shape({
+  username: Yup.string().required('Användarnamn är obligatoriskt'),
+  password: Yup.string()
+    .required('Lösenord är obligatoriskt')
+    .min(6, 'Lösenordet måste innehålla minst 6 tecken'),
+  confirmPassword: Yup.string()
+    .required('Du måste bekräfta lösenordet innan du kan skapa ett konto')
+    .oneOf([Yup.ref('password')], 'Lösenorden matchar inte varandra'),
+});
+
+export default function RegisterForm() {
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const navigate = useNavigate();
+  const formik = useFormik<RegisterValues>({
+    initialValues: {
+      username: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validationSchema: registerSchema,
+    onSubmit: async (values: RegisterValues) => {
+      try {
+        const response = await fetch('/api/users/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setRegistrationSuccess(true);
+        } else {
+          const message = await response.text();
+          console.log(formik);
+          throw new Error(message);
+        }
+      } catch (error) {
+        const caughtError = error as Error;
+        console.error('Error registering user:', caughtError);
+        formik.setFieldError('username', caughtError.message.replace(/"/g, ''));
+      }
+    },
+  });
+
+  const isSmallScreen = useMediaQuery('sm');
+  return (
+    <Paper
+      elevation={6}
+      sx={{
+        maxWidth: '60rem',
+        width: '90%',
+        margin: 'auto',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '2rem',
+      }}
+    >
+      <Box
+        component='form'
+        sx={{
+          '& > :not(style)': {
+            width: isSmallScreen ? '15rem' : '25rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.5rem',
+            height: 'auto',
+            paddingBottom: '1rem',
+          },
+        }}
+        noValidate
+        onSubmit={formik.handleSubmit}
+      >
+        <TextField
+          id='username'
+          name='username'
+          label='Användarnamn'
+          type='text'
+          value={formik.values.username}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.username && Boolean(formik.errors.username)}
+          helperText={formik.touched.username && formik.errors.username}
+          InputProps={{
+            sx: { backgroundColor: 'white' },
+          }}
+          FormHelperTextProps={{
+            sx: {
+              backgroundColor: 'transparent',
+            },
+          }}
+        />
+        <TextField
+          id='password'
+          name='password'
+          label='Lösenord'
+          type='password'
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+          InputProps={{
+            sx: { backgroundColor: 'white' },
+          }}
+          FormHelperTextProps={{
+            sx: {
+              backgroundColor: 'transparent',
+            },
+          }}
+        />
+        <TextField
+          id='confirmPassword'
+          name='confirmPassword'
+          label='Bekräfta lösenord'
+          type='password'
+          value={formik.values.confirmPassword}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={
+            formik.touched.confirmPassword &&
+            Boolean(formik.errors.confirmPassword)
+          }
+          helperText={
+            formik.touched.confirmPassword && formik.errors.confirmPassword
+          }
+          InputProps={{
+            sx: { backgroundColor: 'white' },
+          }}
+          FormHelperTextProps={{
+            sx: {
+              backgroundColor: 'transparent',
+            },
+          }}
+        />
+        <Button color='primary' type='submit' variant='contained'>
+          Skapa konto
+        </Button>
+      </Box>
+      <Portal>
+        <Snackbar
+          autoHideDuration={3000}
+          open={registrationSuccess}
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+          onClose={() => {
+            setRegistrationSuccess(false);
+            navigate('/');
+          }}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          <Alert
+            severity='success'
+            onClose={() => {
+              setRegistrationSuccess(false);
+              navigate('/');
+            }}
+          >
+            Ditt konto har skapats! Vi skickar dig nu tillbaka till startsidan
+          </Alert>
+        </Snackbar>
+      </Portal>
+    </Paper>
+  );
+}
