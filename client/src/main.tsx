@@ -10,7 +10,7 @@ import {
   RouterProvider,
   useLocation,
   useRoutes,
-  createRoutesFromElements
+  createRoutesFromElements,
 } from 'react-router-dom';
 import App from './App';
 import Login from './components/Login';
@@ -26,7 +26,6 @@ import Checkout from './pages/Checkout';
 import Home from './pages/Home';
 import OrderConfirmation from './pages/OrderConfirmation';
 import ProductDescription from './pages/ProductDescription';
-
 
 declare module '@mui/material/styles' {
   interface ThemeOptions {
@@ -116,8 +115,12 @@ const router = createBrowserRouter(
       <Route path='/register' element={<Register />} />
       <Route path='checkout' element={<Checkout />} />
       {/* <PrivateRoute path='/user' element={<UserPage />} /> */}
-      <PrivateRoute  path='admin' element={<Admin />} adminOnly />
-      <PrivateRoute  path='admin/product/:id' element={<AdminUpdateDatabase />} adminOnly />
+      <PrivateRoute path='admin' element={<Admin />} adminOnly />
+      <PrivateRoute
+        path='admin/product/:id'
+        element={<AdminUpdateDatabase />}
+        adminOnly
+      />
       <Route path='confirmation' element={<OrderConfirmation />} />
       <Route path='*' element={<h2>404 not found</h2>} />
     </Route>
@@ -140,16 +143,13 @@ const router = createBrowserRouter(
 //   return routes
 // }
 
-
-
-
 function PrivateRoute(props: RouteProps & { adminOnly?: boolean }) {
-  const { user, isLoading } = useUserContext();  //   DESSA RADERNA!!!
-  const location = useLocation();               //    DESSA RADERNA!!!
+  const { user, isLoading } = useUserContext(); //   DESSA RADERNA!!!
+  const location = useLocation(); //    DESSA RADERNA!!!
 
   // I Login komponenten
   // location.state?.redirectTo || user.isAdmin ? "/admin" : "/user"
-  
+
   if (isLoading) return null;
   if (props.adminOnly && !user?.isAdmin) {
     return <Navigate to='/' state={{ redirectTo: location }} />;
@@ -164,12 +164,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <ProductsProvider>
         <UserProvider>
           <FormProvider>
-          <CartProvider>
-            <SnackbarProvider maxSnack={3}>
-              <RouterProvider router={router} />
-            </SnackbarProvider>
-          </CartProvider>
-        </FormProvider>
+            <CartProvider>
+              <SnackbarProvider maxSnack={3}>
+                <RouterProvider router={router} />
+              </SnackbarProvider>
+            </CartProvider>
+          </FormProvider>
         </UserProvider>
       </ProductsProvider>
     </ThemeProvider>

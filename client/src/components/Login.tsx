@@ -15,7 +15,7 @@ type LoginValues = Yup.InferType<typeof loginSchema>;
 
 function LoginPage() {
   const navigate = useNavigate();
-  const {handleLogin, user} = useUserContext()
+  const { handleLogin, user } = useUserContext();
 
   const formik = useFormik<LoginValues>({
     initialValues: {
@@ -24,16 +24,16 @@ function LoginPage() {
     },
     validationSchema: loginSchema,
     onSubmit: loginValues => {
-         handleLogin(loginValues.username,loginValues.password);
-    }
+      handleLogin(loginValues.username, loginValues.password);
+    },
   });
 
   useEffect(() => {
-    if (user?.username) {navigate("/")}
+    if (user?.username) {
+      navigate('/');
+    }
     return;
-  },[user])
-
-  
+  }, [user]);
 
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>

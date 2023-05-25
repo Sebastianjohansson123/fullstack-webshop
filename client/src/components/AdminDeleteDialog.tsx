@@ -1,5 +1,13 @@
 import { Theme } from '@emotion/react';
-import { SxProps, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import {
+  SxProps,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
 import * as React from 'react';
 import { Product } from '../../data';
 

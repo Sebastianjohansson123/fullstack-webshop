@@ -5,13 +5,13 @@ import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
 
 function Admin() {
-  useLocation()
+  useLocation();
   const { databaseProducts } = useProducts();
-  const location = useLocation();               //    DESSA RADERNA!!!
-  const {user} = useUserContext()
+  const location = useLocation(); //    DESSA RADERNA!!!
+  const { user } = useUserContext();
 
   // I Login komponenten
-  location.state?.redirectTo || user!.isAdmin ? "/admin" : "/user"
+  location.state?.redirectTo || user!.isAdmin ? '/admin' : '/user';
 
   return (
     <>
