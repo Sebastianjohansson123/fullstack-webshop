@@ -12,6 +12,7 @@ import App from './App';
 import Login from './components/Login';
 import Register from './components/Register';
 import { CartProvider } from './contexts/CartContext';
+import { UserProvider } from './contexts/UserContext';
 import { FormProvider } from './contexts/FormContext';
 import { ProductsProvider } from './contexts/ProductsContext';
 import './index.css';
@@ -120,13 +121,15 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <ProductsProvider>
-        <FormProvider>
+        <UserProvider>
+          <FormProvider>
           <CartProvider>
             <SnackbarProvider maxSnack={3}>
               <RouterProvider router={router} />
             </SnackbarProvider>
           </CartProvider>
         </FormProvider>
+        </UserProvider>
       </ProductsProvider>
     </ThemeProvider>
   </React.StrictMode>
