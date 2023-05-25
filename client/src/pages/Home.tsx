@@ -7,12 +7,14 @@ import {
   Theme,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
+import { useUserContext } from '../contexts/UserContext';
 import { useProducts } from '../contexts/ProductsContext';
 
 function Home() {
   const { databaseProducts, setDatabaseProducts } = useProducts();
+  const {user} = useUserContext();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const handleLoad = () => {
@@ -28,7 +30,9 @@ function Home() {
   // Gridstyle on the main page
   return (
     <Box sx={homeContainerSx}>
-        {localStorage.getItem("loggedInUsername") && <Typography sx={h3StyleSx} style={{fontSize: '2rem'}}>Welcome {localStorage.getItem("loggedInUsername")}!</Typography>}
+    {user?.username ? <Typography sx={h3StyleSx} style={{ fontSize: '2rem' }}>
+              Welcome {user?.username}!
+            </Typography> : <></>}
       <Box sx={logoStyleSx}>
         <Skeleton
           variant='rounded'
