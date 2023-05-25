@@ -1,18 +1,21 @@
 import { Box, Button, Container, TextField } from '@mui/material';
 import { useFormik } from 'formik';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useUserContext } from '../contexts/UserContext';
 import ManInHat from '../icons/manInHat.png';
 
 const loginSchema = Yup.object({
-  username: Yup.string().required("Please enter an username!"),
-  password: Yup.string().required("Please enter your password!")
-})
+  username: Yup.string().required('Please enter an username!'),
+  password: Yup.string().required('Please enter your password!'),
+});
 
-type LoginValues = Yup.InferType<typeof loginSchema>
+type LoginValues = Yup.InferType<typeof loginSchema>;
 
 function LoginPage() {
   const navigate = useNavigate();
+  const {handleLogin, user} = useUserContext()
 
   const formik = useFormik<LoginValues>({
     initialValues: {
@@ -20,30 +23,17 @@ function LoginPage() {
       password: '',
     },
     validationSchema: loginSchema,
-    onSubmit: async (loginValues) => {
-    const login = await handleLogin(loginValues.username, loginValues.password)
-    },
+    onSubmit: loginValues => {
+         handleLogin(loginValues.username,loginValues.password);
+    }
   });
 
-  const handleLogin = async (username: string, password: string) => {
-      const response = await fetch("/api/users/login", {
-      method: "POST",
-      body: JSON.stringify({username, password}),
-      headers: { "Content-type": "application/json" },
-    });
-    
-    const data = await response.json();
+  useEffect(() => {
+    if (user?.username) {navigate("/")}
+    return;
+  },[user])
 
-    if (response.ok) {
-      localStorage.setItem(
-        "loggedInUsername",
-        data.username
-      );
-      localStorage.setItem("loggedInUserID", data._id);
-      localStorage.setItem("loggedInIsAdmin", data.isAdmin);
-      navigate("/");
-    }
-  };
+  
 
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>
