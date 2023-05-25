@@ -1,7 +1,7 @@
 import * as Icon from '@mui/icons-material';
 import { AppBar, Badge, Box, SxProps, Theme, Typography } from '@mui/material';
 import { CSSProperties } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import account from '../icons/account.png';
 import adminIcon from '../icons/adminicon.png';
@@ -9,6 +9,16 @@ import '../index.css';
 
 function Header() {
   const { totalProductsInCart } = useCart();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    const response = await fetch('/api/users/logout', {
+      method: 'POST',
+    });
+    if (response.ok) {
+      localStorage.clear();
+      navigate('/');
+    }
+  };
   return (
     <AppBar sx={headerStyleSx}>
       <NavLink
@@ -20,6 +30,9 @@ function Header() {
         </Typography>
       </NavLink>
       <Box sx={iconWrapperStylesSX}>
+        {localStorage.getItem('loggedInUsername') && (
+          <button onClick={handleLogout}>Logout</button>
+        )}
         <NavLink to='/login'>
           <img style={{ width: '3rem' }} src={account} />
         </NavLink>
