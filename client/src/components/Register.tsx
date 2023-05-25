@@ -3,8 +3,6 @@ import {
   Box,
   Button,
   Paper,
-  Portal,
-  Snackbar,
   TextField,
   useMediaQuery,
 } from '@mui/material';
@@ -52,6 +50,7 @@ export default function RegisterForm() {
         if (response.ok) {
           const data = await response.json();
           setRegistrationSuccess(true);
+          navigate('/login');
         } else {
           const message = await response.text();
           console.log(formik);
@@ -160,36 +159,6 @@ export default function RegisterForm() {
           Skapa konto
         </Button>
       </Box>
-      <Portal>
-        <Snackbar
-          autoHideDuration={3000}
-          open={registrationSuccess}
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-          onClose={() => {
-            setRegistrationSuccess(false);
-            navigate('/');
-          }}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        >
-          <Alert
-            severity='success'
-            onClose={() => {
-              setRegistrationSuccess(false);
-              navigate('/');
-            }}
-          >
-            Ditt konto har skapats! Vi skickar dig nu tillbaka till startsidan
-          </Alert>
-        </Snackbar>
-      </Portal>
     </Paper>
   );
 }

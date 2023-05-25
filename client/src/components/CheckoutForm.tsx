@@ -7,8 +7,8 @@ import {
   TextField,
   Theme,
   Typography,
+  SxProps,
 } from '@mui/material';
-import { SxProps } from '@mui/system';
 import { useFormik } from 'formik';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
