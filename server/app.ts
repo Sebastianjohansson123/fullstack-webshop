@@ -7,9 +7,6 @@ import { productRouter } from './resources/products/product-router';
 import { userRouter } from './resources/users/user-router';
 
 export const app = express();
-
-app.use(express.json());
-
 app.use(
   cookieSession({
     name: 'login',
@@ -19,6 +16,9 @@ app.use(
     maxAge: 1000 * 60 * 20,
   })
 );
+
+app.use(express.json());
+
 
 // Routers
 app.use(userRouter);

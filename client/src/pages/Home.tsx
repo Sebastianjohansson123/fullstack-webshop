@@ -10,9 +10,11 @@ import {
 import { useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import { useProducts } from '../contexts/ProductsContext';
+import { useUserContext } from '../contexts/UserContext';
 
 function Home() {
   const { databaseProducts, setDatabaseProducts } = useProducts();
+  const { user } = useUserContext();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const handleLoad = () => {
@@ -28,6 +30,13 @@ function Home() {
   // Gridstyle on the main page
   return (
     <Box sx={homeContainerSx}>
+      {user?.username ? (
+        <Typography sx={h3StyleSx} style={{ fontSize: '2rem' }}>
+          Welcome {user?.username}!
+        </Typography>
+      ) : (
+        <></>
+      )}
       <Box sx={logoStyleSx}>
         <Skeleton
           variant='rounded'
