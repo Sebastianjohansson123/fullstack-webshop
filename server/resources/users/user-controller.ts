@@ -53,14 +53,11 @@ export async function loginUser(req: Request, res: Response) {
     res.status(401).json('Incorrect username or password');
     return;
   }
-  interface CustomRequest extends Request {
-    session: any;
-  }
 
-req.session! = {
-  username: user?.username,
-  isAdmin: false,
-}
+  req.session! = {
+    username: user?.username,
+    isAdmin: false,
+  }
 
   // req.session!.username = user.username;
   // req.session!._id = user._id;
@@ -83,3 +80,7 @@ export async function getUserById(req: Request, res: Response) {}
 export async function getUsers(req: Request, res: Response) {
   // Admin only
 }
+
+export async function getOwnUserInfo(req: Request, res: Response) {
+  res.status(200).json(req.session!)
+};

@@ -9,7 +9,8 @@ interface User {
  interface UserContextValue {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
-  handleLogin: (username: string, password: string) => void
+  handleLogin: (username: string, password: string) => void;
+  isLoading: boolean;
  }
 
 
@@ -22,10 +23,20 @@ export const useUserContext = () => useContext(UserContext)
 
 export function UserProvider(props:PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
+    // Hämta user från API'et och spara i state
+    async function fetchUser() {
+      const response = await fetch('/api/users/self');
+      const data = await response.json();
 
-  },[]
-  );
+      if (response.ok) {
+        setUser(data)
+      }
+      setIsLoading(false);
+    }
+    fetchUser();
+  },[]);
 
   // username: string, password: string
   const handleLogin = async (username: string, password: string) => {
@@ -53,6 +64,7 @@ export function UserProvider(props:PropsWithChildren) {
         user, 
         setUser,
         handleLogin,
+        isLoading,
     }}
     >
         {props.children}

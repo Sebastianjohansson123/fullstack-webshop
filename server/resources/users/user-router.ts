@@ -1,6 +1,8 @@
 import express from 'express';
+import { get } from 'mongoose';
 import { auth } from '../../middlewares/userAuth';
 import {
+  getOwnUserInfo,
   getUserById,
   getUsers,
   loginUser,
@@ -14,4 +16,5 @@ export const userRouter = express
   .get('/api/users/:id', auth, getUserById)
   .post('/api/users/register', registerUser)
   .post('/api/users/login', loginUser)
-  .post('/api/users/logout', logoutUser);
+  .post('/api/users/logout', logoutUser)
+  .get('/api/users/self', getOwnUserInfo);
