@@ -35,7 +35,7 @@ export async function registerUser(req: Request, res: Response) {
 
   const newUser = await UserModel.create(user);
 
-  res.status(201).json("Account Created");
+  res.status(201).json('Account Created');
 }
 
 export async function loginUser(req: Request, res: Response) {
@@ -57,7 +57,7 @@ export async function loginUser(req: Request, res: Response) {
   req.session! = {
     username: user?.username,
     isAdmin: false,
-  }
+  };
 
   // req.session!.username = user.username;
   // req.session!._id = user._id;
@@ -82,5 +82,10 @@ export async function getUsers(req: Request, res: Response) {
 }
 
 export async function getOwnUserInfo(req: Request, res: Response) {
-  res.status(200).json(req.session!)
-};
+  const username = req.session!.username;
+  const isAdmin = req.session!.isAdmin;
+  const publicSession = { username, isAdmin };
+
+  console.log(publicSession);
+  res.status(200).json(publicSession);
+}

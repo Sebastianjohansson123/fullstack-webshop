@@ -4,13 +4,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
-  Navigate,
+  createRoutesFromElements,
   Route,
-  RouteProps,
   RouterProvider,
-  useLocation,
-  useRoutes,
-  createRoutesFromElements
 } from 'react-router-dom';
 import App from './App';
 import Login from './components/Login';
@@ -18,7 +14,7 @@ import Register from './components/Register';
 import { CartProvider } from './contexts/CartContext';
 import { FormProvider } from './contexts/FormContext';
 import { ProductsProvider } from './contexts/ProductsContext';
-import { UserProvider, useUserContext } from './contexts/UserContext';
+import { UserProvider } from './contexts/UserContext';
 import './index.css';
 import Admin from './pages/Admin';
 import AdminUpdateDatabase from './pages/AdminUpdateDatabase';
@@ -26,7 +22,6 @@ import Checkout from './pages/Checkout';
 import Home from './pages/Home';
 import OrderConfirmation from './pages/OrderConfirmation';
 import ProductDescription from './pages/ProductDescription';
-
 
 declare module '@mui/material/styles' {
   interface ThemeOptions {
@@ -116,8 +111,8 @@ const router = createBrowserRouter(
       <Route path='/register' element={<Register />} />
       <Route path='checkout' element={<Checkout />} />
       {/* <PrivateRoute path='/user' element={<UserPage />} /> */}
-      <PrivateRoute  path='admin' element={<Admin />} adminOnly />
-      <PrivateRoute  path='admin/product/:id' element={<AdminUpdateDatabase />} adminOnly />
+      <Route path='admin' element={<Admin />} />
+      <Route path='admin/product/:id' element={<AdminUpdateDatabase />} />
       <Route path='confirmation' element={<OrderConfirmation />} />
       <Route path='*' element={<h2>404 not found</h2>} />
     </Route>
@@ -140,23 +135,20 @@ const router = createBrowserRouter(
 //   return routes
 // }
 
+// function PrivateRoute(props: RouteProps & { adminOnly?: boolean }) {
+//   const { user, isLoading } = useUserContext(); //   DESSA RADERNA!!!
+//   const location = useLocation(); //    DESSA RADERNA!!!
 
+//   // I Login komponenten
+//   // location.state?.redirectTo || user.isAdmin ? "/admin" : "/user"
 
-
-function PrivateRoute(props: RouteProps & { adminOnly?: boolean }) {
-  const { user, isLoading } = useUserContext();  //   DESSA RADERNA!!!
-  const location = useLocation();               //    DESSA RADERNA!!!
-
-  // I Login komponenten
-  // location.state?.redirectTo || user.isAdmin ? "/admin" : "/user"
-  
-  if (isLoading) return null;
-  if (props.adminOnly && !user?.isAdmin) {
-    return <Navigate to='/' state={{ redirectTo: location }} />;
-  }
-  if (!user) return <Navigate to='/login' state={{ redirectTo: location }} />;
-  return <Route {...props} />;
-}
+//   if (isLoading) return null;
+//   if (props.adminOnly && !user?.isAdmin) {
+//     return <Navigate to='/' state={{ redirectTo: location }} />;
+//   }
+//   if (!user) return <Navigate to='/login' state={{ redirectTo: location }} />;
+//   return <Route {...props} />;
+// }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -164,12 +156,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <ProductsProvider>
         <UserProvider>
           <FormProvider>
-          <CartProvider>
-            <SnackbarProvider maxSnack={3}>
-              <RouterProvider router={router} />
-            </SnackbarProvider>
-          </CartProvider>
-        </FormProvider>
+            <CartProvider>
+              <SnackbarProvider maxSnack={3}>
+                <RouterProvider router={router} />
+              </SnackbarProvider>
+            </CartProvider>
+          </FormProvider>
         </UserProvider>
       </ProductsProvider>
     </ThemeProvider>

@@ -9,12 +9,12 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
-import { useUserContext } from '../contexts/UserContext';
 import { useProducts } from '../contexts/ProductsContext';
+import { useUserContext } from '../contexts/UserContext';
 
 function Home() {
   const { databaseProducts, setDatabaseProducts } = useProducts();
-  const {user} = useUserContext();
+  const { user, fetchUser } = useUserContext();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const handleLoad = () => {
@@ -27,12 +27,22 @@ function Home() {
     setError(true);
   };
 
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   // Gridstyle on the main page
   return (
     <Box sx={homeContainerSx}>
-    {user?.username ? <Typography sx={h3StyleSx} style={{ fontSize: '2rem' }}>
-              Welcome {user?.username}!
-            </Typography> : <></>}
+      {' '}
+      {user?.username ? (
+        <Typography sx={h3StyleSx} style={{ fontSize: '2rem' }}>
+          Welcome {user?.username}!{' '}
+        </Typography>
+      ) : (
+        <></>
+      )}
+      <p>username is: {user?.username} </p>
       <Box sx={logoStyleSx}>
         <Skeleton
           variant='rounded'
