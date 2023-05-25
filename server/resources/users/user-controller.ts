@@ -35,14 +35,7 @@ export async function registerUser(req: Request, res: Response) {
 
   const newUser = await UserModel.create(user);
 
-  req.session!.username = user.username;
-  req.session!._id = newUser._id;
-
-  res.status(201).json({
-    _id: newUser._id,
-    username: newUser.username,
-    isAdmin: newUser.isAdmin,
-  });
+  res.status(201).json("Account Created");
 }
 
 export async function loginUser(req: Request, res: Response) {
