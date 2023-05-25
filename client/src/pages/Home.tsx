@@ -7,7 +7,7 @@ import {
   Theme,
   Typography,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
@@ -26,10 +26,6 @@ function Home() {
     setLoading(false);
     setError(true);
   };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   // Gridstyle on the main page
   return (
