@@ -4,9 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
-  Navigate,
+  createRoutesFromElements,
   Route,
-  RouteProps,
   RouterProvider,
   useLocation,
   useRoutes,
@@ -18,7 +17,7 @@ import Register from './components/Register';
 import { CartProvider } from './contexts/CartContext';
 import { FormProvider } from './contexts/FormContext';
 import { ProductsProvider } from './contexts/ProductsContext';
-import { UserProvider, useUserContext } from './contexts/UserContext';
+import { UserProvider } from './contexts/UserContext';
 import './index.css';
 import Admin from './pages/Admin';
 import AdminUpdateDatabase from './pages/AdminUpdateDatabase';
@@ -164,6 +163,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <ProductsProvider>
         <UserProvider>
           <FormProvider>
+            <CartProvider>
+              <SnackbarProvider maxSnack={3}>
+                <RouterProvider router={router} />
+              </SnackbarProvider>
+            </CartProvider>
+          </FormProvider>
             <CartProvider>
               <SnackbarProvider maxSnack={3}>
                 <RouterProvider router={router} />
