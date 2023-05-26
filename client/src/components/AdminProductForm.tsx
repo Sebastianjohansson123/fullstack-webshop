@@ -84,7 +84,7 @@ interface Props {
 
 function AdminProductForm({ onSave, product }: Props) {
   const [imageUploaded, setImageUploaded] = useState<boolean>(false);
-  const { databaseProducts, setDatabaseProducts } = useProducts();
+  const { products } = useProducts();
 
   const formik = useFormik<adminFormValues>({
     validationSchema: adminFormSchema,
