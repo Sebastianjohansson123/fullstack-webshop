@@ -114,13 +114,12 @@ const router = createBrowserRouter(
       <Route path='/register' element={<Register />} />
       <Route path='checkout' element={<Checkout />} />
       <Route path='admin' element={<Admin />} />
-      <Route path='admin/product/:id' element={<AdminUpdateDatabase />}/>
+      <Route path='admin/product/:id' element={<AdminUpdateDatabase />} />
       <Route path='confirmation' element={<OrderConfirmation />} />
       <Route path='*' element={<h2>404 not found</h2>} />
     </Route>
   )
 );
-
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

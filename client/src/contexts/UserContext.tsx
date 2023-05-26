@@ -28,7 +28,6 @@ export function UserProvider(props: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  
   useEffect(() => {
     async function fetchUser() {
       try {
