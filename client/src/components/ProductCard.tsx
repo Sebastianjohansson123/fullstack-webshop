@@ -14,12 +14,16 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../../data';
 import AddToCartButton from './AddToCartButton';
+import { useProducts } from '../contexts/ProductsContext';
 
 interface Props {
   product: Product;
+  
 }
 
+
 export default function ProductCard({ product }: Props) {
+  const { products } = useProducts();
   const defaultQuantity = 1;
 
   const [loading, setLoading] = useState(true);
