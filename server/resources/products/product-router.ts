@@ -10,7 +10,7 @@ import {
 
 export const productRouter = express
   .Router()
-  .get('/api/allproducts', getAllProducts)
+  .get('/api/product', getAllProducts)
   .get('/api/product/:id', getProductById)
   .get('/api/product/category/:name', getProductsByCategory)
   .put('/api/product/update/:id', updateProduct)

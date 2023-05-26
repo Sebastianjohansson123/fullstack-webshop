@@ -1,6 +1,7 @@
 import {
   createContext,
   PropsWithChildren,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -13,24 +14,28 @@ interface ProductsContextValue {
   products: Product[];
   getProducts: () => void;
 }
+// Context setup
+const ProductsContext = createContext<ProductsContextValue>(null as never);
+
+//hook to use the products context
+export function useProducts() {
+  return useContext(ProductsContext);
+}
+
 // Context provider
 export function ProductsProvider(props: PropsWithChildren) {
-  const useProducts = () => useContext(ProductsContext);
   const [products, setProducts] = useState<Product[]>([]);
   
-  // Context setup
-  const ProductsContext = createContext<ProductsContextValue>(null as never);
+  const getProducts = useCallback(async () => {
+    const response = await fetch('/api/product');
+    const data = await response.json();
+    setProducts(data);
+  }, [])
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [getProducts]);
 
-  async function getProducts() {
-    const response = await fetch('http://localhost:3001/products');
-    const data = await response.json();
-    setProducts(data);
-    console.log(products);
-  }
 
   // Local storage hook
 

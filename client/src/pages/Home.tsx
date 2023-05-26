@@ -12,7 +12,7 @@ import ProductCard from '../components/ProductCard';
 import { useProducts } from '../contexts/ProductsContext';
 
 function Home() {
-  const { databaseProducts, setDatabaseProducts } = useProducts();
+  const {  products, getProducts } = useProducts();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const handleLoad = () => {
@@ -48,7 +48,7 @@ function Home() {
           Our Products
         </Typography>
         <Grid sx={cardListSx} container rowSpacing={5}>
-          {databaseProducts.map(product => (
+          {products.map(product => (
             <Grid
               key={product.id}
               sx={cardListSx}

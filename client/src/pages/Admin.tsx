@@ -4,7 +4,7 @@ import AdminCardProduct from '../components/AdminCardProduct';
 import { useProducts } from '../contexts/ProductsContext';
 
 function Admin() {
-  const { databaseProducts } = useProducts();
+  const { products } = useProducts();
 
   return (
     <>
@@ -24,7 +24,7 @@ function Admin() {
             </Link>
           </Box>
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
-            {databaseProducts.map(dataProduct => (
+            {products.map(dataProduct => (
               <Grid
                 key={dataProduct.id}
                 sx={AdminCardListSx}
