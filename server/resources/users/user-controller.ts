@@ -82,5 +82,10 @@ export async function getUsers(req: Request, res: Response) {
 }
 
 export async function getOwnUserInfo(req: Request, res: Response) {
-  res.status(200).json(req.session!);
+  console.log(req.session);
+  if (!req.session?.username) {
+    res.status(401).json(null);
+  } else {
+    res.status(200).json(req.session);
+  }
 }
