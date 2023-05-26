@@ -28,24 +28,20 @@ export function UserProvider(props: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  async function fetchUser() {
-    try {
-      const response = await fetch('/api/users/self', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setUser(data);
-      }
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
+  
   useEffect(() => {
+    async function fetchUser() {
+      try {
+        const response = await fetch('/api/users/self');
+        const data = await response.json();
+        if (response.ok) {
+          setUser(data);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
     // Hämta user från API'et och spara i state
     fetchUser();
   }, []);
