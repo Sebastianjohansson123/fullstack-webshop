@@ -14,7 +14,11 @@ export const ProductAddSchema = object({
   image: string(),
 });
 
-export async function getAllProducts(req: Request, res: Response) {}
+export async function getAllProducts(req: Request, res: Response) {
+  const allProducts = await ProductModel.find();
+  res.status(200).json(allProducts);
+}
+
 export async function getProductById(req: Request, res: Response) {}
 
 export async function addProduct(req: Request, res: Response) {
