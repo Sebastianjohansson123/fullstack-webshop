@@ -3,22 +3,15 @@ import { AppBar, Badge, Box, SxProps, Theme, Typography } from '@mui/material';
 import { CSSProperties } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
+import { useUserContext } from '../contexts/UserContext';
 import account from '../icons/account.png';
 import adminIcon from '../icons/adminicon.png';
 import '../index.css';
 
 function Header() {
   const { totalProductsInCart } = useCart();
-  const navigate = useNavigate();
-  const handleLogout = async () => {
-    const response = await fetch('/api/users/logout', {
-      method: 'POST',
-    });
-    if (response.ok) {
-      localStorage.clear();
-      navigate('/');
-    }
-  };
+  const { handleLogout, user } = useUserContext();
+
   return (
     <AppBar sx={headerStyleSx}>
       <NavLink
@@ -30,14 +23,17 @@ function Header() {
         </Typography>
       </NavLink>
       <Box sx={iconWrapperStylesSX}>
-        {localStorage.getItem('loggedInUsername') && (
-          <button onClick={handleLogout}>Logout</button>
+        {user ? (
+          <p style={{ cursor: 'pointer' }} onClick={handleLogout}>
+            Logout
+          </p>
+        ) : (
+          <NavLink to='/login'>
+            <img style={{ width: '3rem' }} src={account} alt='Account' />
+          </NavLink>
         )}
-        <NavLink to='/login'>
-          <img style={{ width: '3rem' }} src={account} />
-        </NavLink>
         <NavLink data-cy='admin-link' to='/admin'>
-          <img style={{ width: '3rem' }} src={adminIcon} />
+          <img style={{ width: '3rem' }} src={adminIcon} alt='Admin' />
         </NavLink>
         <NavLink to='/checkout'>
           <Badge
