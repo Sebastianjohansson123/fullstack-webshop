@@ -17,6 +17,7 @@ interface UserContextValue {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
   handleLogin: (username: string, password: string) => void;
+  handleLogout: () => void;
   isLoading: boolean;
 }
 
@@ -66,12 +67,24 @@ export function UserProvider(props: PropsWithChildren) {
     }
   };
 
+  const handleLogout = async () => {
+    const response = await fetch('/api/users/logout', {
+      method: 'POST',
+    });
+
+    if (response.ok) {
+      setUser(null);
+      console.log('Du är nu utloggad');
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
         user,
         setUser,
         handleLogin,
+        handleLogout,
         isLoading,
       }}
     >

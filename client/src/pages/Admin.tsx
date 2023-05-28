@@ -11,7 +11,7 @@ function Admin() {
   const { user } = useUserContext();
 
   // I Login komponenten
-  location.state?.redirectTo || user!.isAdmin ? '/admin' : '/user';
+  // location.state?.redirectTo || user!.isAdmin ? '/admin' : '/user';
 
   return (
     <>
