@@ -1,6 +1,5 @@
 import { Theme } from '@emotion/react';
-import { Box, SxProps } from '@mui/material';
-import Button from '@mui/material/Button';
+import { Box, SxProps, Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { Product } from '../../data';

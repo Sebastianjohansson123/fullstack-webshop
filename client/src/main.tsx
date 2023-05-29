@@ -5,13 +5,19 @@ import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
+  RouteProps,
   RouterProvider,
+  useLocation,
 } from 'react-router-dom';
 import App from './App';
+import Login from './components/Login';
+import Register from './components/Register';
 import { CartProvider } from './contexts/CartContext';
 import { FormProvider } from './contexts/FormContext';
 import { ProductsProvider } from './contexts/ProductsContext';
+import { UserProvider, useUserContext } from './contexts/UserContext';
 import './index.css';
 import Admin from './pages/Admin';
 import AdminUpdateDatabase from './pages/AdminUpdateDatabase';
@@ -104,6 +110,8 @@ const router = createBrowserRouter(
     <Route path='/' element={<App />}>
       <Route index element={<Home />} />
       <Route path='/:page/:id' element={<ProductDescription />} />
+      <Route path='login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
       <Route path='checkout' element={<Checkout />} />
       <Route path='admin' element={<Admin />} />
       <Route path='admin/product/:id' element={<AdminUpdateDatabase />} />
@@ -112,17 +120,20 @@ const router = createBrowserRouter(
     </Route>
   )
 );
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <ProductsProvider>
-        <FormProvider>
-          <CartProvider>
-            <SnackbarProvider maxSnack={3}>
-              <RouterProvider router={router} />
-            </SnackbarProvider>
-          </CartProvider>
-        </FormProvider>
+        <UserProvider>
+          <FormProvider>
+            <CartProvider>
+              <SnackbarProvider maxSnack={3}>
+                <RouterProvider router={router} />
+              </SnackbarProvider>
+            </CartProvider>
+          </FormProvider>
+        </UserProvider>
       </ProductsProvider>
     </ThemeProvider>
   </React.StrictMode>

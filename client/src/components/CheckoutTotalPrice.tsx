@@ -1,5 +1,4 @@
-import { Paper, Typography } from '@mui/material';
-import { Box, SxProps, Theme } from '@mui/system';
+import { Paper, Typography, SxProps, Box, Theme } from '@mui/material';
 
 interface Props {
   totalPrice: number;

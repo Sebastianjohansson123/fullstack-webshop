@@ -1,13 +1,17 @@
 import * as Icon from '@mui/icons-material';
 import { AppBar, Badge, Box, SxProps, Theme, Typography } from '@mui/material';
 import { CSSProperties } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
+import { useUserContext } from '../contexts/UserContext';
+import account from '../icons/account.png';
 import adminIcon from '../icons/adminicon.png';
 import '../index.css';
 
 function Header() {
   const { totalProductsInCart } = useCart();
+  const { handleLogout, user } = useUserContext();
+
   return (
     <AppBar sx={headerStyleSx}>
       <NavLink
@@ -19,8 +23,17 @@ function Header() {
         </Typography>
       </NavLink>
       <Box sx={iconWrapperStylesSX}>
+        {user ? (
+          <p style={{ cursor: 'pointer' }} onClick={handleLogout}>
+            Logout
+          </p>
+        ) : (
+          <NavLink to='/login'>
+            <img style={{ width: '3rem' }} src={account} alt='Account' />
+          </NavLink>
+        )}
         <NavLink data-cy='admin-link' to='/admin'>
-          <img src={adminIcon} />
+          <img style={{ width: '3rem' }} src={adminIcon} alt='Admin' />
         </NavLink>
         <NavLink to='/checkout'>
           <Badge
@@ -124,7 +137,7 @@ const iconWrapperStylesSX: SxProps<Theme> = theme => ({
   display: 'flex',
   mr: '1rem',
   alignItems: 'center',
-  gap: '10px',
+  gap: '5px',
   '& img': {
     width: '70px',
   },
@@ -143,7 +156,7 @@ const iconWrapperStylesSX: SxProps<Theme> = theme => ({
 });
 
 const iconStylesSX: SxProps<Theme> = theme => ({
-  fontSize: '66px',
+  fontSize: '3rem',
   color: 'white',
   position: 'relative',
   top: '3px',

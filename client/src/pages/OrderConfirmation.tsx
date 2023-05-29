@@ -1,6 +1,13 @@
 import * as Icon from '@mui/icons-material';
-import { Box, Button, Paper, SxProps, Theme, Typography } from '@mui/material';
-import { Container } from '@mui/system';
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  SxProps,
+  Theme,
+  Typography,
+} from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import OrderData from '../components/OrderData';
@@ -19,6 +26,7 @@ function OrderConfirmation() {
   const { cartItems, totalPrice, clearProductsFromCart } = useCart();
   const orderItems = cartItems.map(item => (
     <OrderData
+      key={item.id}
       title={item.title}
       price={item.price}
       quantity={item.quantity}

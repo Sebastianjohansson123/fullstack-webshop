@@ -1,5 +1,3 @@
-# api/images
-
 
 ### Upload image
 POST http://localhost:3000/api/images
@@ -14,4 +12,14 @@ Content-Type: image/jpeg
 
 
 
-GET http://localhost:3000/api/images/
+### REGISTER USER
+
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+    "username" : "carl",
+    "password" : "asdasd",
+    "isAdmin" : false
+}
+

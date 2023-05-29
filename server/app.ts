@@ -7,9 +7,6 @@ import { productRouter } from './resources/products/product-router';
 import { userRouter } from './resources/users/user-router';
 
 export const app = express();
-
-app.use(express.json());
-
 app.use(
   cookieSession({
     name: 'login',
@@ -20,10 +17,13 @@ app.use(
   })
 );
 
+
 app.use((req, res, next) => {
   console.log(req.method, req.path, req.params);
   next();
 });
+app.use(express.json());
+
 
 // Routers
 app.use(userRouter);

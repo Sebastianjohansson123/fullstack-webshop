@@ -15,5 +15,6 @@ export const productRouter = express
   .get('/api/product/category/:name', getProductsByCategory)
   .put('/api/product/update/:id', updateProduct)
   .get('/api/product/:id', adminAuth, getProductById)
-  .post('/api/product/add', addProduct) // adminAuth
+  .post('/api/product/add', adminAuth, addProduct)
   .delete('/api/product/delete/:id', adminAuth, deleteProduct);
+
