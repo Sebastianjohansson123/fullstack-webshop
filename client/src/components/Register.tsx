@@ -1,12 +1,9 @@
 import {
-  
   Box,
   Button,
-  
   TextField,
-  useMediaQuery,
   Container,
-  
+  Snackbar
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
@@ -30,7 +27,8 @@ const registerSchema = Yup.object().shape({
 });
 
  function RegisterForm() {
-  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+ 
+  const [snackbar, setSnackbar] = useState(false); 
   const navigate = useNavigate();
   const formik = useFormik<RegisterValues>({
     initialValues: {
@@ -51,7 +49,7 @@ const registerSchema = Yup.object().shape({
 
         if (response.ok) {
           const data = await response.json();
-          setRegistrationSuccess(true);
+          setSnackbar(true);
           navigate('/login');
         } else {
           const message = await response.text();
@@ -66,6 +64,9 @@ const registerSchema = Yup.object().shape({
     },
   });
 
+  const handleSnackbarClose = () => {
+    setSnackbar(false);
+  };
 
 
   return (
@@ -124,10 +125,24 @@ const registerSchema = Yup.object().shape({
           type='submit'
           variant='contained'
           sx={{ boxShadow: 'none', marginTop: '1rem' }}
+          onClick={() => setSnackbar(true)}
         >
-          Create Account
+          Skapa konto
         </Button>
       </Box>
+      <Snackbar 
+
+      open={snackbar}
+      autoHideDuration ={6000}
+      onClose={handleSnackbarClose}
+      message="Registrering lyckades!"
+      onClick={() => navigate('/login')}
+      />
+
+
+      
+      
+  
     </Container>
 
 
