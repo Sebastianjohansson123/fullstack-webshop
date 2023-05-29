@@ -4,9 +4,7 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  details1: string;
-  details2: string;
-  details3: string;
+  details: string[];
   size: string;
   color: string;
   inStock: number;
