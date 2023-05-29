@@ -43,7 +43,7 @@ function RegisterForm() {
         if (response.ok) {
           const data = await response.json();
           setSnackbar(true);
-          navigate('/login');
+          navigate('/login', { state: { snackbar: true } });
         } else {
           const message = await response.text();
           console.log(formik);
@@ -123,13 +123,6 @@ function RegisterForm() {
           Skapa konto
         </Button>
       </Box>
-      <Snackbar
-        open={snackbar}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-        message='Registrering lyckades!'
-        onClick={() => navigate('/login')}
-      />
     </Container>
   );
 }

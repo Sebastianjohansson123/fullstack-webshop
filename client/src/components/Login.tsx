@@ -1,10 +1,12 @@
-import { Box, Button, Container, TextField } from '@mui/material';
+import { Box, Button, Container, TextField, Snackbar } from '@mui/material';
 import { useFormik } from 'formik';
 import { useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useUserContext } from '../contexts/UserContext';
 import ManInHat from '../icons/manInHat.png';
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 const loginSchema = Yup.object({
   username: Yup.string().required('Please enter an username!'),
@@ -16,6 +18,8 @@ type LoginValues = Yup.InferType<typeof loginSchema>;
 function LoginPage() {
   const navigate = useNavigate();
   const { handleLogin, user } = useUserContext();
+  const location = useLocation();
+  const [snackbar, setSnackbar] = useState(false);
 
   const formik = useFormik<LoginValues>({
     initialValues: {
@@ -35,6 +39,16 @@ function LoginPage() {
     return;
   }, [user]);
 
+  useEffect(() => {
+    if (location.state?.snackbar && location.state.snackbar) {
+      setSnackbar(true);
+    }
+  }, [location.state]);
+
+  const handleSnackbarClose = () => {
+    setSnackbar(false);
+  };
+
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>
       <Box
@@ -50,6 +64,7 @@ function LoginPage() {
       >
         <img src={ManInHat} />
         <span style={{ fontSize: '30px' }}>Log in</span>
+
         <TextField
           fullWidth
           label='Username'
@@ -83,6 +98,13 @@ function LoginPage() {
         </Button>
         <NavLink to='/register'>Don't have an account? Sign up</NavLink>
       </Box>
+      <Snackbar
+        open={snackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message='successfully registered!'
+        onClick={() => navigate('/login')}
+      />
     </Container>
   );
 }
