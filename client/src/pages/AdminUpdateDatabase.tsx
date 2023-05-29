@@ -6,8 +6,8 @@ import { useProducts } from '../contexts/ProductsContext';
 function AdminUpdateDatabase() {
   const navigate = useNavigate();
   const params = useParams();
-  const { databaseProducts } = useProducts();
-  const product = databaseProducts.find(p => p.id === params.id);
+  const { products } = useProducts();
+  const product = products.find(p => p._id === params.id);
 
   const handleSave = () => {
     navigate('/admin');

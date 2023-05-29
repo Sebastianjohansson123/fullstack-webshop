@@ -1,6 +1,7 @@
 import {
   Box,
   CardActionArea,
+  CardMedia,
   Skeleton,
   styled,
   SxProps,
@@ -8,7 +9,6 @@ import {
 } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -37,7 +37,7 @@ export default function ProductCard({ product }: Props) {
 
   return (
     <Card sx={cardStyle} data-cy='product'>
-      <Link style={{ textDecoration: 'none' }} to={`/product/${product.id}`}>
+      <Link style={{ textDecoration: 'none' }} to={`/product/${product._id}`}>
         <StyledCardActionArea>
           <Box sx={{ position: 'relative' }}>
             <Box sx={hatHoverStyle}>View Product</Box>
@@ -52,8 +52,8 @@ export default function ProductCard({ product }: Props) {
               sx={loading || error ? { display: 'none' } : imageStyle}
               component='img'
               height='150'
-              image={product.image}
-              alt={product.title}
+              image={`http://localhost:3000/api/images/` + product.image}
+              alt={product.description}
               onLoad={handleLoad}
               onError={handleError}
             />
@@ -74,16 +74,21 @@ export default function ProductCard({ product }: Props) {
               component='div'
               data-cy='product-title'
             >
-              {product.title}
+              {product.name}
             </Typography>
           </CardContent>
         </StyledCardActionArea>
       </Link>
       <Box sx={{ marginTop: 'auto' }}>
-        <AddToCartButton
+        {/* <AddToCartButton
           product={product}
           quantity={defaultQuantity}
           onAddToCart={() => console.log('eslint = ägd')}
+        /> */}
+        <AddToCartButton
+          product={product}
+          quantity={defaultQuantity}
+          onAddToCart={() => {}}
         />
       </Box>
     </Card>

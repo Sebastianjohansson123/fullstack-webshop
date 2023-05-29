@@ -22,9 +22,9 @@ export default function AddToCartButton({
   // Here is the code that adds the product to the cart and shows the snackbar.
   const handleClickVariant = () => {
     increaseProductToCart(product, quantity);
-    enqueueSnackbar(`${product.title} has been added!`, {
+    enqueueSnackbar(`${product.name} has been added!`, {
       variant: 'success',
-      SnackbarProps: { 'data-cy': 'added-to-cart-toast' } as never,
+      SnackbarProps: { 'data-cy': 'added-to-cart-toast' } as any,
     });
     onAddToCart();
   };

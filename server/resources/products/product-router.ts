@@ -1,4 +1,5 @@
 import express from 'express';
+import { adminAuth } from '../../middlewares/adminAuth';
 import { getProductsByCategory } from '../orders/order-controller';
 import {
   addProduct,
@@ -10,9 +11,9 @@ import {
 
 export const productRouter = express
   .Router()
-  .get('/api/allproducts', getAllProducts)
-  .get('/api/product/:id', getProductById)
+  .get('/api/product', getAllProducts)
   .get('/api/product/category/:name', getProductsByCategory)
   .put('/api/product/update/:id', updateProduct)
+  .get('/api/product/:id', adminAuth, getProductById)
   .post('/api/product/add', addProduct)
-  .delete('/api/product/delete/:id', deleteProduct);
+  .delete('/api/product/delete/:id', adminAuth, deleteProduct);

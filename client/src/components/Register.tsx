@@ -1,11 +1,4 @@
-import {
-  Alert,
-  Box,
-  Button,
-  Paper,
-  TextField,
-  useMediaQuery,
-} from '@mui/material';
+import { Box, Button, TextField, Container, Snackbar } from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -27,8 +20,8 @@ const registerSchema = Yup.object().shape({
     .oneOf([Yup.ref('password')], 'Lösenorden matchar inte varandra'),
 });
 
-export default function RegisterForm() {
-  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+function RegisterForm() {
+  const [snackbar, setSnackbar] = useState(false);
   const navigate = useNavigate();
   const formik = useFormik<RegisterValues>({
     initialValues: {
@@ -49,7 +42,7 @@ export default function RegisterForm() {
 
         if (response.ok) {
           const data = await response.json();
-          setRegistrationSuccess(true);
+          setSnackbar(true);
           navigate('/login');
         } else {
           const message = await response.text();
@@ -64,74 +57,50 @@ export default function RegisterForm() {
     },
   });
 
-  const isSmallScreen = useMediaQuery('sm');
+  const handleSnackbarClose = () => {
+    setSnackbar(false);
+  };
+
   return (
-    <Paper
-      elevation={6}
-      sx={{
-        maxWidth: '60rem',
-        width: '90%',
-        margin: 'auto',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2rem',
-      }}
-    >
+    <Container style={{ display: 'flex', justifyContent: 'center' }}>
       <Box
         component='form'
-        sx={{
-          '& > :not(style)': {
-            width: isSmallScreen ? '15rem' : '25rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.5rem',
-            height: 'auto',
-            paddingBottom: '1rem',
-          },
-        }}
+        display={'flex'}
+        alignItems={'center'}
+        flexDirection={'column'}
+        gap={'10px'}
+        padding={'9rem 0'}
+        sx={{ width: '100%', maxWidth: '400px' }}
         noValidate
         onSubmit={formik.handleSubmit}
       >
+        <span style={{ fontSize: '30px' }}>Register</span>
         <TextField
-          id='username'
+          fullWidth
+          label='Username'
+          type='username'
           name='username'
-          label='Användarnamn'
-          type='text'
+          variant='outlined'
           value={formik.values.username}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.username && Boolean(formik.errors.username)}
           helperText={formik.touched.username && formik.errors.username}
-          InputProps={{
-            sx: { backgroundColor: 'white' },
-          }}
-          FormHelperTextProps={{
-            sx: {
-              backgroundColor: 'transparent',
-            },
-          }}
         />
         <TextField
-          id='password'
-          name='password'
-          label='Lösenord'
+          fullWidth
+          label='Password'
           type='password'
+          name='password'
+          variant='outlined'
           value={formik.values.password}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
-          InputProps={{
-            sx: { backgroundColor: 'white' },
-          }}
-          FormHelperTextProps={{
-            sx: {
-              backgroundColor: 'transparent',
-            },
-          }}
         />
         <TextField
+          fullWidth
           id='confirmPassword'
           name='confirmPassword'
           label='Bekräfta lösenord'
@@ -139,26 +108,30 @@ export default function RegisterForm() {
           value={formik.values.confirmPassword}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={
-            formik.touched.confirmPassword &&
-            Boolean(formik.errors.confirmPassword)
-          }
+          error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={
             formik.touched.confirmPassword && formik.errors.confirmPassword
           }
-          InputProps={{
-            sx: { backgroundColor: 'white' },
-          }}
-          FormHelperTextProps={{
-            sx: {
-              backgroundColor: 'transparent',
-            },
-          }}
         />
-        <Button color='primary' type='submit' variant='contained'>
+        <Button
+          fullWidth
+          type='submit'
+          variant='contained'
+          sx={{ boxShadow: 'none', marginTop: '1rem' }}
+          onClick={() => setSnackbar(true)}
+        >
           Skapa konto
         </Button>
       </Box>
-    </Paper>
+      <Snackbar
+        open={snackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message='Registrering lyckades!'
+        onClick={() => navigate('/login')}
+      />
+    </Container>
   );
 }
+
+export default RegisterForm;

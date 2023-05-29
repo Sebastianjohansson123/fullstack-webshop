@@ -1,10 +1,14 @@
+import * as Icon from '@mui/icons-material';
 import {
   Box,
   Button,
+  Checkbox,
   Container,
   FormControl,
   FormControlLabel,
+  FormGroup,
   FormLabel,
+  Input,
   InputAdornment,
   Paper,
   Radio,
@@ -15,8 +19,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
+import { useState } from 'react';
 import * as Yup from 'yup';
-import { Product, generateId } from '../../data';
+import { Product } from '../../data';
 import { useProducts } from '../contexts/ProductsContext';
 
 /* ----------------------
@@ -26,7 +31,7 @@ import { useProducts } from '../contexts/ProductsContext';
 // type YupProduct = Record<keyof Omit<Product, 'id'>, Yup.AnySchema>;
 
 const adminFormSchema = Yup.object().shape({
-  title: Yup.string()
+  name: Yup.string()
     .required('Please write a product title')
     .min(
       2,
@@ -43,12 +48,7 @@ const adminFormSchema = Yup.object().shape({
       1,
       'The name of the color you have given us it too short. Please give us a name of minimum 5 characters.'
     ),
-  image: Yup.string()
-    .matches(
-      /\.(png|jpg|jpeg)$/,
-      'The URL you have given us is not valid. Valid image formats are ".png", ".jpg", or "jpeg".'
-    )
-    .required('Please enter an image-URL for your product.'),
+  image: Yup.string().required(),
   description: Yup.string()
     .required('Please write a long product description.')
     .min(
@@ -67,7 +67,8 @@ const adminFormSchema = Yup.object().shape({
     3,
     'The detail you have given us it too short. Please give us a detail of minimum 3 characters.'
   ),
-  inStock: Yup.string(),
+  inStock: Yup.number(),
+  category: Yup.array(),
 });
 
 /* ----------------------
@@ -82,14 +83,14 @@ interface Props {
 }
 
 function AdminProductForm({ onSave, product }: Props) {
-  const { databaseProducts, setDatabaseProducts } = useProducts();
+  const [imageUploaded, setImageUploaded] = useState<boolean>(false);
+  const { products } = useProducts();
 
   const formik = useFormik<adminFormValues>({
     validationSchema: adminFormSchema,
     initialValues: product || {
-      id: '',
       image: '',
-      title: '',
+      name: '',
       description: '',
       price: 0,
       details1: '',
@@ -97,61 +98,64 @@ function AdminProductForm({ onSave, product }: Props) {
       details3: '',
       size: '',
       color: '',
-      inStock: 'true',
+      inStock: 0,
+      category: [],
     },
-    onSubmit: values => {
-      if (product) {
-        const updatedProduct: Product = {
-          id: product.id,
-          image: values.image,
-          title: values.title,
-          description: values.description,
-          price: values.price,
-          details1: values.details1 as string,
-          details2: values.details2 as string,
-          details3: values.details3 as string,
-          size: values.size as string,
-          color: values.color as string,
-          inStock: values.inStock as string,
-        };
+    onSubmit: async values => {
+      const details = [
+        values.details1,
+        values.details2,
+        values.details3,
+      ].filter(d => d !== '');
+      const productData = {
+        ...values, // Takes all the values of the form
+        details: details, // sets details into whatever those 3 was combined
+      };
+      try {
+        const response = await fetch('/api/product/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(productData),
+        });
+        if (!response.ok) throw new Error('Something went wrong');
 
-        const productIndex = databaseProducts.findIndex(
-          p => p.id === product?.id
-        );
+        const data = await response.json();
+        console.log('answer from post product:', data);
 
-        const updatedDatabaseProducts = [
-          ...databaseProducts.slice(0, productIndex),
-          updatedProduct,
-          ...databaseProducts.slice(productIndex + 1),
-        ];
-
-        // Updates product
-        setDatabaseProducts(updatedDatabaseProducts);
-      } else {
-        // Generates new ID
-        const newId = generateId();
-
-        // Adds new product
-        const newProduct: Product = {
-          id: newId,
-          image: values.image,
-          title: values.title,
-          description: values.description,
-          price: values.price,
-          details1: values.details1 as string,
-          details2: values.details2 as string,
-          details3: values.details3 as string,
-          size: values.size as string,
-          color: values.color as string,
-          inStock: values.inStock as string,
-        };
-        setDatabaseProducts([...databaseProducts, newProduct]);
+        onSave();
+      } catch (error) {
+        console.error(error);
       }
-
-      // Closes form
-      onSave();
     },
   });
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length <= 0) {
+      return;
+    }
+
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await fetch('/api/images', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error('Something went wrong');
+
+      const data = await response.json();
+      console.log('answer from post image:', data);
+      formik.setFieldValue('image', data);
+      setImageUploaded(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   /* --------------------------
        ADMIN FORM COMPONENT
@@ -161,42 +165,78 @@ function AdminProductForm({ onSave, product }: Props) {
     <>
       <Container>
         <Paper elevation={3}>
-          <form data-cy='product-form' onSubmit={formik.handleSubmit}>
-            <Container sx={formContainer}>
+          <Container sx={formContainer}>
+            <Typography sx={fontStyle} variant='h3'>
+              {product ? `Editing "${product.name}"` : 'Add new product'}
+            </Typography>
+            {/* <Box sx={{ flexGrow: 1, margin: '1rem' }}>
+              <input type='file' accept='image/*' onChange={handleFileChange} />
+            </Box> */}
+            <form data-cy='product-form' onSubmit={formik.handleSubmit}>
               {/* Header */}
-              <Typography sx={fontStyle} variant='h3'>
-                {product ? `Editing "${product.title}"` : 'Add new product'}
-              </Typography>
               <Typography
                 sx={{ ml: '0.2rem', mt: '0.4rem', mb: '1rem' }}
                 variant='body2'
                 gutterBottom
               >
-                {product ? `ID: "${product.id}"` : ''}
+                {product ? `ID: "${product._id}"` : ''}
               </Typography>
+
+              {/* Image */}
+              {imageUploaded ? (
+                <>
+                  <Typography>
+                    Image successfully uploaded!{' '}
+                    <Icon.Check style={{ color: 'green' }} />
+                  </Typography>
+                </>
+              ) : (
+                <TextField
+                  fullWidth
+                  name='image'
+                  id='image'
+                  // label='Product title'
+                  value={formik.values.name}
+                  // onChange={formik.handleChange}
+                  onChange={handleFileChange}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
+                  margin='normal'
+                  type='file'
+                  inputProps={{
+                    'data-cy': 'product-title',
+                    style: { fontFamily: 'Lora' },
+                  }}
+                  FormHelperTextProps={
+                    { 'data-cy': 'product-name-error' } as never
+                  }
+                />
+              )}
 
               {/* Title */}
               <TextField
                 fullWidth
-                id='title'
-                label='Product title'
-                value={formik.values.title}
+                name='name'
+                id='name'
+                label='Product name'
+                value={formik.values.name}
                 onChange={formik.handleChange}
-                error={formik.touched.title && Boolean(formik.errors.title)}
-                helperText={formik.touched.title && formik.errors.title}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
                 margin='normal'
                 inputProps={{
                   'data-cy': 'product-title',
                   style: { fontFamily: 'Lora' },
                 }}
                 FormHelperTextProps={
-                  { 'data-cy': 'product-title-error' } as never
+                  { 'data-cy': 'product-name-error' } as never
                 }
               />
 
               {/* Price */}
               <TextField
                 fullWidth
+                name='price'
                 id='price'
                 label='Product price'
                 value={formik.values.price}
@@ -225,10 +265,10 @@ function AdminProductForm({ onSave, product }: Props) {
                     Size
                   </FormLabel>
                   <RadioGroup
+                    name='size'
                     id='size'
                     row
                     aria-labelledby='demo-radio-buttons-group-label'
-                    name='inStock'
                     value={formik.values.size}
                     onChange={formik.handleChange}
                   >
@@ -269,6 +309,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Color */}
               <TextField
                 fullWidth
+                name='color'
                 id='color'
                 label='Hat color'
                 value={formik.values.color}
@@ -281,6 +322,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Image */}
               <TextField
                 fullWidth
+                name='image'
                 id='image'
                 label='Image (URL)'
                 value={formik.values.image}
@@ -300,6 +342,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Description */}
               <TextField
                 fullWidth
+                name='description'
                 id='description'
                 label='Product description'
                 value={formik.values.description}
@@ -324,6 +367,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Detail 1 */}
               <TextField
                 fullWidth
+                name='details1'
                 id='details1'
                 label='Product detail #1 (optional)'
                 value={formik.values.details1}
@@ -338,6 +382,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Detail 2 */}
               <TextField
                 fullWidth
+                name='details2'
                 id='details2'
                 label='Product detail #2 (optional)'
                 value={formik.values.details2}
@@ -352,6 +397,7 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Detail 3 */}
               <TextField
                 fullWidth
+                name='details3'
                 id='details3'
                 label='Product detail #3 (optional)'
                 value={formik.values.details3}
@@ -369,28 +415,73 @@ function AdminProductForm({ onSave, product }: Props) {
                   <FormLabel id='demo-radio-buttons-group-label'>
                     In stock
                   </FormLabel>
-                  <RadioGroup
-                    id='inStock'
-                    row
-                    aria-labelledby='demo-radio-buttons-group-label'
+                  <Input
                     name='inStock'
+                    id='inStock'
                     value={formik.values.inStock}
                     onChange={formik.handleChange}
-                  >
-                    <FormControlLabel
-                      name='inStock'
-                      value={'true'}
-                      control={<Radio />}
-                      label='Yes'
-                    />
-                    <FormControlLabel
-                      name='inStock'
-                      value={'false'}
-                      control={<Radio />}
-                      label='No'
-                    />
-                  </RadioGroup>
+                    fullWidth
+                    type='number'
+                  ></Input>
                 </FormControl>
+
+                {/* Categories */}
+
+                <FormGroup>
+                  <FormLabel>Categories</FormLabel>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name='hats'
+                        // id='categories'
+                        checked={formik.values.category?.includes('Hats')}
+                        onChange={() => {
+                          if (formik.values.category?.includes('Hats')) {
+                            formik.setFieldValue(
+                              'category',
+                              formik.values.category?.filter(
+                                category => category !== 'Hats'
+                              )
+                            );
+                          }
+                          if (formik.values.category !== undefined) {
+                            formik.setFieldValue('category', [
+                              ...formik.values.category,
+                              'Hats',
+                            ]);
+                          }
+                        }}
+                      />
+                    }
+                    label='Hats'
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name='coat'
+                        // id='categories'
+                        checked={formik.values.category?.includes('Coats')}
+                        onChange={() => {
+                          if (formik.values.category?.includes('Coats')) {
+                            formik.setFieldValue(
+                              'category',
+                              formik.values.category?.filter(
+                                category => category !== 'Coats'
+                              )
+                            );
+                          }
+                          if (formik.values.category !== undefined) {
+                            formik.setFieldValue('category', [
+                              ...formik.values.category,
+                              'Coats',
+                            ]);
+                          }
+                        }}
+                      />
+                    }
+                    label='Coats'
+                  />
+                </FormGroup>
               </Box>
 
               {/* Buttons */}
@@ -401,7 +492,7 @@ function AdminProductForm({ onSave, product }: Props) {
                   variant='contained'
                   type='submit'
                 >
-                  {product ? `Edit "${product.title}"` : 'Add product'}
+                  {product ? `Edit "${product.name}"` : 'Add product'}
                 </Button>
                 <Button
                   sx={closeBtnSx}
@@ -412,8 +503,8 @@ function AdminProductForm({ onSave, product }: Props) {
                   Close
                 </Button>
               </Box>
-            </Container>
-          </form>
+            </form>
+          </Container>
         </Paper>
       </Container>
     </>
