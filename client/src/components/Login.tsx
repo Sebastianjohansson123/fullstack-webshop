@@ -8,7 +8,6 @@ import ManInHat from '../icons/manInHat.png';
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
-
 const loginSchema = Yup.object({
   username: Yup.string().required('Please enter an username!'),
   password: Yup.string().required('Please enter your password!'),
@@ -50,13 +49,6 @@ function LoginPage() {
     setSnackbar(false);
   };
 
-
-
-
-
-
-
-
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>
       <Box
@@ -72,7 +64,7 @@ function LoginPage() {
       >
         <img src={ManInHat} />
         <span style={{ fontSize: '30px' }}>Log in</span>
-       
+
         <TextField
           fullWidth
           label='Username'
