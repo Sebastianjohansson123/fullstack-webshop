@@ -4,16 +4,17 @@ import {
   FormHelperTextProps,
   Grid,
   Paper,
+  SxProps,
   TextField,
   Theme,
   Typography,
-  SxProps,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { FormContext } from '../contexts/FormContext';
+import { useUserContext } from '../contexts/UserContext';
 
 /* ----------------------
       YUP VALIDATION
@@ -89,6 +90,11 @@ type checkoutFormValues = Yup.InferType<typeof checkoutFormSchema>;
 export default function CheckoutForm() {
   const navigate = useNavigate();
   const { setFormValues } = useContext(FormContext);
+  const { user } = useUserContext();
+
+  const handlePlaceOrder = () => {
+    // logiken skrivs här för att slutföra ordern
+  };
 
   const formik = useFormik<checkoutFormValues>({
     initialValues: {
@@ -117,228 +123,244 @@ export default function CheckoutForm() {
 
   return (
     <Paper elevation={3}>
-      <form onSubmit={formik.handleSubmit} data-cy='customer-form'>
-        <Container sx={formContainer}>
-          <Typography sx={fontStyle} variant='h3' gutterBottom>
-            Checkout
-          </Typography>
+      {user ? (
+        <form onSubmit={formik.handleSubmit} data-cy='customer-form'>
+          <Container sx={formContainer}>
+            <Typography sx={fontStyle} variant='h3' gutterBottom>
+              Checkout
+            </Typography>
 
-          {/* NAME INPUT */}
-
-          <Grid
-            display='flex'
-            alignItems='center'
-            container
-            rowSpacing={1}
-            columnSpacing={5}
-          >
-            <Grid
-              sx={formStyle}
-              item
-              md={6}
-              display='flex'
-              alignSelf='flex-start'
-            >
-              <TextField
-                fullWidth
-                id='fullName'
-                label='Full name'
-                value={formik.values.fullName}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.fullName && Boolean(formik.errors.fullName)
-                }
-                helperText={formik.touched.fullName && formik.errors.fullName}
-                margin='normal'
-                inputProps={{
-                  'data-cy': 'customer-name',
-                  style: { fontFamily: 'Lora' },
-                }}
-                FormHelperTextProps={
-                  {
-                    'data-cy': 'customer-name-error',
-                  } as CustomFormHelperTextProps
-                }
-                autoComplete='name'
-              />
-            </Grid>
-
-            {/* EMAIL INPUT */}
+            {/* NAME INPUT */}
 
             <Grid
-              sx={formStyle}
-              item
-              md={6}
               display='flex'
-              alignSelf='flex-start'
+              alignItems='center'
+              container
+              rowSpacing={1}
+              columnSpacing={5}
             >
-              <TextField
-                fullWidth
-                id='email'
-                label='E-mail'
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-                margin='normal'
-                inputProps={{
-                  'data-cy': 'customer-email',
-                  style: { fontFamily: 'Lora' },
-                }}
-                FormHelperTextProps={
-                  {
-                    'data-cy': 'customer-email-error',
-                  } as CustomFormHelperTextProps
-                }
-                autoComplete='email'
-              />
+              <Grid
+                sx={formStyle}
+                item
+                md={6}
+                display='flex'
+                alignSelf='flex-start'
+              >
+                <TextField
+                  fullWidth
+                  id='fullName'
+                  label='Full name'
+                  value={formik.values.fullName}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.fullName && Boolean(formik.errors.fullName)
+                  }
+                  helperText={formik.touched.fullName && formik.errors.fullName}
+                  margin='normal'
+                  inputProps={{
+                    'data-cy': 'customer-name',
+                    style: { fontFamily: 'Lora' },
+                  }}
+                  FormHelperTextProps={
+                    {
+                      'data-cy': 'customer-name-error',
+                    } as CustomFormHelperTextProps
+                  }
+                  autoComplete='name'
+                />
+              </Grid>
+
+              {/* EMAIL INPUT */}
+
+              <Grid
+                sx={formStyle}
+                item
+                md={6}
+                display='flex'
+                alignSelf='flex-start'
+              >
+                <TextField
+                  fullWidth
+                  id='email'
+                  label='E-mail'
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                  margin='normal'
+                  inputProps={{
+                    'data-cy': 'customer-email',
+                    style: { fontFamily: 'Lora' },
+                  }}
+                  FormHelperTextProps={
+                    {
+                      'data-cy': 'customer-email-error',
+                    } as CustomFormHelperTextProps
+                  }
+                  autoComplete='email'
+                />
+              </Grid>
+
+              {/* PHONE NUMBER INPUT */}
+
+              <Grid
+                sx={formStyle}
+                item
+                md={6}
+                display='flex'
+                alignSelf='flex-start'
+              >
+                <TextField
+                  fullWidth
+                  id='phoneNumber'
+                  label='Phone number'
+                  type='tel'
+                  value={formik.values.phoneNumber}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.phoneNumber &&
+                    Boolean(formik.errors.phoneNumber)
+                  }
+                  helperText={
+                    formik.touched.phoneNumber && formik.errors.phoneNumber
+                  }
+                  margin='normal'
+                  inputProps={{
+                    'data-cy': 'customer-phone',
+                    style: { fontFamily: 'Lora' },
+                  }}
+                  FormHelperTextProps={
+                    {
+                      'data-cy': 'customer-phone-error',
+                    } as CustomFormHelperTextProps
+                  }
+                  autoComplete='tel'
+                />
+              </Grid>
+
+              {/* ADDRESS INPUT */}
+
+              <Grid
+                sx={formStyle}
+                item
+                md={6}
+                display='flex'
+                alignSelf='flex-start'
+              >
+                <TextField
+                  fullWidth
+                  id='address'
+                  label='Address'
+                  value={formik.values.address}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.address && Boolean(formik.errors.address)
+                  }
+                  helperText={formik.touched.address && formik.errors.address}
+                  margin='normal'
+                  inputProps={{
+                    'data-cy': 'customer-address',
+                    style: { fontFamily: 'Lora' },
+                  }}
+                  FormHelperTextProps={
+                    {
+                      'data-cy': 'customer-address-error',
+                    } as CustomFormHelperTextProps
+                  }
+                  autoComplete='street-address'
+                />
+              </Grid>
+
+              {/* POSTAL CODE INPUT */}
+
+              <Grid
+                sx={formStyle}
+                item
+                md={6}
+                display='flex'
+                alignSelf='flex-start'
+              >
+                <TextField
+                  fullWidth
+                  id='zipcode'
+                  label='Zip code'
+                  value={formik.values.zipcode}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.zipcode && Boolean(formik.errors.zipcode)
+                  }
+                  helperText={formik.touched.zipcode && formik.errors.zipcode}
+                  margin='normal'
+                  inputProps={{
+                    'data-cy': 'customer-zipcode',
+                    style: { fontFamily: 'Lora' },
+                  }}
+                  FormHelperTextProps={
+                    {
+                      'data-cy': 'customer-zipcode-error',
+                    } as CustomFormHelperTextProps
+                  }
+                  autoComplete='postal-code'
+                />
+              </Grid>
+
+              {/* CITY INPUT */}
+
+              <Grid
+                sx={formStyle}
+                item
+                md={6}
+                display='flex'
+                alignSelf='flex-start'
+              >
+                <TextField
+                  fullWidth
+                  id='city'
+                  label='City'
+                  value={formik.values.city}
+                  onChange={formik.handleChange}
+                  error={formik.touched.city && Boolean(formik.errors.city)}
+                  helperText={formik.touched.city && formik.errors.city}
+                  margin='normal'
+                  inputProps={{
+                    'data-cy': 'customer-city',
+                    style: { fontFamily: 'Lora' },
+                  }}
+                  FormHelperTextProps={
+                    {
+                      'data-cy': 'customer-city-error',
+                    } as CustomFormHelperTextProps
+                  }
+                  autoComplete='address-level2'
+                />
+              </Grid>
             </Grid>
 
-            {/* PHONE NUMBER INPUT */}
+            {/* SUBMIT FORM BUTTON */}
 
-            <Grid
-              sx={formStyle}
-              item
-              md={6}
-              display='flex'
-              alignSelf='flex-start'
-            >
-              <TextField
-                fullWidth
-                id='phoneNumber'
-                label='Phone number'
-                type='tel'
-                value={formik.values.phoneNumber}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.phoneNumber &&
-                  Boolean(formik.errors.phoneNumber)
-                }
-                helperText={
-                  formik.touched.phoneNumber && formik.errors.phoneNumber
-                }
-                margin='normal'
-                inputProps={{
-                  'data-cy': 'customer-phone',
-                  style: { fontFamily: 'Lora' },
-                }}
-                FormHelperTextProps={
-                  {
-                    'data-cy': 'customer-phone-error',
-                  } as CustomFormHelperTextProps
-                }
-                autoComplete='tel'
-              />
-            </Grid>
-
-            {/* ADDRESS INPUT */}
-
-            <Grid
-              sx={formStyle}
-              item
-              md={6}
-              display='flex'
-              alignSelf='flex-start'
-            >
-              <TextField
-                fullWidth
-                id='address'
-                label='Address'
-                value={formik.values.address}
-                onChange={formik.handleChange}
-                error={formik.touched.address && Boolean(formik.errors.address)}
-                helperText={formik.touched.address && formik.errors.address}
-                margin='normal'
-                inputProps={{
-                  'data-cy': 'customer-address',
-                  style: { fontFamily: 'Lora' },
-                }}
-                FormHelperTextProps={
-                  {
-                    'data-cy': 'customer-address-error',
-                  } as CustomFormHelperTextProps
-                }
-                autoComplete='street-address'
-              />
-            </Grid>
-
-            {/* POSTAL CODE INPUT */}
-
-            <Grid
-              sx={formStyle}
-              item
-              md={6}
-              display='flex'
-              alignSelf='flex-start'
-            >
-              <TextField
-                fullWidth
-                id='zipcode'
-                label='Zip code'
-                value={formik.values.zipcode}
-                onChange={formik.handleChange}
-                error={formik.touched.zipcode && Boolean(formik.errors.zipcode)}
-                helperText={formik.touched.zipcode && formik.errors.zipcode}
-                margin='normal'
-                inputProps={{
-                  'data-cy': 'customer-zipcode',
-                  style: { fontFamily: 'Lora' },
-                }}
-                FormHelperTextProps={
-                  {
-                    'data-cy': 'customer-zipcode-error',
-                  } as CustomFormHelperTextProps
-                }
-                autoComplete='postal-code'
-              />
-            </Grid>
-
-            {/* CITY INPUT */}
-
-            <Grid
-              sx={formStyle}
-              item
-              md={6}
-              display='flex'
-              alignSelf='flex-start'
-            >
-              <TextField
-                fullWidth
-                id='city'
-                label='City'
-                value={formik.values.city}
-                onChange={formik.handleChange}
-                error={formik.touched.city && Boolean(formik.errors.city)}
-                helperText={formik.touched.city && formik.errors.city}
-                margin='normal'
-                inputProps={{
-                  'data-cy': 'customer-city',
-                  style: { fontFamily: 'Lora' },
-                }}
-                FormHelperTextProps={
-                  {
-                    'data-cy': 'customer-city-error',
-                  } as CustomFormHelperTextProps
-                }
-                autoComplete='address-level2'
-              />
-            </Grid>
-          </Grid>
-
-          {/* SUBMIT FORM BUTTON */}
-
-          <Container sx={buttonContainer}>
-            <Button
-              sx={buttonStyle}
-              color='primary'
-              variant='contained'
-              type='submit'
-            >
-              Place order
-            </Button>
+            <Container sx={buttonContainer}>
+              <Button
+                sx={buttonStyle}
+                color='primary'
+                variant='contained'
+                type='submit'
+                onClick={handlePlaceOrder}
+              >
+                Place order
+              </Button>
+            </Container>
           </Container>
+        </form>
+      ) : (
+        <Container sx={NavlinkContainer}>
+          <Button onClick={() => navigate('/login')}>
+            Please login to place an order!
+          </Button>
+          <Button onClick={() => navigate('/register')}>
+            If you don't have an account, register here.
+          </Button>
         </Container>
-      </form>
+      )}
     </Paper>
   );
 }
@@ -381,4 +403,15 @@ const buttonContainer: SxProps<Theme> = theme => ({
   display: 'flex',
   justifyContent: 'center',
   paddingTop: '2rem',
+});
+
+const NavlinkContainer: SxProps<Theme> = theme => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  padding: '1rem',
+  '&:hover': {
+    color: 'black',
+  },
 });
