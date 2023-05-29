@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { array, number, object } from 'yup';
+import { ProductModel } from '../products/product-model';
 import { OrderModel } from './order-model';
 
 export async function getOrders(req: Request, res: Response) {}
@@ -14,6 +15,20 @@ export async function createOrder(req: Request, res: Response) {
 
   const newOrder = new OrderModel({ ...req.body, user: req.session?._id });
   const savedPost = await newOrder.save();
+
+  // Change the stock of the products
+  const orderRows = req.body.orderRows;
+  for (const row of orderRows) {
+    const product = await ProductModel.findOneAndUpdate(
+      { _id: row.productId },
+      { $inc: { inStock: -row.quantity } }
+    );
+    if (!product) {
+      throw new Error('Product not found');
+    }
+    await product.save();
+  }
+
   res.status(201).json(savedPost);
 }
 
