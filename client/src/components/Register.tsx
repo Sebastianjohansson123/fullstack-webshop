@@ -1,10 +1,12 @@
 import {
-  Alert,
+  
   Box,
   Button,
-  Paper,
+  
   TextField,
   useMediaQuery,
+  Container,
+
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
@@ -64,101 +66,112 @@ export default function RegisterForm() {
     },
   });
 
-  const isSmallScreen = useMediaQuery('sm');
+ const isSmallScreen= useMediaQuery ("max-width:600px")
+
   return (
-    <Paper
-      elevation={6}
-      sx={{
-        maxWidth: '60rem',
-        width: '90%',
-        margin: 'auto',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2rem',
-      }}
+    <Container style={{ display: 'flex', justifyContent: 'center' }}>
+    <Box
+      component='form'
+      sx={{maxWidth:'60rem',
+    width:'90%',
+  margin:'auto',
+  display:'flex',
+  alignItems:'center',
+  justifyContent:'center',
+  flexDirection:'column',
+  padding:'2rem',
+  gap:'1rem',
+
+}}
+
+          
+   
+     
+      noValidate
+      onSubmit={formik.handleSubmit}
     >
-      <Box
-        component='form'
-        sx={{
-          '& > :not(style)': {
-            width: isSmallScreen ? '15rem' : '25rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.5rem',
-            height: 'auto',
-            paddingBottom: '1rem',
-          },
+      <span style={{ fontSize: '30px' }}>Register Account</span>
+      <TextField
+        
+        id='Username'
+        name='username'
+        label='username'
+        type='text'
+        variant='outlined'
+        value={formik.values.username}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.username && Boolean(formik.errors.username)}
+        helperText={formik.touched.username && formik.errors.username}
+      InputProps={{
+
+
+        sx:{backgroundColor:'white'},
+      }}
+      FormHelperTextProps={{
+        sx:{
+          backgroundColor:'transparent',
+        }
+      }}
+
+
+
+
+      />
+      <TextField
+        id='password'
+        name='password'
+        label='Lösenord'
+        type='password'
+        
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.password && Boolean(formik.errors.password)}
+        helperText={formik.touched.password && formik.errors.password}
+        inputProps={{
+          sx:{backgroundColor:'white'},
         }}
-        noValidate
-        onSubmit={formik.handleSubmit}
-      >
-        <TextField
-          id='username'
-          name='username'
-          label='Användarnamn'
-          type='text'
-          value={formik.values.username}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.username && Boolean(formik.errors.username)}
-          helperText={formik.touched.username && formik.errors.username}
-          InputProps={{
-            sx: { backgroundColor: 'white' },
-          }}
-          FormHelperTextProps={{
-            sx: {
-              backgroundColor: 'transparent',
-            },
-          }}
-        />
-        <TextField
-          id='password'
-          name='password'
-          label='Lösenord'
-          type='password'
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-          InputProps={{
-            sx: { backgroundColor: 'white' },
-          }}
-          FormHelperTextProps={{
-            sx: {
-              backgroundColor: 'transparent',
-            },
-          }}
-        />
-        <TextField
-          id='confirmPassword'
-          name='confirmPassword'
-          label='Bekräfta lösenord'
-          type='password'
-          value={formik.values.confirmPassword}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={
-            formik.touched.confirmPassword &&
-            Boolean(formik.errors.confirmPassword)
+
+        FormHelperTextProps={{
+          sx:{
+            backgroundColor:'transparent',
           }
-          helperText={
-            formik.touched.confirmPassword && formik.errors.confirmPassword
-          }
-          InputProps={{
-            sx: { backgroundColor: 'white' },
-          }}
-          FormHelperTextProps={{
-            sx: {
-              backgroundColor: 'transparent',
-            },
-          }}
+        }}
+
         />
-        <Button color='primary' type='submit' variant='contained'>
+
+        <TextField
+        id='confirmPassword'
+        name='confirmPassword'
+        label='Bekräfta lösenord'
+        type='password'
+        
+        value={formik.values.confirmPassword}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={formik.touched.password && Boolean(formik.errors.password)}
+        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+        inputProps={{
+          sx:{backgroundColor:'white'},
+        }}
+
+        FormHelperTextProps={{
+          sx:{
+            backgroundColor:'transparent',
+          }
+        }}
+        />
+
+       <Button color='primary' type='submit' variant='contained'>
           Skapa konto
         </Button>
-      </Box>
-    </Paper>
+    </Box>
+  </Container>
   );
 }
+
+
+
+
+    
