@@ -12,7 +12,7 @@ import {
 export const orderRouter = express
   .Router()
   .get('/api/orders', adminAuth, getOrders)
+  .post('/api/orders/create', createOrder) // auth
   .get('/api/orders/user/:userid', auth, getOrdersByUserId)
   .get('/api/orders/:id', adminAuth, getOrderById)
-  .put('/api/orders/:id', adminAuth, updateOrderById)
-  .post('/api/orders', auth, createOrder);
+  .put('/api/orders/:id', adminAuth, updateOrderById);

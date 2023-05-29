@@ -5,7 +5,7 @@ interface FormData {
   fullName: string;
   email: string;
   phoneNumber: string;
-  zipcode: string;
+  zipCode: string;
   city: string;
 }
 // Set the default values for the formdata and clearForm function
@@ -20,7 +20,7 @@ const defaultFormData: FormContextTypes = {
     fullName: '',
     email: '',
     phoneNumber: '',
-    zipcode: '',
+    zipCode: '',
     city: '',
   },
   // setFormValues: () => {},

@@ -54,9 +54,16 @@ export async function loginUser(req: Request, res: Response) {
     return;
   }
 
+  // req.session! = {
+  //   username: user?.username,
+  //   isAdmin: false,
+  //   _id: user?._id,
+  // };
+
   req.session! = {
+    _id: user?.id,
     username: user?.username,
-    isAdmin: false,
+    isAdmin: user?.isAdmin,
   };
 
   // req.session!.username = user.username;
