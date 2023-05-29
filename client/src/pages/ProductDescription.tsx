@@ -99,14 +99,6 @@ function ProductDescription() {
               >
                 {product.description}
               </Typography>
-              {product.details1 || product.details2 || product.details3 ? (
-                <Typography
-                  variant='h6'
-                  sx={{ mt: 2, mb: 1, fontSize: '1rem' }}
-                >
-                  Product Details
-                </Typography>
-              ) : null}
               <Box>
                 <ul>
                   {product.details.map((d, index) => (
