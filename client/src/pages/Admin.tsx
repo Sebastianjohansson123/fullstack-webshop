@@ -1,4 +1,14 @@
-import { Box, Button, Grid, SxProps, Theme, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  MenuItem,
+  Select,
+  SxProps,
+  Theme,
+  Typography,
+} from '@mui/material';
+import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import AdminCardProduct from '../components/AdminCardProduct';
 import CoatList from '../components/CoatList';
@@ -8,17 +18,13 @@ import UserList from '../components/UserList';
 import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
 function Admin() {
-  const { databaseProducts } = useProducts();
-  const { user } = useUserContext();
-
   const [selectedSection, setSelectedSection] = useState('categories');
+  const { products } = useProducts();
+  const { user } = useUserContext();
 
   const handleSectionChange = (event: any) => {
     setSelectedSection(event.target.value);
   };
-
-  const { products } = useProducts();
-  const { user } = useUserContext();
 
   return (
     <>
@@ -62,18 +68,18 @@ function Admin() {
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
             {selectedSection === 'categories' &&
               products.map(dataProduct => (
-              <Grid
-                key={dataProduct._id}
-                sx={AdminCardListSx}
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                xl={3}
-              >
-                <AdminCardProduct dataProduct={dataProduct} />
-              </Grid>
+                <Grid
+                  key={dataProduct._id}
+                  sx={AdminCardListSx}
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                >
+                  <AdminCardProduct dataProduct={dataProduct} />
+                </Grid>
               ))}
             {selectedSection === 'orders' && <OrderList />}
             {selectedSection === 'users' && <UserList />}
@@ -147,12 +153,15 @@ const productContainerSx: SxProps<Theme> = theme => ({
   },
 });
 
-
 const dropdownContainerSx: SxProps<Theme> = {
   display: 'flex',
   justifyContent: 'center',
   marginBottom: '1rem',
 };
+const userControllsSx: SxProps<Theme> = theme => ({
+  display: 'flex',
+  flexDirection: 'row',
+});
 
 const addProductContainerSx: SxProps<Theme> = theme => ({
   display: 'flex',
@@ -163,9 +172,6 @@ const addProductContainerSx: SxProps<Theme> = theme => ({
     alignItems: 'center',
     marginRight: '3.2rem',
   },
-const userControllsSx: SxProps<Theme> = theme => ({
-  display: 'flex',
-  flexDirection: 'row',
 });
 
 export default Admin;
