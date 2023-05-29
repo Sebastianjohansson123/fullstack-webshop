@@ -91,8 +91,8 @@ function CheckoutCard({ cartItem }: Props) {
             <CardMedia
               sx={loading || error ? { display: 'none' } : {}}
               component='img'
-              image={cartItem.image}
-              alt={cartItem.title}
+              image={`http://localhost:3000/api/images/` + cartItem.image}
+              alt={cartItem.name}
               onLoad={handleLoad}
               onError={handleError}
             />
