@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 
-function OrdersList() {
+function OrderList() {
   return (
     <>
       <Grid item xs={12}>
@@ -11,4 +11,4 @@ function OrdersList() {
   );
 }
 
-export default OrdersList;
+export default OrderList;
