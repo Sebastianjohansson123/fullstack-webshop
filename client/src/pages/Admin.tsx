@@ -11,6 +11,10 @@ import {
 import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import AdminCardProduct from '../components/AdminCardProduct';
+import CoatList from '../components/CoatList';
+import HatList from '../components/HatList';
+import OrderList from '../components/OrderList';
+import UserList from '../components/UserList';
 import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
 
@@ -19,7 +23,11 @@ function Admin() {
   const { databaseProducts } = useProducts();
   const { user } = useUserContext();
 
-  const [selectedSection, setSelectedSection] = useState('products');
+  const [selectedSection, setSelectedSection] = useState('categories');
+
+  const handleSectionChange = (event: any) => {
+    setSelectedSection(event.target.value);
+  };
 
   return (
     <>
@@ -29,26 +37,34 @@ function Admin() {
           <Box sx={headerSx}>
             <Typography variant={'h3'}>Admin</Typography>
             <Box sx={dropdownContainerSx}>
-              <Select value={selectedSection} variant='outlined'>
-                <MenuItem value='products'>Products</MenuItem>
+              <Select
+                value={selectedSection}
+                onChange={handleSectionChange}
+                variant='outlined'
+              >
+                <MenuItem value='categories'>Categories</MenuItem>
                 <MenuItem value='orders'>Orders</MenuItem>
                 <MenuItem value='users'>Users</MenuItem>
+                <MenuItem value='hats'>Hats</MenuItem>
+                <MenuItem value='coats'>Coats</MenuItem>
               </Select>
             </Box>
-            {selectedSection === 'products' && (
+          </Box>
+          <Box sx={addProductContainerSx}>
+            {selectedSection === 'categories' && (
               <Link to='/admin/product/new-product'>
                 <Button
                   data-cy='admin-add-product'
                   sx={addProductBtnSx}
                   variant='contained'
                 >
-                  <Typography variant={'body2'}>Add New Product</Typography>
+                  <Typography variant={'body2'}>New Product</Typography>
                 </Button>
               </Link>
             )}
           </Box>
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
-            {selectedSection === 'products' &&
+            {selectedSection === 'categories' &&
               databaseProducts.map(dataProduct => (
                 <Grid
                   key={dataProduct.id}
@@ -63,6 +79,10 @@ function Admin() {
                   <AdminCardProduct dataProduct={dataProduct} />
                 </Grid>
               ))}
+            {selectedSection === 'orders' && <OrderList />}
+            {selectedSection === 'users' && <UserList />}
+            {selectedSection === 'hats' && <HatList />}
+            {selectedSection === 'coats' && <CoatList />}
           </Grid>
         </Box>
       </Box>
@@ -136,5 +156,16 @@ const dropdownContainerSx: SxProps<Theme> = {
   justifyContent: 'center',
   marginBottom: '1rem',
 };
+
+const addProductContainerSx: SxProps<Theme> = theme => ({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  marginBottom: '20px',
+  marginRight: '2.5rem',
+  [theme.breakpoints.down('sm')]: {
+    alignItems: 'center',
+    marginRight: '3.2rem',
+  },
+});
 
 export default Admin;
