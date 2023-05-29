@@ -80,10 +80,15 @@ export default function ProductCard({ product }: Props) {
         </StyledCardActionArea>
       </Link>
       <Box sx={{ marginTop: 'auto' }}>
-        <AddToCartButton
+        {/* <AddToCartButton
           product={product}
           quantity={defaultQuantity}
           onAddToCart={() => console.log('eslint = ägd')}
+        /> */}
+        <AddToCartButton
+          product={product}
+          quantity={defaultQuantity}
+          onAddToCart={() => {}}
         />
       </Box>
     </Card>

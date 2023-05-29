@@ -105,7 +105,7 @@ function CheckoutCard({ cartItem }: Props) {
               variant='h3'
               sx={mediaFontSizeStyleSx}
             >
-              {cartItem.title}
+              {cartItem.name}
             </Typography>
             <Typography
               variant='body2'
@@ -137,7 +137,7 @@ function CheckoutCard({ cartItem }: Props) {
               color='secondary'
               sx={changeQuantityBtnStyleSx}
               onClick={() => {
-                decreaseProductFromCart(cartItem.id, cartItem.quantity - 1);
+                decreaseProductFromCart(cartItem, cartItem.quantity - 1);
               }}
             >
               <Typography variant='body2' sx={{ fontWeight: '800' }}>
