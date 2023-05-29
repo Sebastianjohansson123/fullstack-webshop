@@ -11,3 +11,7 @@ Content-Type: image/jpeg
 
 < ./earth.jpg
 --FormDataRow--
+
+
+
+GET http://localhost:3000/api/images/

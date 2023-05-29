@@ -12,7 +12,7 @@ import ProductCard from '../components/ProductCard';
 import { useProducts } from '../contexts/ProductsContext';
 
 function Home() {
-  const {  products, getProducts } = useProducts();
+  const { products, getProducts } = useProducts();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const handleLoad = () => {
@@ -44,6 +44,10 @@ function Home() {
         />
       </Box>
       <Box sx={productContainerSx}>
+        <img
+          src='http://localhost:3000/api/images/646f730758b2d4b69ec11c03'
+          alt=''
+        />
         <Typography sx={h3StyleSx} variant='h3' gutterBottom>
           Our Products
         </Typography>

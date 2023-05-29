@@ -5,7 +5,16 @@ import sharp from 'sharp';
 import { fileBucket } from './image-model';
 
 export async function getImageById(req: Request, res: Response) {
-  // logic to get an image by id
+  const _id = new mongoose.mongo.ObjectId(req.params.id);
+
+  const file = await fileBucket.find({ _id }).next();
+  if (!file) {
+    return res.status(404).json({ error: 'File not found' });
+  }
+
+  res.set('Content-Type', file.contentType);
+  const downloadStream = fileBucket.openDownloadStream(_id);
+  downloadStream.pipe(res);
 }
 export async function uploadImage(req: Request, res: Response) {
   const bb = busboy({ headers: req.headers });
