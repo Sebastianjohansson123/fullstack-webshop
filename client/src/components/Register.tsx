@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  TextField,
-  Container,
-  Snackbar
-} from '@mui/material';
+import { Box, Button, TextField, Container, Snackbar } from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -26,9 +20,8 @@ const registerSchema = Yup.object().shape({
     .oneOf([Yup.ref('password')], 'Lösenorden matchar inte varandra'),
 });
 
- function RegisterForm() {
- 
-  const [snackbar, setSnackbar] = useState(false); 
+function RegisterForm() {
+  const [snackbar, setSnackbar] = useState(false);
   const navigate = useNavigate();
   const formik = useFormik<RegisterValues>({
     initialValues: {
@@ -68,9 +61,8 @@ const registerSchema = Yup.object().shape({
     setSnackbar(false);
   };
 
-
   return (
-<Container style={{ display: 'flex', justifyContent: 'center' }}>
+    <Container style={{ display: 'flex', justifyContent: 'center' }}>
       <Box
         component='form'
         display={'flex'}
@@ -108,20 +100,21 @@ const registerSchema = Yup.object().shape({
           helperText={formik.touched.password && formik.errors.password}
         />
         <TextField
-        fullWidth
-        id='confirmPassword'
-        name='confirmPassword'
-        label='Bekräfta lösenord'
-        type='password'
-        
-        value={formik.values.confirmPassword}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={formik.touched.password && Boolean(formik.errors.password)}
-        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+          fullWidth
+          id='confirmPassword'
+          name='confirmPassword'
+          label='Bekräfta lösenord'
+          type='password'
+          value={formik.values.confirmPassword}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={
+            formik.touched.confirmPassword && formik.errors.confirmPassword
+          }
         />
         <Button
-        fullWidth
+          fullWidth
           type='submit'
           variant='contained'
           sx={{ boxShadow: 'none', marginTop: '1rem' }}
@@ -130,25 +123,15 @@ const registerSchema = Yup.object().shape({
           Skapa konto
         </Button>
       </Box>
-      <Snackbar 
-
-      open={snackbar}
-      autoHideDuration ={6000}
-      onClose={handleSnackbarClose}
-      message="Registrering lyckades!"
-      onClick={() => navigate('/login')}
+      <Snackbar
+        open={snackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message='Registrering lyckades!'
+        onClick={() => navigate('/login')}
       />
-
-
-      
-      
-  
     </Container>
-
-
-)}
-
+  );
+}
 
 export default RegisterForm;
-
-    
