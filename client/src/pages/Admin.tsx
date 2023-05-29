@@ -1,12 +1,30 @@
-import { Box, Button, Grid, SxProps, Theme, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  MenuItem,
+  Select,
+  SxProps,
+  Theme,
+  Typography,
+} from '@mui/material';
+import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import AdminCardProduct from '../components/AdminCardProduct';
+import CoatList from '../components/CoatList';
+import HatList from '../components/HatList';
+import OrderList from '../components/OrderList';
+import UserList from '../components/UserList';
 import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
-
 function Admin() {
+  const [selectedSection, setSelectedSection] = useState('categories');
   const { products } = useProducts();
   const { user } = useUserContext();
+
+  const handleSectionChange = (event: any) => {
+    setSelectedSection(event.target.value);
+  };
 
   return (
     <>
@@ -15,15 +33,32 @@ function Admin() {
         <Box sx={productContainerSx}>
           <Box sx={headerSx}>
             <Typography variant={'h3'}>Admin</Typography>
-            <Link to='/admin/product/new-product'>
-              <Button
-                data-cy='admin-add-product'
-                sx={addProductBtnSx}
-                variant='contained'
+            <Box sx={dropdownContainerSx}>
+              <Select
+                value={selectedSection}
+                onChange={handleSectionChange}
+                variant='outlined'
               >
-                <Typography variant={'body2'}>Add New Product</Typography>
-              </Button>
-            </Link>
+                <MenuItem value='categories'>Categories</MenuItem>
+                <MenuItem value='orders'>Orders</MenuItem>
+                <MenuItem value='users'>Users</MenuItem>
+                <MenuItem value='hats'>Hats</MenuItem>
+                <MenuItem value='coats'>Coats</MenuItem>
+              </Select>
+            </Box>
+          </Box>
+          <Box sx={addProductContainerSx}>
+            {selectedSection === 'categories' && (
+              <Link to='/admin/product/new-product'>
+                <Button
+                  data-cy='admin-add-product'
+                  sx={addProductBtnSx}
+                  variant='contained'
+                >
+                  <Typography variant={'body2'}>New Product</Typography>
+                </Button>
+              </Link>
+            )}
           </Box>
           <Box sx={userControllsSx}>
             <Button>Products</Button>
@@ -31,20 +66,25 @@ function Admin() {
             <Button>Orders</Button>
           </Box>
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
-            {products.map(dataProduct => (
-              <Grid
-                key={dataProduct._id}
-                sx={AdminCardListSx}
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                xl={3}
-              >
-                <AdminCardProduct dataProduct={dataProduct} />
-              </Grid>
-            ))}
+            {selectedSection === 'categories' &&
+              products.map(dataProduct => (
+                <Grid
+                  key={dataProduct._id}
+                  sx={AdminCardListSx}
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                >
+                  <AdminCardProduct dataProduct={dataProduct} />
+                </Grid>
+              ))}
+            {selectedSection === 'orders' && <OrderList />}
+            {selectedSection === 'users' && <UserList />}
+            {selectedSection === 'hats' && <HatList />}
+            {selectedSection === 'coats' && <CoatList />}
           </Grid>
         </Box>
       </Box>
@@ -70,7 +110,7 @@ const headerSx: SxProps<Theme> = theme => ({
   },
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
-    height: '8rem',
+    height: '9.5rem',
     width: '100%',
     pr: '0rem',
   },
@@ -113,9 +153,25 @@ const productContainerSx: SxProps<Theme> = theme => ({
   },
 });
 
+const dropdownContainerSx: SxProps<Theme> = {
+  display: 'flex',
+  justifyContent: 'center',
+  marginBottom: '1rem',
+};
 const userControllsSx: SxProps<Theme> = theme => ({
   display: 'flex',
   flexDirection: 'row',
+});
+
+const addProductContainerSx: SxProps<Theme> = theme => ({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  marginBottom: '20px',
+  marginRight: '2.5rem',
+  [theme.breakpoints.down('sm')]: {
+    alignItems: 'center',
+    marginRight: '3.2rem',
+  },
 });
 
 export default Admin;
