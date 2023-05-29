@@ -25,10 +25,16 @@ function Admin() {
                 data-cy='admin-add-product'
                 sx={addProductBtnSx}
                 variant='contained'
-              >
+                >
                 <Typography variant={'body2'}>Add New Product</Typography>
               </Button>
             </Link>
+          </Box>
+          <Box sx={userControllsSx}>
+
+               <Button>Products</Button>
+               <Button>Users</Button>
+               <Button>Orders</Button>
           </Box>
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
             {databaseProducts.map(dataProduct => (
@@ -111,6 +117,13 @@ const productContainerSx: SxProps<Theme> = theme => ({
     width: '242px',
     paddingLeft: '0rem',
   },
+
+  
 });
+
+const userControllsSx: SxProps<Theme> = theme => ({
+  display: 'flex',
+  flexDirection: 'row',
+})
 
 export default Admin;
