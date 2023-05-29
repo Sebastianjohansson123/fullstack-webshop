@@ -25,6 +25,11 @@ function Admin() {
               </Button>
             </Link>
           </Box>
+          <Box sx={userControllsSx}>
+            <Button>Products</Button>
+            <Button>Users</Button>
+            <Button>Orders</Button>
+          </Box>
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
             {products.map(dataProduct => (
               <Grid
@@ -106,6 +111,11 @@ const productContainerSx: SxProps<Theme> = theme => ({
     width: '242px',
     paddingLeft: '0rem',
   },
+});
+
+const userControllsSx: SxProps<Theme> = theme => ({
+  display: 'flex',
+  flexDirection: 'row',
 });
 
 export default Admin;
