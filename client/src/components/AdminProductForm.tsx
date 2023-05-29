@@ -31,7 +31,7 @@ import { useProducts } from '../contexts/ProductsContext';
 // type YupProduct = Record<keyof Omit<Product, 'id'>, Yup.AnySchema>;
 
 const adminFormSchema = Yup.object().shape({
-  title: Yup.string()
+  name: Yup.string()
     .required('Please write a product title')
     .min(
       2,
@@ -90,7 +90,7 @@ function AdminProductForm({ onSave, product }: Props) {
     validationSchema: adminFormSchema,
     initialValues: product || {
       image: '',
-      title: '',
+      name: '',
       description: '',
       price: 0,
       details1: '',
@@ -167,7 +167,7 @@ function AdminProductForm({ onSave, product }: Props) {
         <Paper elevation={3}>
           <Container sx={formContainer}>
             <Typography sx={fontStyle} variant='h3'>
-              {product ? `Editing "${product.title}"` : 'Add new product'}
+              {product ? `Editing "${product.name}"` : 'Add new product'}
             </Typography>
             {/* <Box sx={{ flexGrow: 1, margin: '1rem' }}>
               <input type='file' accept='image/*' onChange={handleFileChange} />
@@ -179,7 +179,7 @@ function AdminProductForm({ onSave, product }: Props) {
                 variant='body2'
                 gutterBottom
               >
-                {product ? `ID: "${product.id}"` : ''}
+                {product ? `ID: "${product._id}"` : ''}
               </Typography>
 
               {/* Image */}
@@ -196,11 +196,11 @@ function AdminProductForm({ onSave, product }: Props) {
                   name='image'
                   id='image'
                   // label='Product title'
-                  value={formik.values.title}
+                  value={formik.values.name}
                   // onChange={formik.handleChange}
                   onChange={handleFileChange}
-                  error={formik.touched.title && Boolean(formik.errors.title)}
-                  helperText={formik.touched.title && formik.errors.title}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
                   margin='normal'
                   type='file'
                   inputProps={{
@@ -208,7 +208,7 @@ function AdminProductForm({ onSave, product }: Props) {
                     style: { fontFamily: 'Lora' },
                   }}
                   FormHelperTextProps={
-                    { 'data-cy': 'product-title-error' } as never
+                    { 'data-cy': 'product-name-error' } as never
                   }
                 />
               )}
@@ -216,20 +216,20 @@ function AdminProductForm({ onSave, product }: Props) {
               {/* Title */}
               <TextField
                 fullWidth
-                name='title'
-                id='title'
-                label='Product title'
-                value={formik.values.title}
+                name='name'
+                id='name'
+                label='Product name'
+                value={formik.values.name}
                 onChange={formik.handleChange}
-                error={formik.touched.title && Boolean(formik.errors.title)}
-                helperText={formik.touched.title && formik.errors.title}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
                 margin='normal'
                 inputProps={{
                   'data-cy': 'product-title',
                   style: { fontFamily: 'Lora' },
                 }}
                 FormHelperTextProps={
-                  { 'data-cy': 'product-title-error' } as never
+                  { 'data-cy': 'product-name-error' } as never
                 }
               />
 
@@ -443,7 +443,8 @@ function AdminProductForm({ onSave, product }: Props) {
                                 category => category !== 'Hats'
                               )
                             );
-                          } if (formik.values.category !== undefined) {
+                          }
+                          if (formik.values.category !== undefined) {
                             formik.setFieldValue('category', [
                               ...formik.values.category,
                               'Hats',
@@ -468,7 +469,8 @@ function AdminProductForm({ onSave, product }: Props) {
                                 category => category !== 'Coats'
                               )
                             );
-                          } if (formik.values.category !== undefined) {
+                          }
+                          if (formik.values.category !== undefined) {
                             formik.setFieldValue('category', [
                               ...formik.values.category,
                               'Coats',
@@ -490,7 +492,7 @@ function AdminProductForm({ onSave, product }: Props) {
                   variant='contained'
                   type='submit'
                 >
-                  {product ? `Edit "${product.title}"` : 'Add product'}
+                  {product ? `Edit "${product.name}"` : 'Add product'}
                 </Button>
                 <Button
                   sx={closeBtnSx}

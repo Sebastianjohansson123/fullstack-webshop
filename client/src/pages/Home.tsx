@@ -44,17 +44,13 @@ function Home() {
         />
       </Box>
       <Box sx={productContainerSx}>
-        <img
-          src='http://localhost:3000/api/images/646f730758b2d4b69ec11c03'
-          alt=''
-        />
         <Typography sx={h3StyleSx} variant='h3' gutterBottom>
           Our Products
         </Typography>
         <Grid sx={cardListSx} container rowSpacing={5}>
           {products.map(product => (
             <Grid
-              key={product.id}
+              key={product._id}
               sx={cardListSx}
               item
               xs={12}

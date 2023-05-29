@@ -7,7 +7,6 @@ import {
   useState,
 } from 'react';
 import { Product } from '../../data';
-import { useLocalStorageState } from '../hooks/useLocalStorageState';
 
 // Interface
 interface ProductsContextValue {
@@ -24,19 +23,18 @@ export function useProducts() {
 
 // Context provider
 export function ProductsProvider(props: PropsWithChildren) {
-  const [products, setProducts] = useState<Product[]>([]);
-  
+  const [products, setProducts] = useState<[]>([]);
+
   const getProducts = useCallback(async () => {
     const response = await fetch('/api/product');
     const data = await response.json();
     setProducts(data);
-    console.log(data)
-  }, [])
+    console.log('procucts:', data);
+  }, []);
 
   useEffect(() => {
     getProducts();
   }, [getProducts]);
-
 
   // Local storage hook
 
