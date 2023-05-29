@@ -1,13 +1,19 @@
-import { InferSchemaType, Schema, model } from 'mongoose';
+import { InferSchemaType, Schema, SchemaTypes, model } from 'mongoose';
 
 const productSchema = new Schema(
   {
     name: String,
+    price: Number,
+    size: String,
+    color: String,
     description: String,
     details: [],
-    quantity: Number,
-    price: Number,
-    category: String,
+    inStock: Number,
+    category: [],
+    image: {
+      type: SchemaTypes.ObjectId,
+      // ref: 'Image',
+    },
   },
   {
     versionKey: false,

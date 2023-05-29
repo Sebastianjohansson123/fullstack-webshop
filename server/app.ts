@@ -17,6 +17,11 @@ app.use(
   })
 );
 
+
+app.use((req, res, next) => {
+  console.log(req.method, req.path, req.params);
+  next();
+});
 app.use(express.json());
 
 
@@ -31,7 +36,7 @@ app.use(imageRouter);
 
 // Error Handling --------------------------------------------------------------------------------------------------------------------
 app.use((req, res, next) => {
-  res.status(401).json('The resource you are looking for does not exist');
+  res.status(404).json('The resource you are looking for does not exist');
 });
 
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {

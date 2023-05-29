@@ -11,15 +11,15 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
-import { Product } from '../../data';
 import ProductBtnSection from '../components/ProductBtnSection';
 import { useProducts } from '../contexts/ProductsContext';
 
 // get the product id from the url and find the product to display
 function ProductDescription() {
   const { page, id } = useParams<{ page: string; id: string }>();
-  const { databaseProducts } = useProducts();
-  const product: Product | undefined = databaseProducts.find(p => p.id === id);
+  const { products } = useProducts();
+  // const product: Product | undefined = databaseProducts.find(p => p.id === id);
+  const product = products.find(p => p._id === id);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -71,8 +71,8 @@ function ProductDescription() {
               <CardMedia
                 sx={loading || error ? { display: 'none' } : {}}
                 component='img'
-                image={product.image}
-                alt={product.title}
+                image={`http://localhost:3000/api/images/` + product.image}
+                alt={product.name}
                 onLoad={handleLoad}
                 onError={handleError}
               />
@@ -83,7 +83,7 @@ function ProductDescription() {
                 variant='h4'
                 data-cy='product-title'
               >
-                {product.title}
+                {product.name}
               </Typography>
               <Typography variant='h6' data-cy='product-price'>
                 ${product.price} &nbsp; {'|'} &nbsp; {product.color} &nbsp;{' '}
@@ -99,42 +99,16 @@ function ProductDescription() {
               >
                 {product.description}
               </Typography>
-              {product.details1 || product.details2 || product.details3 ? (
-                <Typography
-                  variant='h6'
-                  sx={{ mt: 2, mb: 1, fontSize: '1rem' }}
-                >
-                  Product Details
-                </Typography>
-              ) : null}
               <Box>
-                <ul style={{ marginLeft: '1.5rem' }}>
-                  {product.details1 && (
-                    <li>
-                      <Typography component='span' variant='body2'>
-                        {product.details1}
-                      </Typography>
-                    </li>
-                  )}
-                  {product.details2 && (
-                    <li>
-                      <Typography component='span' variant='body2'>
-                        {product.details2}
-                      </Typography>
-                    </li>
-                  )}
-                  {product.details3 && (
-                    <li>
-                      <Typography component='span' variant='body2'>
-                        {product.details3}
-                      </Typography>
-                    </li>
-                  )}
+                <ul>
+                  {product.details.map((d, index) => (
+                    <li key={index}>{d}</li>
+                  ))}
                 </ul>
               </Box>
 
               <Box sx={{ display: 'flex', margin: '1.4rem 0rem 1rem 0rem' }}>
-                {(product.inStock as unknown) == 'false' ? (
+                {(product.inStock as never) < 1 ? (
                   <>
                     <Icon.HighlightOff sx={{ mr: 1, mt: 0.15, color: 'red' }} />
                     <Box>
@@ -152,7 +126,11 @@ function ProductDescription() {
                       sx={{ mr: 1, mt: 0.15, color: 'green' }}
                     />
                     <Box>
-                      <Typography variant='body1'>In stock</Typography>
+                      <Box sx={{ display: 'flex' }}>
+                        <Typography variant='body1'>
+                          {product.inStock} in stock
+                        </Typography>
+                      </Box>
                       <Typography sx={{ fontSize: '0.7rem' }}>
                         Expected delivery: 2—4 working days
                       </Typography>

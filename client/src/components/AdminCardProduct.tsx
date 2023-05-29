@@ -16,7 +16,6 @@ import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Product } from '../../data';
 import { useProducts } from '../contexts/ProductsContext';
-import AdminDeleteDialog from './AdminDeleteDialog';
 
 interface Props {
   dataProduct: Product;
@@ -24,9 +23,10 @@ interface Props {
 // Function for the cards to delete and edit inc. skeleton.
 export default function ProductCard({ dataProduct }: Props) {
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-  const { databaseProducts, setDatabaseProducts } = useProducts();
+  // const { databaseProducts, setDatabaseProducts } = useProducts();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const { products } = useProducts();
 
   const handleLoad = () => {
     setLoading(false);
@@ -38,24 +38,24 @@ export default function ProductCard({ dataProduct }: Props) {
     setError(true);
   };
 
-  const handleDelete = () => {
-    setOpenDeleteDialog(true);
-  };
+  // const handleDelete = () => {
+  //   setOpenDeleteDialog(true);
+  // };
 
   const handleCloseDeleteDialog = () => {
     setOpenDeleteDialog(false);
   };
 
-  const handleDeleteProduct = (product: Product) => {
-    const updatedProducts = databaseProducts.filter(p => p.id !== product.id);
-    setDatabaseProducts(updatedProducts);
-  };
+  // const handleDeleteProduct = (product: Product) => {
+  // const updatedProducts = databaseProducts.filter(p => p.id !== product.id);
+  // setDatabaseProducts(updatedProducts);
+  // };
 
   return (
     <Card sx={cardStyle} data-cy='product'>
       <Link
         style={{ textDecoration: 'none' }}
-        to={`/database/${dataProduct.id}`}
+        to={`/database/${dataProduct._id}`}
       >
         <StyledCardActionArea>
           <Box sx={{ position: 'relative' }}>
@@ -71,8 +71,8 @@ export default function ProductCard({ dataProduct }: Props) {
               sx={loading || error ? { display: 'none' } : imageStyle}
               component='img'
               height='150'
-              image={dataProduct.image}
-              alt={dataProduct.title}
+              image={`http://localhost:3000/api/images/` + dataProduct.image}
+              alt={dataProduct.name}
               onLoad={handleLoad}
               onError={handleError}
             />
@@ -97,7 +97,7 @@ export default function ProductCard({ dataProduct }: Props) {
                 ID:
               </span>
               <span style={{ fontSize: '0.8rem' }} data-cy='product-id'>
-                {dataProduct.id}
+                {dataProduct._id}
               </span>
             </Typography>
             <Typography
@@ -107,7 +107,7 @@ export default function ProductCard({ dataProduct }: Props) {
               component='div'
               data-cy='product-title'
             >
-              {dataProduct.title}
+              {dataProduct.name}
             </Typography>
           </CardContent>
         </StyledCardActionArea>
@@ -120,7 +120,7 @@ export default function ProductCard({ dataProduct }: Props) {
             flexDirection: 'column',
           }}
         >
-          <NavLink to={`/admin/product/${dataProduct.id}`}>
+          <NavLink to={`/admin/product/${dataProduct._id}`}>
             <Button
               data-cy='admin-edit-product'
               sx={editBtnStyle}
@@ -135,18 +135,18 @@ export default function ProductCard({ dataProduct }: Props) {
             sx={deleteBtnSX}
             variant='contained'
             color='error'
-            onClick={handleDelete}
+            // onClick={handleDelete}
           >
             <Typography variant='body2'>Delete Product</Typography>
           </Button>
         </Box>
       </Box>
-      <AdminDeleteDialog
+      {/* <AdminDeleteDialog
         open={openDeleteDialog}
         handleClose={handleCloseDeleteDialog}
         handleDelete={handleDeleteProduct}
         dataProduct={dataProduct}
-      />
+      /> */}
     </Card>
   );
 }

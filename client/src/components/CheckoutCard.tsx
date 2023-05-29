@@ -91,8 +91,8 @@ function CheckoutCard({ cartItem }: Props) {
             <CardMedia
               sx={loading || error ? { display: 'none' } : {}}
               component='img'
-              image={cartItem.image}
-              alt={cartItem.title}
+              image={`http://localhost:3000/api/images/` + cartItem.image}
+              alt={cartItem.name}
               onLoad={handleLoad}
               onError={handleError}
             />
@@ -105,7 +105,7 @@ function CheckoutCard({ cartItem }: Props) {
               variant='h3'
               sx={mediaFontSizeStyleSx}
             >
-              {cartItem.title}
+              {cartItem.name}
             </Typography>
             <Typography
               variant='body2'
@@ -137,7 +137,7 @@ function CheckoutCard({ cartItem }: Props) {
               color='secondary'
               sx={changeQuantityBtnStyleSx}
               onClick={() => {
-                decreaseProductFromCart(cartItem.id, cartItem.quantity - 1);
+                decreaseProductFromCart(cartItem, cartItem.quantity - 1);
               }}
             >
               <Typography variant='body2' sx={{ fontWeight: '800' }}>

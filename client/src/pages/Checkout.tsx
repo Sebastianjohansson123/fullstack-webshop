@@ -69,7 +69,7 @@ function Checkout() {
 
         <Stack spacing={{ xs: 1, sm: 2, md: 3 }}>
           {cartItems.map(cartItem => (
-            <CheckoutCard cartItem={cartItem} key={cartItem.id} />
+            <CheckoutCard cartItem={cartItem} key={cartItem._id} />
           ))}
         </Stack>
 

@@ -13,7 +13,7 @@ import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
 
 function Home() {
-  const { databaseProducts, setDatabaseProducts } = useProducts();
+  const { products, getProducts } = useProducts();
   const { user } = useUserContext();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -57,9 +57,9 @@ function Home() {
           Our Products
         </Typography>
         <Grid sx={cardListSx} container rowSpacing={5}>
-          {databaseProducts.map(product => (
+          {products.map(product => (
             <Grid
-              key={product.id}
+              key={product._id}
               sx={cardListSx}
               item
               xs={12}

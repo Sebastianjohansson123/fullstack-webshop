@@ -1,17 +1,12 @@
 import { Box, Button, Grid, SxProps, Theme, Typography } from '@mui/material';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import AdminCardProduct from '../components/AdminCardProduct';
 import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
 
 function Admin() {
-  useLocation();
-  const { databaseProducts } = useProducts();
-  const location = useLocation(); //    DESSA RADERNA!!!
+  const { products } = useProducts();
   const { user } = useUserContext();
-
-  // I Login komponenten
-  // location.state?.redirectTo || user!.isAdmin ? '/admin' : '/user';
 
   return (
     <>
@@ -31,9 +26,9 @@ function Admin() {
             </Link>
           </Box>
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
-            {databaseProducts.map(dataProduct => (
+            {products.map(dataProduct => (
               <Grid
-                key={dataProduct.id}
+                key={dataProduct._id}
                 sx={AdminCardListSx}
                 item
                 xs={12}

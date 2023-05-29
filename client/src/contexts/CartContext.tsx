@@ -5,7 +5,7 @@ import { useLocalStorageState } from '../hooks/useLocalStorageState';
 interface CartContextValue {
   cartItems: CartItem[];
   increaseProductToCart: (product: Product, quantity: number) => void;
-  decreaseProductFromCart: (productId: string, newQuantity: number) => void;
+  decreaseProductFromCart: (product: Product, newQuantity: number) => void;
   deleteProductFromCart: (product: Product) => void;
   clearProductsFromCart: () => void;
   totalPrice: number;
@@ -25,11 +25,11 @@ export function CartProvider(props: PropsWithChildren) {
 
   // add a product to the cart
   const increaseProductToCart = (product: Product, quantity: number) => {
-    if (!cartItems.some(cartItem => cartItem.id === product.id)) {
+    if (!cartItems.some(cartItem => cartItem._id === product._id)) {
       setCartItems([...cartItems, { ...product, quantity }]);
     } else {
       const updatedCartItems = cartItems.map(cartItem => {
-        if (cartItem.id === product.id) {
+        if (cartItem._id === product._id) {
           return { ...cartItem, quantity: cartItem.quantity + quantity };
         }
         return cartItem;
@@ -39,21 +39,21 @@ export function CartProvider(props: PropsWithChildren) {
   };
 
   // remove a product from the cart
-  const decreaseProductFromCart = (productId: string, newQuantity: number) => {
+  const decreaseProductFromCart = (product: Product, newQuantity: number) => {
     const existingCartItem = cartItems.find(
-      cartItem => cartItem.id === productId
+      cartItem => cartItem._id === product._id
     );
     if (!existingCartItem) {
       return;
     }
     if (newQuantity <= 0) {
       const updatedCartItems = cartItems.filter(
-        cartItem => cartItem.id !== productId
+        cartItem => cartItem._id !== product._id
       );
       setCartItems(updatedCartItems);
     } else {
       const updatedCartItems = cartItems.map(cartItem => {
-        if (cartItem.id === productId) {
+        if (cartItem._id === product._id) {
           return { ...cartItem, quantity: newQuantity };
         }
         return cartItem;
@@ -64,14 +64,14 @@ export function CartProvider(props: PropsWithChildren) {
   // Delete a product from the cart (remove all of the product from the cart)
   const deleteProductFromCart = (product: Product) => {
     const existingCartItem = cartItems.find(
-      cartItem => cartItem.id === product.id
+      cartItem => cartItem._id === product._id
     );
     if (!existingCartItem) {
       return;
     }
     if (existingCartItem.quantity >= 1) {
       const updatedCartItems = cartItems.filter(
-        cartItem => cartItem.id !== product.id
+        cartItem => cartItem._id !== product._id
       );
       setCartItems(updatedCartItems);
     }
