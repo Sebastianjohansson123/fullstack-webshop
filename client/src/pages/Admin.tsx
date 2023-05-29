@@ -1,5 +1,5 @@
 import { Box, Button, Grid, SxProps, Theme, Typography } from '@mui/material';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import AdminCardProduct from '../components/AdminCardProduct';
 import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
@@ -7,7 +7,6 @@ import { useUserContext } from '../contexts/UserContext';
 function Admin() {
   const { products } = useProducts();
   const { user } = useUserContext();
-
 
   return (
     <>
