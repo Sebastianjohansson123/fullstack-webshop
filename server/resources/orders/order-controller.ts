@@ -9,10 +9,10 @@ export async function getOrderById(req: Request, res: Response) {}
 export async function updateOrderById(req: Request, res: Response) {}
 
 export async function createOrder(req: Request, res: Response) {
-  console.log(req.session);
-  // const { adress, orderRows, totalPrice } = req.body;
-  // await orderAddSchema.validate(req.body);
+  // Validate the order
+  await orderAddSchema.validate(req.body);
 
+  // Create the order and save it
   const newOrder = new OrderModel({ ...req.body, user: req.session?._id });
   const savedPost = await newOrder.save();
 
@@ -35,12 +35,13 @@ export async function createOrder(req: Request, res: Response) {
 export async function getProductsByCategory(req: Request, res: Response) {}
 export async function addProduct(req: Request, res: Response) {}
 
-// await ProductAddSchema.validate(req.body);
+export async function updateProduct(req: Request, res: Response) {
+  // Validate the order
+  await orderAddSchema.validate(req.body);
 
-// const newProduct = new ProductModel(req.body);
-// await newProduct.save();
-// res.status(201).json(newProduct);
-
+  const product = await ProductModel.findOne({ _id: req.body.id });
+  await product?.updateOne({ $set: req.body });
+}
 export const orderAddSchema = object({
   address: object(),
   orderRows: array(),
