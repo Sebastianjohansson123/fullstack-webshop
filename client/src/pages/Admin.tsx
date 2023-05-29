@@ -1,4 +1,14 @@
-import { Box, Button, Grid, SxProps, Theme, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  MenuItem,
+  Select,
+  SxProps,
+  Theme,
+  Typography,
+} from '@mui/material';
+import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import AdminCardProduct from '../components/AdminCardProduct';
 import { useProducts } from '../contexts/ProductsContext';
@@ -7,11 +17,9 @@ import { useUserContext } from '../contexts/UserContext';
 function Admin() {
   useLocation();
   const { databaseProducts } = useProducts();
-  const location = useLocation(); //    DESSA RADERNA!!!
   const { user } = useUserContext();
 
-  // I Login komponenten
-  // location.state?.redirectTo || user!.isAdmin ? '/admin' : '/user';
+  const [selectedSection, setSelectedSection] = useState('products');
 
   return (
     <>
@@ -20,31 +28,41 @@ function Admin() {
         <Box sx={productContainerSx}>
           <Box sx={headerSx}>
             <Typography variant={'h3'}>Admin</Typography>
-            <Link to='/admin/product/new-product'>
-              <Button
-                data-cy='admin-add-product'
-                sx={addProductBtnSx}
-                variant='contained'
-              >
-                <Typography variant={'body2'}>Add New Product</Typography>
-              </Button>
-            </Link>
+            <Box sx={dropdownContainerSx}>
+              <Select value={selectedSection} variant='outlined'>
+                <MenuItem value='products'>Products</MenuItem>
+                <MenuItem value='orders'>Orders</MenuItem>
+                <MenuItem value='users'>Users</MenuItem>
+              </Select>
+            </Box>
+            {selectedSection === 'products' && (
+              <Link to='/admin/product/new-product'>
+                <Button
+                  data-cy='admin-add-product'
+                  sx={addProductBtnSx}
+                  variant='contained'
+                >
+                  <Typography variant={'body2'}>Add New Product</Typography>
+                </Button>
+              </Link>
+            )}
           </Box>
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
-            {databaseProducts.map(dataProduct => (
-              <Grid
-                key={dataProduct.id}
-                sx={AdminCardListSx}
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                xl={3}
-              >
-                <AdminCardProduct dataProduct={dataProduct} />
-              </Grid>
-            ))}
+            {selectedSection === 'products' &&
+              databaseProducts.map(dataProduct => (
+                <Grid
+                  key={dataProduct.id}
+                  sx={AdminCardListSx}
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                >
+                  <AdminCardProduct dataProduct={dataProduct} />
+                </Grid>
+              ))}
           </Grid>
         </Box>
       </Box>
@@ -70,7 +88,7 @@ const headerSx: SxProps<Theme> = theme => ({
   },
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
-    height: '8rem',
+    height: '9.5rem',
     width: '100%',
     pr: '0rem',
   },
@@ -112,5 +130,11 @@ const productContainerSx: SxProps<Theme> = theme => ({
     paddingLeft: '0rem',
   },
 });
+
+const dropdownContainerSx: SxProps<Theme> = {
+  display: 'flex',
+  justifyContent: 'center',
+  marginBottom: '1rem',
+};
 
 export default Admin;
