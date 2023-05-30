@@ -93,7 +93,7 @@ export default function ProductCard({ dataProduct }: Props) {
                   fontSize: '0.8rem',
                   fontWeight: '900',
                 }}
-                >
+              >
                 ID:
               </span>
               <span style={{ fontSize: '0.8rem' }} data-cy='product-id'>
