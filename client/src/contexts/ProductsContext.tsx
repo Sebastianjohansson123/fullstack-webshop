@@ -13,9 +13,7 @@ interface ProductsContextValue {
   products: Product[];
   getProducts: () => void;
   choosenCategory: string;
-  setChoosenCategory: React.Dispatch<React.SetStateAction<string>>
-
-  
+  setChoosenCategory: React.Dispatch<React.SetStateAction<string>>;
 }
 // Context setup
 const ProductsContext = createContext<ProductsContextValue>(null as never);
@@ -37,11 +35,12 @@ export function ProductsProvider(props: PropsWithChildren) {
     console.log('procucts:', data);
   }, []);
 
-  const getProductsByCategory  = useCallback(async () => {
-    if (choosenCategory === "allCategories") {
+  const getProductsByCategory = useCallback(async () => {
+    console.log(choosenCategory, 'FRÅN USEEFFECTEN!!!!!');
+    if (choosenCategory === 'allCategories') {
       getProducts();
-      return; 
-    };
+      return;
+    }
     const response = await fetch(`/api/product/${choosenCategory}`);
     const data = await response.json();
     setProducts(data);
@@ -50,7 +49,6 @@ export function ProductsProvider(props: PropsWithChildren) {
   useEffect(() => {
     getProductsByCategory();
   }, [choosenCategory, getProductsByCategory]);
-
 
   useEffect(() => {
     getProducts();

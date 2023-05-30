@@ -8,8 +8,9 @@ import {
   Theme,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import { Product } from '../../data';
 import AdminCardProduct from '../components/AdminCardProduct';
 import OrderList from '../components/OrderList';
 import UserList from '../components/UserList';
@@ -17,18 +18,37 @@ import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
 
 function Admin() {
-  const [selectedSection, setSelectedSection] = useState('categories');
+  const [selectedSection, setSelectedSection] = useState('allCategories');
   const { products } = useProducts();
   const { user } = useUserContext();
-  const [choosenCategory, setChoosenCategory] = useState<string>('');
+  const [choosenCategory, setChoosenCategory] = useState('allCategories');
+  const [productsOfChoosenCategory, setProductsOfChoosenCategory] = useState<
+    Product[]
+  >([]);
 
   // const { choosenCategory, categories} = useCategory();
 
   const handleSectionChange = (event: any) => {
-    setSelectedSection(event.target.value as string);
-    setChoosenCategory(event.target.value as string);
-    console.log("chooosen category", choosenCategory)
+    const newValue = event.target.value;
+    setSelectedSection(newValue);
+    filterProducts(newValue);
   };
+
+  function filterProducts(selectedSection: string) {
+    if (selectedSection === 'allCategories') {
+      setProductsOfChoosenCategory(products);
+    } else {
+      const filtered = products.filter(product =>
+        product.category.includes(selectedSection)
+      );
+      setProductsOfChoosenCategory(filtered);
+      console.log('filtered', filtered);
+    }
+  }
+
+  useEffect(() => {
+    filterProducts(selectedSection);
+  }, [products]);
 
   return (
     <>
@@ -52,21 +72,23 @@ function Admin() {
             </Box>
           </Box>
           <Box sx={addProductContainerSx}>
-            {selectedSection === 'allCategories' && (
-              <Link to='/admin/product/new-product'>
-                <Button
-                  data-cy='admin-add-product'
-                  sx={addProductBtnSx}
-                  variant='contained'
-                >
-                  <Typography variant={'body2'}>New Product</Typography>
-                </Button>
-              </Link>
-            )}
+            {selectedSection === 'allCategories' ||
+              selectedSection === 'Hats' ||
+              (selectedSection === 'Coats' && (
+                <Link to='/admin/product/new-product'>
+                  <Button
+                    data-cy='admin-add-product'
+                    sx={addProductBtnSx}
+                    variant='contained'
+                  >
+                    <Typography variant={'body2'}>New Product</Typography>
+                  </Button>
+                </Link>
+              ))}
           </Box>
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
             {selectedSection === 'allCategories' &&
-              products.map(dataProduct => (
+              productsOfChoosenCategory.map(dataProduct => (
                 <Grid
                   key={dataProduct._id}
                   sx={AdminCardListSx}
@@ -82,8 +104,36 @@ function Admin() {
               ))}
             {selectedSection === 'orders' && <OrderList />}
             {selectedSection === 'users' && <UserList />}
-            {/* {selectedSection === 'Hats' && <HatList />} */}
-            {/* {selectedSection === 'Coats' && <CoatList />} */}
+            {selectedSection === 'Hats' &&
+              productsOfChoosenCategory.map(dataProduct => (
+                <Grid
+                  key={dataProduct._id}
+                  sx={AdminCardListSx}
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                >
+                  <AdminCardProduct dataProduct={dataProduct} />
+                </Grid>
+              ))}
+            {selectedSection === 'Coats' &&
+              productsOfChoosenCategory.map(dataProduct => (
+                <Grid
+                  key={dataProduct._id}
+                  sx={AdminCardListSx}
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                >
+                  <AdminCardProduct dataProduct={dataProduct} />
+                </Grid>
+              ))}
           </Grid>
         </Box>
       </Box>
