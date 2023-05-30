@@ -11,8 +11,6 @@ import {
 import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import AdminCardProduct from '../components/AdminCardProduct';
-import CoatList from '../components/CoatList';
-import HatList from '../components/HatList';
 import OrderList from '../components/OrderList';
 import UserList from '../components/UserList';
 import { useProducts } from '../contexts/ProductsContext';
