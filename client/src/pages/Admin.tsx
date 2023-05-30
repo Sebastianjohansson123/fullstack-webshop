@@ -72,19 +72,17 @@ function Admin() {
             </Box>
           </Box>
           <Box sx={addProductContainerSx}>
-            {selectedSection === 'allCategories' ||
-              selectedSection === 'Hats' ||
-              (selectedSection === 'Coats' && (
-                <Link to='/admin/product/new-product'>
-                  <Button
-                    data-cy='admin-add-product'
-                    sx={addProductBtnSx}
-                    variant='contained'
-                  >
-                    <Typography variant={'body2'}>New Product</Typography>
-                  </Button>
-                </Link>
-              ))}
+            {selectedSection === 'allCategories' && (
+              <Link to='/admin/product/new-product'>
+                <Button
+                  data-cy='admin-add-product'
+                  sx={addProductBtnSx}
+                  variant='contained'
+                >
+                  <Typography variant={'body2'}>New Product</Typography>
+                </Button>
+              </Link>
+            )}
           </Box>
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
             {selectedSection === 'allCategories' &&
