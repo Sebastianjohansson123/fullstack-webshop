@@ -24,12 +24,17 @@ function Header() {
       </NavLink>
       <Box sx={iconWrapperStylesSX}>
         {user ? (
-          <p style={{ cursor: 'pointer' }} onClick={handleLogout}>
+          <NavLink onClick={handleLogout} to="./">
+          <Typography variant='body1'>
             Logout
-          </p>
+          </Typography>
+
+          </NavLink>
         ) : (
           <NavLink to='/login'>
-            <img style={{ width: '3rem' }} src={account} alt='Account' />
+            <Typography variant="body1">
+              Login
+              </Typography>
           </NavLink>
         )}
         <NavLink data-cy='admin-link' to='/admin'>
