@@ -62,7 +62,7 @@ function Home() {
   return (
     <Box sx={homeContainerSx}>
       {user?.username ? (
-        <Typography sx={h3StyleSx} style={{ fontSize: '2rem' }}>
+        <Typography sx={h3StyleSx} style={{ fontWeight: 'bold', marginBottom: '1rem'}}>
           Welcome {user?.username}!
         </Typography>
       ) : (
@@ -153,24 +153,28 @@ const categoryContainerSx: SxProps<Theme> = theme => ({
   justifyContent: 'space-between',
   width: '100%',
   marginBottom: '2rem',
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'Column',
+    FontSize: '10px',
+  },
 });
 
 const productContainerSx: SxProps<Theme> = theme => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  width: '1140px',
+  maxWidth: '1140px',
   paddingLeft: '2rem',
   [theme.breakpoints.down('lg')]: {
-    width: '880px',
+    maxWidth: '880px',
     paddingLeft: '2.2rem',
   },
   [theme.breakpoints.down('md')]: {
-    width: '610px',
+    maxWidth: '610px',
     paddingLeft: '2.6rem',
   },
   [theme.breakpoints.down('sm')]: {
-    width: '242px',
+    maxWidth: '242px',
     paddingLeft: '0rem',
   },
 });
@@ -196,9 +200,9 @@ const logoStyleSx: SxProps<Theme> = theme => ({
 });
 
 const h3StyleSx: SxProps<Theme> = theme => ({
-  display: 'none',
-  
-    [theme.breakpoints.up('sm')]: {
+  fontSize: '1.6rem',
+  [theme.breakpoints.up('sm')]: {
+    fontSize: '2.5rem',
     display: 'flex',
   },
 });
