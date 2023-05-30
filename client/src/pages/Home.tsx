@@ -13,7 +13,6 @@ import { useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
-import { P } from '../contexts/ProductsContext';
 
 function Home() {
   const { products, getProducts } = useProducts();
