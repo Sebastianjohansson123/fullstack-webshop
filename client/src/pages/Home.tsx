@@ -6,11 +6,15 @@ import {
   SxProps,
   Theme,
   Typography,
+  Select,
+  MenuItem,
+
 } from '@mui/material';
 import { useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
+import { P } from '../contexts/ProductsContext';
 
 function Home() {
   const { products, getProducts } = useProducts();
@@ -26,6 +30,14 @@ function Home() {
     setLoading(false);
     setError(true);
   };
+
+  //TODO : Fix so it sorts out the products by category
+  const [selectedSection, setSelectedSection] = useState('categories');
+  const handleSectionChange = (event: any) => {
+    setSelectedSection(event.target.value);
+  };
+
+  
 
   // Gridstyle on the main page
   return (
@@ -53,9 +65,24 @@ function Home() {
         />
       </Box>
       <Box sx={productContainerSx}>
+        <Box sx={categoryContainerSx}>
+
         <Typography sx={h3StyleSx} variant='h3' gutterBottom>
           Our Products
         </Typography>
+        <Box sx={dropdownContainerSx}>
+              <Select
+                value={selectedSection}
+                onChange={handleSectionChange}
+                variant='outlined'
+              >
+                <MenuItem value='categories'>All products</MenuItem>
+                <MenuItem value='hats'>Hats</MenuItem>
+                <MenuItem value='coats'>Coats</MenuItem>
+              </Select>
+            </Box>
+
+        </Box>
         <Grid sx={cardListSx} container rowSpacing={5}>
           {products.map(product => (
             <Grid
@@ -85,6 +112,15 @@ const homeContainerSx: SxProps<Theme> = theme => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+});
+
+const categoryContainerSx: SxProps<Theme> = theme => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  width: '100%',
+  marginBottom: '2rem',
 });
 
 const productContainerSx: SxProps<Theme> = theme => ({
@@ -149,5 +185,9 @@ const skeletonSx: SxProps<Theme> = theme => ({
     height: '9rem',
   },
 });
+
+const dropdownContainerSx: SxProps<Theme> = {
+ 
+};
 
 export default Home;
