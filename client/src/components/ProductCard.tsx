@@ -81,11 +81,6 @@ export default function ProductCard({ product }: Props) {
         </StyledCardActionArea>
       </Link>
       <Box sx={{ marginTop: 'auto' }}>
-        {/* <AddToCartButton
-          product={product}
-          quantity={defaultQuantity}
-          onAddToCart={() => console.log('eslint = ägd')}
-        /> */}
         <AddToCartButton
           product={product}
           quantity={defaultQuantity}
@@ -107,6 +102,7 @@ export default function ProductCard({ product }: Props) {
 
 const imageStyle: SxProps<Theme> = theme => ({
   objectFit: 'contain',
+  backgroundColor: 'transparent',
   pt: 2,
   pb: 2,
 });

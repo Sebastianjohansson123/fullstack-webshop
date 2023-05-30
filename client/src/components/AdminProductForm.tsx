@@ -318,27 +318,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 helperText={formik.touched.color && formik.errors.color}
                 margin='normal'
               />
-
-              {/* Image */}
-              <TextField
-                fullWidth
-                name='image'
-                id='image'
-                label='Image (URL)'
-                value={formik.values.image}
-                onChange={formik.handleChange}
-                error={formik.touched.image && Boolean(formik.errors.image)}
-                helperText={formik.touched.image && formik.errors.image}
-                margin='normal'
-                inputProps={{
-                  'data-cy': 'product-image',
-                  style: { fontFamily: 'Lora' },
-                }}
-                FormHelperTextProps={
-                  { 'data-cy': 'product-image-error' } as never
-                }
-              />
-
               {/* Description */}
               <TextField
                 fullWidth
