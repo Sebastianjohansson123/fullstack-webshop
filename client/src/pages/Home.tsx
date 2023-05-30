@@ -8,7 +8,6 @@ import {
   Typography,
   Select,
   MenuItem,
-
 } from '@mui/material';
 import { useState } from 'react';
 import ProductCard from '../components/ProductCard';
@@ -37,8 +36,6 @@ function Home() {
     setSelectedSection(event.target.value);
   };
 
-  
-
   // Gridstyle on the main page
   return (
     <Box sx={homeContainerSx}>
@@ -66,22 +63,20 @@ function Home() {
       </Box>
       <Box sx={productContainerSx}>
         <Box sx={categoryContainerSx}>
-
-        <Typography sx={h3StyleSx} variant='h3' gutterBottom>
-          Our Products
-        </Typography>
-        <Box sx={dropdownContainerSx}>
-              <Select
-                value={selectedSection}
-                onChange={handleSectionChange}
-                variant='outlined'
-              >
-                <MenuItem value='categories'>All products</MenuItem>
-                <MenuItem value='hats'>Hats</MenuItem>
-                <MenuItem value='coats'>Coats</MenuItem>
-              </Select>
-            </Box>
-
+          <Typography sx={h3StyleSx} variant='h3' gutterBottom>
+            Our Products
+          </Typography>
+          <Box sx={dropdownContainerSx}>
+            <Select
+              value={selectedSection}
+              onChange={handleSectionChange}
+              variant='outlined'
+            >
+              <MenuItem value='categories'>All products</MenuItem>
+              <MenuItem value='hats'>Hats</MenuItem>
+              <MenuItem value='coats'>Coats</MenuItem>
+            </Select>
+          </Box>
         </Box>
         <Grid sx={cardListSx} container rowSpacing={5}>
           {products.map(product => (
@@ -186,8 +181,6 @@ const skeletonSx: SxProps<Theme> = theme => ({
   },
 });
 
-const dropdownContainerSx: SxProps<Theme> = {
- 
-};
+const dropdownContainerSx: SxProps<Theme> = {};
 
 export default Home;

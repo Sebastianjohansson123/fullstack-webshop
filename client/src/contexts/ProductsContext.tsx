@@ -8,7 +8,6 @@ import {
 } from 'react';
 import { Product } from '../../data';
 
-
 // Interface
 interface ProductsContextValue {
   products: Product[];

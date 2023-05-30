@@ -24,17 +24,12 @@ function Header() {
       </NavLink>
       <Box sx={iconWrapperStylesSX}>
         {user ? (
-          <NavLink onClick={handleLogout} to="./">
-          <Typography variant='body1'>
-            Logout
-          </Typography>
-
+          <NavLink onClick={handleLogout} to='./'>
+            <Typography variant='body1'>Logout</Typography>
           </NavLink>
         ) : (
           <NavLink to='/login'>
-            <Typography variant="body1">
-              Login
-              </Typography>
+            <Typography variant='body1'>Login</Typography>
           </NavLink>
         )}
         <NavLink data-cy='admin-link' to='/admin'>
