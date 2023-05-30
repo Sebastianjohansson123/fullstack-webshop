@@ -60,11 +60,6 @@ function Admin() {
               </Link>
             )}
           </Box>
-          <Box sx={userControllsSx}>
-            <Button>Products</Button>
-            <Button>Users</Button>
-            <Button>Orders</Button>
-          </Box>
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
             {selectedSection === 'categories' &&
               products.map(dataProduct => (
