@@ -12,6 +12,10 @@ import { Product } from '../../data';
 interface ProductsContextValue {
   products: Product[];
   getProducts: () => void;
+  choosenCategory: string;
+  setChoosenCategory: React.Dispatch<React.SetStateAction<string>>
+
+  
 }
 // Context setup
 const ProductsContext = createContext<ProductsContextValue>(null as never);
@@ -24,6 +28,7 @@ export function useProducts() {
 // Context provider
 export function ProductsProvider(props: PropsWithChildren) {
   const [products, setProducts] = useState<[]>([]);
+  const [choosenCategory, setChoosenCategory] = useState<string>('');
 
   const getProducts = useCallback(async () => {
     const response = await fetch('/api/product');
@@ -31,6 +36,21 @@ export function ProductsProvider(props: PropsWithChildren) {
     setProducts(data);
     console.log('procucts:', data);
   }, []);
+
+  const getProductsByCategory  = useCallback(async () => {
+    if (choosenCategory === "allCategories") {
+      getProducts();
+      return; 
+    };
+    const response = await fetch(`/api/product/${choosenCategory}`);
+    const data = await response.json();
+    setProducts(data);
+  }, []);
+
+  useEffect(() => {
+    getProductsByCategory();
+  }, [choosenCategory, getProductsByCategory]);
+
 
   useEffect(() => {
     getProducts();
@@ -44,6 +64,8 @@ export function ProductsProvider(props: PropsWithChildren) {
       value={{
         products,
         getProducts,
+        choosenCategory,
+        setChoosenCategory,
       }}
     >
       {props.children}

@@ -17,13 +17,19 @@ import OrderList from '../components/OrderList';
 import UserList from '../components/UserList';
 import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
+
 function Admin() {
   const [selectedSection, setSelectedSection] = useState('categories');
   const { products } = useProducts();
   const { user } = useUserContext();
+  const [choosenCategory, setChoosenCategory] = useState<string>('');
+
+  // const { choosenCategory, categories} = useCategory();
 
   const handleSectionChange = (event: any) => {
-    setSelectedSection(event.target.value);
+    setSelectedSection(event.target.value as string);
+    setChoosenCategory(event.target.value as string);
+    console.log("chooosen category", choosenCategory)
   };
 
   return (
@@ -39,16 +45,16 @@ function Admin() {
                 onChange={handleSectionChange}
                 variant='outlined'
               >
-                <MenuItem value='categories'>Categories</MenuItem>
+                <MenuItem value='allCategories'>All categories</MenuItem>
                 <MenuItem value='orders'>Orders</MenuItem>
                 <MenuItem value='users'>Users</MenuItem>
-                <MenuItem value='hats'>Hats</MenuItem>
-                <MenuItem value='coats'>Coats</MenuItem>
+                <MenuItem value='Hats'>Hats</MenuItem>
+                <MenuItem value='Coats'>Coats</MenuItem>
               </Select>
             </Box>
           </Box>
           <Box sx={addProductContainerSx}>
-            {selectedSection === 'categories' && (
+            {selectedSection === 'allCategories' && (
               <Link to='/admin/product/new-product'>
                 <Button
                   data-cy='admin-add-product'
@@ -61,7 +67,7 @@ function Admin() {
             )}
           </Box>
           <Grid sx={AdminCardListSx} container rowSpacing={5}>
-            {selectedSection === 'categories' &&
+            {selectedSection === 'allCategories' &&
               products.map(dataProduct => (
                 <Grid
                   key={dataProduct._id}
@@ -78,8 +84,8 @@ function Admin() {
               ))}
             {selectedSection === 'orders' && <OrderList />}
             {selectedSection === 'users' && <UserList />}
-            {selectedSection === 'hats' && <HatList />}
-            {selectedSection === 'coats' && <CoatList />}
+            {/* {selectedSection === 'Hats' && <HatList />} */}
+            {/* {selectedSection === 'Coats' && <CoatList />} */}
           </Grid>
         </Box>
       </Box>
