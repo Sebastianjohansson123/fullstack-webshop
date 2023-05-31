@@ -211,26 +211,7 @@ function AdminProductForm({ onSave, product }: Props) {
                   <Typography>Image successfully uploaded! ✔</Typography>
                 </>
               ) : (
-                <TextField
-                  fullWidth
-                  name='image'
-                  id='image'
-                  // label='Product title'
-                  value={formik.values.name}
-                  // onChange={formik.handleChange}
-                  onChange={handleFileChange}
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
-                  margin='normal'
-                  type='file'
-                  inputProps={{
-                    'data-cy': 'product-title',
-                    style: { fontFamily: 'Lora' },
-                  }}
-                  FormHelperTextProps={
-                    { 'data-cy': 'product-name-error' } as never
-                  }
-                />
+                <></>
               )}
 
               <TextField
