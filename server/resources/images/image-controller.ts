@@ -31,7 +31,7 @@ export async function uploadImage(req: Request, res: Response) {
         console.log('image id is: ', data._id);
       });
 
-    const resizer = sharp().resize(300).jpeg({ quality: 90 });
+    const resizer = sharp().resize(400).png({ quality: 100 });
 
     file.pipe(resizer).pipe(uploadStream);
   });

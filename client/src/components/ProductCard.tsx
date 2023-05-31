@@ -74,22 +74,23 @@ export default function ProductCard({ product }: Props) {
               component='div'
               data-cy='product-title'
             >
-              {product.name}
+              {product.name} {product.category[0].toString()}
+              {/* {product.name} {product.category[1].toString()} */}
             </Typography>
           </CardContent>
         </StyledCardActionArea>
       </Link>
       <Box sx={{ marginTop: 'auto' }}>
-        {/* <AddToCartButton
-          product={product}
-          quantity={defaultQuantity}
-          onAddToCart={() => console.log('eslint = ägd')}
-        /> */}
         <AddToCartButton
           product={product}
           quantity={defaultQuantity}
           onAddToCart={() => {}}
         />
+        {/* <Typography>
+          {product.category.map(category => (
+            <p>{category}</p>
+          ))}
+        </Typography> */}
       </Box>
     </Card>
   );
@@ -101,6 +102,7 @@ export default function ProductCard({ product }: Props) {
 
 const imageStyle: SxProps<Theme> = theme => ({
   objectFit: 'contain',
+  backgroundColor: 'transparent',
   pt: 2,
   pb: 2,
 });
