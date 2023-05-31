@@ -31,7 +31,7 @@ Här är en lista på de olika skripten som kan köras i terminalen.
 - [x] Express backenden ska ha validering på samtliga endpoints. (G)
 - [x] Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet (G)
 - [x] Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet (G)
-- [halvt] All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton mm) (G)
+- [* -kategorier] All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton mm) (G)
 - [x] Man ska kunna logga in som administratör i systemet (G)
 - [x] Inga Lösenord får sparas i klartext i databasen (G)
 - [x] En besökare ska kunna beställa produkter från sidan, detta ska uppdatera lagersaldot i databasen (G)
