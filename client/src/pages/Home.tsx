@@ -59,8 +59,8 @@ function Home() {
     filterProducts(selectedSection);
     localStorage.setItem('selectedSection', selectedSection);
   }, [products, selectedSection]);
-  
- // Gridstyle on the main page
+
+  // Gridstyle on the main page
   return (
     <Box sx={homeContainerSx}>
       {user?.username ? (

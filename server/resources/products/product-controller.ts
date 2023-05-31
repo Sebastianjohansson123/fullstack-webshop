@@ -20,7 +20,7 @@ export async function getAllProducts(req: Request, res: Response) {
 }
 
 export async function getProductsByCategory(req: Request, res: Response) {
-  const products = await ProductModel.find({name: req.params.id})
+  const products = await ProductModel.find({ name: req.params.id });
 }
 
 export async function getProductById(req: Request, res: Response) {}
