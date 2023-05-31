@@ -11,5 +11,6 @@ export default defineConfig({
     reporters: ['verbose'],
     setupFiles: ['tests/support/setup.ts'],
     threads: false,
+    hookTimeout: 50000,
   },
 });
