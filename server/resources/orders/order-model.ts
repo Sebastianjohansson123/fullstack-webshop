@@ -9,12 +9,17 @@ export const addressSchema = new Schema({
   phoneNumber: Number,
 });
 
+export const orderItemSchema = new Schema({
+  productId: String,
+  quantity: Number,
+});
+
 export const orderSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  orderRows: [],
+  orderRows: [orderItemSchema],
   totalPrice: Number,
   address: addressSchema,
   Sent: {
