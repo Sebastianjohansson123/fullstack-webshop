@@ -1,9 +1,9 @@
 import argon2 from 'argon2';
 import request from 'supertest';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { app } from '../app';
-import { UserModel } from '../resources/users/user-model';
-import { MockDB, mockDB } from './mock';
+import { app } from './server/app';
+import { UserModel } from './server/resources/users/user-model';
+import { MockDB, mockDB } from './server/tests/mock';
 
 describe('Registering a user (POST)', () => {
   let db: MockDB;

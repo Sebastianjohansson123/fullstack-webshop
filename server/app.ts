@@ -1,5 +1,6 @@
 import cookieSession from 'cookie-session';
 import express, { NextFunction, Request, Response } from 'express';
+import { ValidationError } from 'yup';
 import { categoryRouter } from './resources/categories/category-router';
 import { imageRouter } from './resources/images/image-router';
 import { orderRouter } from './resources/orders/order-router';
@@ -17,13 +18,11 @@ app.use(
   })
 );
 
-
 app.use((req, res, next) => {
   console.log(req.method, req.path, req.params);
   next();
 });
 app.use(express.json());
-
 
 // Routers
 app.use(userRouter);
@@ -41,8 +40,9 @@ app.use((req, res, next) => {
 
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
-  // if (err instanceof ValidationError) {
-  //   res.status(400).json(err.message); }
+  if (err instanceof ValidationError) {
+    res.status(400).json(err.message);
+  }
   if (err instanceof Error) {
     res.status(500).json(err.message);
   } else {
