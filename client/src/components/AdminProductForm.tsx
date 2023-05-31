@@ -206,12 +206,9 @@ function AdminProductForm({ onSave, product }: Props) {
                 {product ? `ID: "${product._id}"` : ''}
               </Typography>
 
-              {/* {imageUploaded ? (
+              {imageUploaded ? (
                 <>
-                  <Typography>
-                    Image successfully uploaded!{' '}
-                    <Icon.Check style={{ color: 'green' }} />
-                  </Typography>
+                  <Typography>Image successfully uploaded! ✔</Typography>
                 </>
               ) : (
                 <TextField
@@ -234,7 +231,7 @@ function AdminProductForm({ onSave, product }: Props) {
                     { 'data-cy': 'product-name-error' } as never
                   }
                 />
-              )} */}
+              )}
 
               <TextField
                 fullWidth
@@ -342,7 +339,7 @@ function AdminProductForm({ onSave, product }: Props) {
                 fullWidth
                 name='image'
                 id='image'
-                label='Image (URL)'
+                label='Image (ID)'
                 value={formik.values.image}
                 onChange={formik.handleChange}
                 error={formik.touched.image && Boolean(formik.errors.image)}
