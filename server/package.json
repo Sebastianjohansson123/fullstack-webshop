@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.ts"
+    "dev": "nodemon server.ts",
+    "test": "vitest --config tests/vitest.config.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
     "@types/cookie-session": "^2.0.44",
     "@types/mongoose": "^5.11.97",
     "@types/nodemon": "^1.19.2",
+    "@types/supertest": "^2.0.12",
     "argon2": "^0.30.3",
     "busboy": "^1.6.0",
     "cookie-session": "^2.0.0",
@@ -22,11 +24,13 @@
     "formik": "^2.2.9",
     "mongoose": "^7.1.1",
     "nodemon": "^2.0.22",
-    "sharp": "^0.32.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
+    "sharp": "^0.32.1",
+    "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
+    "vitest": "^0.31.2",
     "yup": "^1.1.1"
   }
 }

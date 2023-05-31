@@ -10,9 +10,11 @@ import {
   Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
+import { enqueueSnackbar } from 'notistack';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useCart } from '../contexts/CartContext';
 import { FormContext } from '../contexts/FormContext';
 import { useUserContext } from '../contexts/UserContext';
 
@@ -64,7 +66,7 @@ const checkoutFormSchema = Yup.object().shape({
       60,
       'The address you have given us it too long. Please give us an address of maximum 60 characters.'
     ),
-  zipcode: Yup.string()
+  zipCode: Yup.string()
     .required('Please tell us your zip code.')
     .matches(
       /^[0-9]*$/,
@@ -91,6 +93,7 @@ export default function CheckoutForm() {
   const navigate = useNavigate();
   const { setFormValues } = useContext(FormContext);
   const { user } = useUserContext();
+  const { cartItems, totalPrice } = useCart();
 
   const handlePlaceOrder = () => {
     // logiken skrivs här för att slutföra ordern
@@ -102,13 +105,46 @@ export default function CheckoutForm() {
       email: '',
       phoneNumber: '',
       address: '',
-      zipcode: '',
+      zipCode: '',
       city: '',
     },
     validationSchema: checkoutFormSchema,
-    onSubmit: values => {
+    onSubmit: async values => {
       setFormValues(values);
-      navigate('/confirmation');
+
+      const address = values;
+      const orderRows = cartItems.map(item => ({
+        productId: item._id,
+        quantity: item.quantity,
+      }));
+
+      const order = {
+        orderRows,
+        address,
+        totalPrice,
+      };
+
+      try {
+        const response = await fetch('api/orders/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(order),
+        });
+        if (!response.ok) {
+          throw new Error('Something went wrong');
+        }
+
+        // Snackbar
+        enqueueSnackbar('Order has been placed! 🙃 ', {
+          variant: 'success',
+          // SnackbarProps: { 'data-cy': 'added-to-cart-toast' } as any,
+        });
+        // navigate('/confirmation');
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -282,14 +318,14 @@ export default function CheckoutForm() {
               >
                 <TextField
                   fullWidth
-                  id='zipcode'
+                  id='zipCode'
                   label='Zip code'
-                  value={formik.values.zipcode}
+                  value={formik.values.zipCode}
                   onChange={formik.handleChange}
                   error={
-                    formik.touched.zipcode && Boolean(formik.errors.zipcode)
+                    formik.touched.zipCode && Boolean(formik.errors.zipCode)
                   }
-                  helperText={formik.touched.zipcode && formik.errors.zipcode}
+                  helperText={formik.touched.zipCode && formik.errors.zipCode}
                   margin='normal'
                   inputProps={{
                     'data-cy': 'customer-zipcode',

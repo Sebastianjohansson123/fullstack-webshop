@@ -33,5 +33,13 @@ export async function addProduct(req: Request, res: Response) {
   res.status(201).json(newProduct);
 }
 
-export async function updateProduct(req: Request, res: Response) {}
+export async function updateProduct(req: Request, res: Response) {
+  const oldProduct = await ProductModel.findById(req.params.id);
+  if (!oldProduct) {
+    return res.status(404).json('Product not found');
+  }
+  await oldProduct.updateOne({ $set: req.body }, { new: true });
+  const updatedPost = await ProductModel.findById(req.params.id);
+  res.status(200).json(updatedPost);
+}
 export async function deleteProduct(req: Request, res: Response) {}

@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { InferSchemaType, Schema, model } from 'mongoose';
 
 export const addressSchema = new Schema({
   fullName: String,
@@ -9,10 +9,24 @@ export const addressSchema = new Schema({
   phoneNumber: Number,
 });
 
-export const orderSchema = new Schema({
-  orderRows: [],
-  totalPrice: Number,
-  adress: addressSchema,
-  isDeleted: Boolean,
-  status: String,
+export const orderItemSchema = new Schema({
+  productId: String,
+  quantity: Number,
 });
+
+export const orderSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  orderRows: [orderItemSchema],
+  totalPrice: Number,
+  address: addressSchema,
+  Sent: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+export type Order = InferSchemaType<typeof orderSchema>;
+export const OrderModel = model('Order', orderSchema);

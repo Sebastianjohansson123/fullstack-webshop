@@ -22,12 +22,12 @@ function OrderConfirmation() {
   // PROPS //
 
   const { formValues } = useContext(FormContext);
-  const { fullName, email, phoneNumber, address, city, zipcode } = formValues;
+  const { fullName, email, phoneNumber, address, city, zipCode } = formValues;
   const { cartItems, totalPrice, clearProductsFromCart } = useCart();
   const orderItems = cartItems.map(item => (
     <OrderData
-      key={item.id}
-      title={item.title}
+      key={item._id}
+      title={item.name}
       price={item.price}
       quantity={item.quantity}
       size={item.size}
@@ -115,7 +115,7 @@ function OrderConfirmation() {
             </Typography>
             <Typography sx={formDataStyleSX}>{address}</Typography>
             <Typography sx={formDataStyleSX}>{city}</Typography>
-            <Typography sx={formDataStyleSX}>{zipcode}</Typography>
+            <Typography sx={formDataStyleSX}>{zipCode}</Typography>
           </Box>
         </Box>
 

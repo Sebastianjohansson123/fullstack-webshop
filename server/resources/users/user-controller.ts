@@ -3,39 +3,30 @@ import { Request, Response } from 'express';
 import * as yup from 'yup';
 import { UserModel } from './user-model';
 
+export const UserCreateSchema = yup
+  .object({
+    username: yup.string().required(),
+    password: yup.string().required(),
+    isAdmin: yup.boolean().notRequired(),
+  })
+  .noUnknown()
+  .strict();
+
 export async function registerUser(req: Request, res: Response) {
-  const { username, password } = req.body;
+  const userBody = await UserCreateSchema.validate(req.body);
 
-  // Checks for missing or incorrect values
-  const userSchema = yup.object().shape({
-    username: yup.string().strict().required(),
-    password: yup.string().strict().required(),
-  });
-
-  const result = userSchema.validate(req.body);
-
-  if (result instanceof yup.ValidationError) {
-    res.status(400).json(result.errors);
-    return;
+  if (!userBody) {
+    return res.status(400).json('Invalid user data');
   }
-
-  //Checking username to existing one
-  const existingUser = await UserModel.findOne({
-    username,
-  });
+  const existingUser = await UserModel.findOne({ username: userBody.username });
   if (existingUser) {
-    res.status(409).json('Användarnamnet är upptaget. Vänligen välj ett annat');
-    return;
+    return res.status(409).json('Username is already taken');
   }
 
-  const user = {
-    username,
-    password,
-  };
-
-  const newUser = await UserModel.create(user);
-
-  res.status(201).json('Account Created');
+  const newUser = new UserModel(req.body);
+  const { password, ...userWithoutPass } = newUser.toObject();
+  await newUser.save();
+  res.status(201).json(userWithoutPass);
 }
 
 export async function loginUser(req: Request, res: Response) {
@@ -55,19 +46,14 @@ export async function loginUser(req: Request, res: Response) {
   }
 
   req.session! = {
+    _id: user?.id,
     username: user?.username,
-    isAdmin: false,
+    isAdmin: user?.isAdmin,
   };
+  const { password: pass, ...rest } = user.toObject();
+  res.status(200).json(rest);
 
-  // req.session!.username = user.username;
-  // req.session!._id = user._id;
-  // req.session!.isAdmin = user.isAdmin;
-
-  res.status(200).json({
-    // _id: user!._id,
-    username: user!.username,
-    isAdmin: user!.isAdmin,
-  });
+  // res.status(200).json(user);
 }
 
 export async function logoutUser(req: Request, res: Response) {

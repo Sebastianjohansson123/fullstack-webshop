@@ -1,4 +1,3 @@
-import * as Icon from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -19,7 +18,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
+import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Product } from '../../data';
 import { useProducts } from '../contexts/ProductsContext';
@@ -84,7 +85,9 @@ interface Props {
 
 function AdminProductForm({ onSave, product }: Props) {
   const [imageUploaded, setImageUploaded] = useState<boolean>(false);
+  const navigate = useNavigate();
   const { products } = useProducts();
+  console.log('products:', product);
 
   const formik = useFormik<adminFormValues>({
     validationSchema: adminFormSchema,
@@ -93,9 +96,7 @@ function AdminProductForm({ onSave, product }: Props) {
       name: '',
       description: '',
       price: 0,
-      details1: '',
-      details2: '',
-      details3: '',
+      details: [],
       size: '',
       color: '',
       inStock: 0,
@@ -111,22 +112,46 @@ function AdminProductForm({ onSave, product }: Props) {
         ...values, // Takes all the values of the form
         details: details, // sets details into whatever those 3 was combined
       };
-      try {
-        const response = await fetch('/api/product/add', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(productData),
-        });
-        if (!response.ok) throw new Error('Something went wrong');
+      if (product) {
+        try {
+          const response = await fetch(`/api/product/update/${product._id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData),
+          });
+          if (!response.ok) throw new Error('Something went wrong');
+          const data = await response.json();
+          enqueueSnackbar('Your product has been updated', {
+            variant: 'success',
+          });
+          navigate('/admin');
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        try {
+          const response = await fetch('/api/product/add', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData),
+          });
+          if (!response.ok) throw new Error('Something went wrong');
 
-        const data = await response.json();
-        console.log('answer from post product:', data);
+          const data = await response.json();
+          console.log('answer from post product:', data);
 
-        onSave();
-      } catch (error) {
-        console.error(error);
+          enqueueSnackbar('Your product has been added', {
+            variant: 'success',
+          });
+          navigate('/admin');
+          onSave();
+        } catch (error) {
+          console.error(error);
+        }
       }
     },
   });
@@ -169,11 +194,10 @@ function AdminProductForm({ onSave, product }: Props) {
             <Typography sx={fontStyle} variant='h3'>
               {product ? `Editing "${product.name}"` : 'Add new product'}
             </Typography>
-            {/* <Box sx={{ flexGrow: 1, margin: '1rem' }}>
+            <Box sx={{ flexGrow: 1, margin: '1rem' }}>
               <input type='file' accept='image/*' onChange={handleFileChange} />
-            </Box> */}
+            </Box>
             <form data-cy='product-form' onSubmit={formik.handleSubmit}>
-              {/* Header */}
               <Typography
                 sx={{ ml: '0.2rem', mt: '0.4rem', mb: '1rem' }}
                 variant='body2'
@@ -182,38 +206,14 @@ function AdminProductForm({ onSave, product }: Props) {
                 {product ? `ID: "${product._id}"` : ''}
               </Typography>
 
-              {/* Image */}
               {imageUploaded ? (
                 <>
-                  <Typography>
-                    Image successfully uploaded!{' '}
-                    <Icon.Check style={{ color: 'green' }} />
-                  </Typography>
+                  <Typography>Image successfully uploaded! ✔</Typography>
                 </>
               ) : (
-                <TextField
-                  fullWidth
-                  name='image'
-                  id='image'
-                  // label='Product title'
-                  value={formik.values.name}
-                  // onChange={formik.handleChange}
-                  onChange={handleFileChange}
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
-                  margin='normal'
-                  type='file'
-                  inputProps={{
-                    'data-cy': 'product-title',
-                    style: { fontFamily: 'Lora' },
-                  }}
-                  FormHelperTextProps={
-                    { 'data-cy': 'product-name-error' } as never
-                  }
-                />
+                <></>
               )}
 
-              {/* Title */}
               <TextField
                 fullWidth
                 name='name'
@@ -233,7 +233,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 }
               />
 
-              {/* Price */}
               <TextField
                 fullWidth
                 name='price'
@@ -258,7 +257,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 }
               />
 
-              {/* Size */}
               <Box sx={{ mt: 2, ml: 1.7, mb: '0.6rem' }}>
                 <FormControl>
                   <FormLabel id='demo-radio-buttons-group-label'>
@@ -306,7 +304,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 </FormControl>
               </Box>
 
-              {/* Color */}
               <TextField
                 fullWidth
                 name='color'
@@ -318,7 +315,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 helperText={formik.touched.color && formik.errors.color}
                 margin='normal'
               />
-              {/* Description */}
               <TextField
                 fullWidth
                 name='description'
@@ -343,7 +339,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 }
               />
 
-              {/* Detail 1 */}
               <TextField
                 fullWidth
                 name='details1'
@@ -358,7 +353,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 margin='normal'
               />
 
-              {/* Detail 2 */}
               <TextField
                 fullWidth
                 name='details2'
@@ -373,7 +367,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 margin='normal'
               />
 
-              {/* Detail 3 */}
               <TextField
                 fullWidth
                 name='details3'
@@ -388,7 +381,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 margin='normal'
               />
 
-              {/* In stock */}
               <Box sx={{ mt: 1, ml: 1.7, mb: '1rem' }}>
                 <FormControl>
                   <FormLabel id='demo-radio-buttons-group-label'>
@@ -401,10 +393,8 @@ function AdminProductForm({ onSave, product }: Props) {
                     onChange={formik.handleChange}
                     fullWidth
                     type='number'
-                  ></Input>
+                  />
                 </FormControl>
-
-                {/* Categories */}
 
                 <FormGroup>
                   <FormLabel>Categories</FormLabel>
@@ -463,7 +453,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 </FormGroup>
               </Box>
 
-              {/* Buttons */}
               <Box sx={buttonContainer}>
                 <Button
                   sx={editBtnSx}
