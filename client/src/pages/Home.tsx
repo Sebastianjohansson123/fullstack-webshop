@@ -30,9 +30,11 @@ function Home() {
     setError(true);
   };
 
-  //TODO : Fix so it sorts out the products by category
-  const [selectedSection, setSelectedSection] = useState('allCategories');
-  const [productsOfChoosenCategory, setProductsOfChoosenCategory] = useState<
+  const [selectedSection, setSelectedSection] = useState(() => {
+    const storedSection = localStorage.getItem('selectedSection');
+    return storedSection || 'allCategories';
+  });
+  const [productsOfChosenCategory, setProductsOfChosenCategory] = useState<
     Product[]
   >([]);
 
@@ -44,25 +46,28 @@ function Home() {
 
   function filterProducts(selectedSection: string) {
     if (selectedSection === 'allCategories') {
-      setProductsOfChoosenCategory(products);
+      setProductsOfChosenCategory(products);
     } else {
       const filtered = products.filter(product =>
         product.category.includes(selectedSection)
       );
-      setProductsOfChoosenCategory(filtered);
-      console.log('filtered', filtered);
+      setProductsOfChosenCategory(filtered);
     }
   }
 
   useEffect(() => {
     filterProducts(selectedSection);
-  }, [products]);
-
-  // Gridstyle on the main page
+    localStorage.setItem('selectedSection', selectedSection);
+  }, [products, selectedSection]);
+  
+ // Gridstyle on the main page
   return (
     <Box sx={homeContainerSx}>
       {user?.username ? (
-        <Typography sx={h3StyleSx} style={{ fontWeight: 'bold', marginBottom: '1rem'}}>
+        <Typography
+          sx={h3StyleSx}
+          style={{ fontWeight: 'bold', marginBottom: '1rem' }}
+        >
           Welcome {user?.username}!
         </Typography>
       ) : (
@@ -116,7 +121,7 @@ function Home() {
                   <ProductCard product={product} />
                 </Grid>
               ))
-            : productsOfChoosenCategory.map(product => (
+            : productsOfChosenCategory.map(product => (
                 <Grid
                   key={product._id}
                   sx={cardListSx}
