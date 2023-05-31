@@ -18,7 +18,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
+import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Product } from '../../data';
 import { useProducts } from '../contexts/ProductsContext';
@@ -83,6 +85,7 @@ interface Props {
 
 function AdminProductForm({ onSave, product }: Props) {
   const [imageUploaded, setImageUploaded] = useState<boolean>(false);
+  const navigate = useNavigate();
   const { products } = useProducts();
   console.log('products:', product);
 
@@ -109,22 +112,46 @@ function AdminProductForm({ onSave, product }: Props) {
         ...values, // Takes all the values of the form
         details: details, // sets details into whatever those 3 was combined
       };
-      try {
-        const response = await fetch('/api/product/add', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(productData),
-        });
-        if (!response.ok) throw new Error('Something went wrong');
+      if (product) {
+        try {
+          const response = await fetch(`/api/product/update/${product._id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData),
+          });
+          if (!response.ok) throw new Error('Something went wrong');
+          const data = await response.json();
+          enqueueSnackbar('Your product has been updated', {
+            variant: 'success',
+          });
+          navigate('/admin');
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        try {
+          const response = await fetch('/api/product/add', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData),
+          });
+          if (!response.ok) throw new Error('Something went wrong');
 
-        const data = await response.json();
-        console.log('answer from post product:', data);
+          const data = await response.json();
+          console.log('answer from post product:', data);
 
-        onSave();
-      } catch (error) {
-        console.error(error);
+          enqueueSnackbar('Your product has been added', {
+            variant: 'success',
+          });
+          navigate('/admin');
+          onSave();
+        } catch (error) {
+          console.error(error);
+        }
       }
     },
   });
