@@ -23,3 +23,6 @@ Content-Type: application/json
     "isAdmin" : false
 }
 
+
+### Update Order
+PUT http://localhost:3000/api/orders/64774cdbddb70b0bee51171f
