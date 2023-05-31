@@ -74,7 +74,8 @@ export default function ProductCard({ product }: Props) {
               component='div'
               data-cy='product-title'
             >
-              {product.name}
+              {product.name} {product.category[0].toString()}
+              {/* {product.name} {product.category[1].toString()} */}
             </Typography>
           </CardContent>
         </StyledCardActionArea>
@@ -85,6 +86,11 @@ export default function ProductCard({ product }: Props) {
           quantity={defaultQuantity}
           onAddToCart={() => {}}
         />
+        {/* <Typography>
+          {product.category.map(category => (
+            <p>{category}</p>
+          ))}
+        </Typography> */}
       </Box>
     </Card>
   );
