@@ -16,6 +16,7 @@ export async function getImageById(req: Request, res: Response) {
   const downloadStream = fileBucket.openDownloadStream(_id);
   downloadStream.pipe(res);
 }
+
 export async function uploadImage(req: Request, res: Response) {
   const bb = busboy({ headers: req.headers });
   req.pipe(bb);

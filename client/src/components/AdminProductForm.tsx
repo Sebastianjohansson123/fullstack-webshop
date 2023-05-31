@@ -1,4 +1,3 @@
-import * as Icon from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -85,6 +84,7 @@ interface Props {
 function AdminProductForm({ onSave, product }: Props) {
   const [imageUploaded, setImageUploaded] = useState<boolean>(false);
   const { products } = useProducts();
+  console.log('products:', product);
 
   const formik = useFormik<adminFormValues>({
     validationSchema: adminFormSchema,
@@ -93,9 +93,7 @@ function AdminProductForm({ onSave, product }: Props) {
       name: '',
       description: '',
       price: 0,
-      details1: '',
-      details2: '',
-      details3: '',
+      details: [],
       size: '',
       color: '',
       inStock: 0,
@@ -169,11 +167,10 @@ function AdminProductForm({ onSave, product }: Props) {
             <Typography sx={fontStyle} variant='h3'>
               {product ? `Editing "${product.name}"` : 'Add new product'}
             </Typography>
-            {/* <Box sx={{ flexGrow: 1, margin: '1rem' }}>
+            <Box sx={{ flexGrow: 1, margin: '1rem' }}>
               <input type='file' accept='image/*' onChange={handleFileChange} />
-            </Box> */}
+            </Box>
             <form data-cy='product-form' onSubmit={formik.handleSubmit}>
-              {/* Header */}
               <Typography
                 sx={{ ml: '0.2rem', mt: '0.4rem', mb: '1rem' }}
                 variant='body2'
@@ -182,8 +179,7 @@ function AdminProductForm({ onSave, product }: Props) {
                 {product ? `ID: "${product._id}"` : ''}
               </Typography>
 
-              {/* Image */}
-              {imageUploaded ? (
+              {/* {imageUploaded ? (
                 <>
                   <Typography>
                     Image successfully uploaded!{' '}
@@ -211,9 +207,8 @@ function AdminProductForm({ onSave, product }: Props) {
                     { 'data-cy': 'product-name-error' } as never
                   }
                 />
-              )}
+              )} */}
 
-              {/* Title */}
               <TextField
                 fullWidth
                 name='name'
@@ -233,7 +228,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 }
               />
 
-              {/* Price */}
               <TextField
                 fullWidth
                 name='price'
@@ -258,7 +252,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 }
               />
 
-              {/* Size */}
               <Box sx={{ mt: 2, ml: 1.7, mb: '0.6rem' }}>
                 <FormControl>
                   <FormLabel id='demo-radio-buttons-group-label'>
@@ -306,7 +299,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 </FormControl>
               </Box>
 
-              {/* Color */}
               <TextField
                 fullWidth
                 name='color'
@@ -319,7 +311,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 margin='normal'
               />
 
-              {/* Image */}
               <TextField
                 fullWidth
                 name='image'
@@ -339,7 +330,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 }
               />
 
-              {/* Description */}
               <TextField
                 fullWidth
                 name='description'
@@ -364,7 +354,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 }
               />
 
-              {/* Detail 1 */}
               <TextField
                 fullWidth
                 name='details1'
@@ -379,7 +368,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 margin='normal'
               />
 
-              {/* Detail 2 */}
               <TextField
                 fullWidth
                 name='details2'
@@ -394,7 +382,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 margin='normal'
               />
 
-              {/* Detail 3 */}
               <TextField
                 fullWidth
                 name='details3'
@@ -409,7 +396,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 margin='normal'
               />
 
-              {/* In stock */}
               <Box sx={{ mt: 1, ml: 1.7, mb: '1rem' }}>
                 <FormControl>
                   <FormLabel id='demo-radio-buttons-group-label'>
@@ -422,10 +408,8 @@ function AdminProductForm({ onSave, product }: Props) {
                     onChange={formik.handleChange}
                     fullWidth
                     type='number'
-                  ></Input>
+                  />
                 </FormControl>
-
-                {/* Categories */}
 
                 <FormGroup>
                   <FormLabel>Categories</FormLabel>
@@ -484,7 +468,6 @@ function AdminProductForm({ onSave, product }: Props) {
                 </FormGroup>
               </Box>
 
-              {/* Buttons */}
               <Box sx={buttonContainer}>
                 <Button
                   sx={editBtnSx}

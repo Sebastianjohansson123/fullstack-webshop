@@ -13,6 +13,8 @@ function AdminUpdateDatabase() {
     navigate('/admin');
   };
 
+  if (!product && params.id !== 'new-product') return null;
+
   return <AdminProductForm product={product} onSave={handleSave} />;
 }
 
