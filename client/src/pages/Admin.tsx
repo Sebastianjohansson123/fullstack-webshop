@@ -100,7 +100,27 @@ function Admin() {
                   <AdminCardProduct dataProduct={dataProduct} />
                 </Grid>
               ))}
-            {selectedSection === 'orders' && <OrderList />}
+            {selectedSection === 'orders' && (
+              <OrderList
+                orders={[
+                  {
+                    id: 1,
+                    orderNumber: '123',
+                    items: ['Pashtete', 'Pashtete Xtra stor'],
+                  },
+                  {
+                    id: 2,
+                    orderNumber: '456',
+                    items: ['Box 3', 'Item 4'],
+                  },
+                  {
+                    id: 4,
+                    orderNumber: '678',
+                    items: ['Hattenw3', 'Rocken 4'],
+                  },
+                ]}
+              />
+            )}
             {selectedSection === 'users' && <UserList />}
             {selectedSection === 'Hats' &&
               productsOfChoosenCategory.map(dataProduct => (
