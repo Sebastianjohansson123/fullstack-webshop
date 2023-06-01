@@ -20,7 +20,7 @@ import { useUserContext } from '../contexts/UserContext';
 function Admin() {
   const [selectedSection, setSelectedSection] = useState('allCategories');
   const { products } = useProducts();
-  const { user } = useUserContext();
+  const { user, orders, getOrders } = useUserContext();
   const [choosenCategory, setChoosenCategory] = useState('allCategories');
   const [productsOfChoosenCategory, setProductsOfChoosenCategory] = useState<
     Product[]
@@ -37,6 +37,10 @@ function Admin() {
   function filterProducts(selectedSection: string) {
     if (selectedSection === 'allCategories') {
       setProductsOfChoosenCategory(products);
+    } else if (selectedSection === 'orders') {
+      getOrders();
+    } else if (selectedSection === 'users') {
+      console.log('users');
     } else {
       const filtered = products.filter(product =>
         product.category.includes(selectedSection)
@@ -100,27 +104,7 @@ function Admin() {
                   <AdminCardProduct dataProduct={dataProduct} />
                 </Grid>
               ))}
-            {selectedSection === 'orders' && (
-              <OrderList
-                orders={[
-                  {
-                    id: 1,
-                    orderNumber: '123',
-                    items: ['Pashtete', 'Pashtete Xtra stor'],
-                  },
-                  {
-                    id: 2,
-                    orderNumber: '456',
-                    items: ['Box 3', 'Item 4'],
-                  },
-                  {
-                    id: 4,
-                    orderNumber: '678',
-                    items: ['Hattenw3', 'Rocken 4'],
-                  },
-                ]}
-              />
-            )}
+            {selectedSection === 'orders' && <OrderList orders={orders} />}
             {selectedSection === 'users' && <UserList />}
             {selectedSection === 'Hats' &&
               productsOfChoosenCategory.map(dataProduct => (

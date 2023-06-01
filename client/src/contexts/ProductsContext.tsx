@@ -36,7 +36,6 @@ export function ProductsProvider(props: PropsWithChildren) {
   }, []);
 
   const getProductsByCategory = useCallback(async () => {
-    console.log(choosenCategory, 'FRÅN USEEFFECTEN!!!!!');
     if (choosenCategory === 'allCategories') {
       getProducts();
       return;
