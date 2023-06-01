@@ -19,9 +19,9 @@ export async function getAllProducts(req: Request, res: Response) {
   res.status(200).json(allProducts);
 }
 
-export async function getProductsByCategory(req: Request, res: Response) {
-  const products = await ProductModel.find({ name: req.params.id });
-}
+// export async function getProductsByCategory(req: Request, res: Response) {
+//   const products = await ProductModel.find({ name: req.params.id });
+// }
 
 export async function getProductById(req: Request, res: Response) {}
 
