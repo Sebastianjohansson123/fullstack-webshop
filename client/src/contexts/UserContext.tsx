@@ -93,9 +93,9 @@ export function UserProvider(props: PropsWithChildren) {
 
   const getOrderForUser = async () => {
     try {
-      const response = await fetch(`/api/orders/${user?._id}`);
+      const response = await fetch(`/api/orders/user/${user?._id}`);
       const data = await response.json();
-      return data;
+      setOrders(data);
     } catch (err) {
       console.error(err);
     }

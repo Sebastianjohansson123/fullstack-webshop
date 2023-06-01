@@ -17,6 +17,22 @@ import UserList from '../components/UserList';
 import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
 
+type OrderRow = {
+  productId: string;
+  quantity: number;
+  _id: string;
+};
+
+type Address = {
+  fullName: string;
+  address: string;
+  zipCode: number;
+  city: string;
+  email: string;
+  phoneNumber: number;
+  _id: string;
+};
+
 function Admin() {
   const [selectedSection, setSelectedSection] = useState('allCategories');
   const { products } = useProducts();
@@ -40,7 +56,7 @@ function Admin() {
     } else if (selectedSection === 'orders') {
       return;
     } else if (selectedSection === 'users') {
-      return
+      return;
     } else {
       const filtered = products.filter(product =>
         product.category.includes(selectedSection)
@@ -56,7 +72,6 @@ function Admin() {
 
   return (
     <>
-
       <Outlet />
       <Box sx={adminPageContainerSx}>
         <Box sx={productContainerSx}>

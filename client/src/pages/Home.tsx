@@ -17,7 +17,7 @@ import { useUserContext } from '../contexts/UserContext';
 
 function Home() {
   const { products, getProducts } = useProducts();
-  const { user } = useUserContext();
+  const { user, getOrderForUser, orders } = useUserContext();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const handleLoad = () => {
@@ -58,6 +58,7 @@ function Home() {
   useEffect(() => {
     filterProducts(selectedSection);
     localStorage.setItem('selectedSection', selectedSection);
+    getOrderForUser();
   }, [products, selectedSection]);
 
   // Gridstyle on the main page
@@ -102,6 +103,7 @@ function Home() {
               <MenuItem value='allCategories'>All products</MenuItem>
               <MenuItem value='Hats'>Hats</MenuItem>
               <MenuItem value='Coats'>Coats</MenuItem>
+              <MenuItem value='Orders'>My Orders</MenuItem>
             </Select>
           </Box>
         </Box>
@@ -118,7 +120,7 @@ function Home() {
                   lg={3}
                   xl={3}
                 >
-                  <ProductCard product={product} />
+                  <ProductCard key={product._id} product={product} />
                 </Grid>
               ))
             : productsOfChosenCategory.map(product => (
@@ -136,6 +138,41 @@ function Home() {
                 </Grid>
               ))}
         </Grid>
+        {user?.username && orders.length > 0 ? (
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {selectedSection === 'Orders' ? (
+              orders.map(order => (
+                <>
+                  <Box
+                    sx={{ display: 'flex', justifyContent: 'space-between' }}
+                    key={order._id}
+                  >
+                    <Typography sx={{ marginTop: '1rem' }} variant='body2'>
+                      {order._id}
+                    </Typography>{' '}
+                    <br />
+                    <Typography sx={{ marginTop: '1rem' }} variant='body2'>
+                      Delivery status:
+                      {order.Sent ? (
+                        <span> Sent ✔️</span>
+                      ) : (
+                        <span> Pending ❌</span>
+                      )}
+                    </Typography>
+                  </Box>
+                </>
+              ))
+            ) : (
+              <></>
+
+              // <span> Sent ✔️</span>
+              // ) : (
+              //   <span> Pending ❌</span>
+            )}
+          </Box>
+        ) : (
+          <></>
+        )}
       </Box>
     </Box>
   );
