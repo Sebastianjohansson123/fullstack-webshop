@@ -103,7 +103,9 @@ function Home() {
               <MenuItem value='allCategories'>All products</MenuItem>
               <MenuItem value='Hats'>Hats</MenuItem>
               <MenuItem value='Coats'>Coats</MenuItem>
-              <MenuItem value='Orders'>My Orders</MenuItem>
+              {user?.username ? (
+                <MenuItem value='Orders'>My Orders</MenuItem>
+              ) : null}
             </Select>
           </Box>
         </Box>
