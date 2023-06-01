@@ -13,20 +13,38 @@ export const UserCreateSchema = yup
   .strict();
 
 export async function registerUser(req: Request, res: Response) {
-  const userBody = await UserCreateSchema.validate(req.body);
+  const { username, password } = req.body;
 
-  if (!userBody) {
-    return res.status(400).json('Invalid user data');
+  // Checks for missing or incorrect values
+  const userSchema = yup.object().shape({
+    username: yup.string().strict().required(),
+    password: yup.string().strict().required(),
+  });
+
+  const result = userSchema.validate(req.body);
+
+  if (result instanceof yup.ValidationError) {
+    res.status(400).json(result.errors);
+    return;
   }
-  const existingUser = await UserModel.findOne({ username: userBody.username });
+
+  //Checking username to existing one
+  const existingUser = await UserModel.findOne({
+    username,
+  });
   if (existingUser) {
-    return res.status(409).json('Username is already taken');
+    res.status(409).json('Användarnamnet är upptaget. Vänligen välj ett annat');
+    return;
   }
 
-  const newUser = new UserModel(req.body);
-  const { password, ...userWithoutPass } = newUser.toObject();
-  await newUser.save();
-  res.status(201).json(userWithoutPass);
+  const user = {
+    username,
+    password,
+  };
+
+  const newUser = await UserModel.create(user);
+
+  res.status(201).json('Account Created');
 }
 
 export async function loginUser(req: Request, res: Response) {
@@ -64,7 +82,16 @@ export async function logoutUser(req: Request, res: Response) {
 export async function getUserById(req: Request, res: Response) {}
 
 export async function getUsers(req: Request, res: Response) {
-  // Admin only
+  const loggedInUser = req.session;
+  const user = await UserModel.findOne({
+    _id: loggedInUser?._id,
+  });
+
+  if (!user?.isAdmin) {
+    return;
+  }
+  const users = await UserModel.find({}, { password: 0 });
+  res.status(200).json(users);
 }
 
 export async function getOwnUserInfo(req: Request, res: Response) {
@@ -74,4 +101,14 @@ export async function getOwnUserInfo(req: Request, res: Response) {
   } else {
     res.status(200).json(req.session);
   }
+}
+
+export async function updateToAdmin(req: Request, res: Response) {
+  const user = await UserModel.findById(req.params.id);
+  if (!user) {
+    return res.status(404).json('User not found');
+  }
+  // update is admin to true
+  await user.updateOne({ $set: { isAdmin: true } }, { new: true });
+  res.status(200).json("User's admin status updated");
 }

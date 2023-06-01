@@ -7,12 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-
-interface Order {
-  id: number;
-  orderNumber: string;
-  items: string[];
-}
+import { Order } from '../contexts/UserContext';
 
 interface OrderListProps {
   orders: Order[];
@@ -30,10 +25,6 @@ export function OrderList({ orders }: OrderListProps) {
     }
   };
 
-  const filteredOrders = orders.filter(order =>
-    order.orderNumber.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -48,14 +39,14 @@ export function OrderList({ orders }: OrderListProps) {
         variant='outlined'
         margin='normal'
       />
-      {filteredOrders.map(order => (
+      {orders.map(order => (
         <Accordion
-          key={order.id}
+          key={order._id}
           expanded={expandedOrder === order}
           onChange={() => handleAccordionChange(order)}
         >
           <AccordionSummary>
-            <Typography>Order Number: {order.orderNumber}</Typography>
+            <Typography>Order Number: {order._id}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <ul>
