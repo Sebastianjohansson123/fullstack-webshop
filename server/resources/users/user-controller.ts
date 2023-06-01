@@ -81,8 +81,20 @@ export async function logoutUser(req: Request, res: Response) {
 
 export async function getUserById(req: Request, res: Response) {}
 
-export async function getUsers(req: Request, res: Response) {
-  // Admin only
+export async function getUsers(
+  req: Request,
+  res: Response
+) {
+  const loggedInUser = req.session;
+  const user = await UserModel.findOne({
+    _id: loggedInUser?._id,
+  });
+
+  if (!user?.isAdmin) {
+    return;
+  }
+  const users = await UserModel.find({}, { password: 0 });
+  res.status(200).json(users);
 }
 
 export async function getOwnUserInfo(req: Request, res: Response) {
