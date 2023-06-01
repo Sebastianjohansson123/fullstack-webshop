@@ -92,6 +92,7 @@ export function UserProvider(props: PropsWithChildren) {
   }, []);
 
   const getOrderForUser = async () => {
+    if (!user?.username) return;
     try {
       const response = await fetch(`/api/orders/user/${user?._id}`);
       const data = await response.json();

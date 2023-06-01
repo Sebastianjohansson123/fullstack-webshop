@@ -30,7 +30,6 @@ type Address = {
 export default function OrderList() {
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const { updateOrderbyId, orders } = useUserContext();
-  console.log(orders);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
