@@ -3,7 +3,6 @@ import { array, number, object } from 'yup';
 import { ProductModel } from '../products/product-model';
 import { OrderModel } from './order-model';
 
-
 export async function getOrders(req: Request, res: Response) {
   const orders = await OrderModel.find();
   res.status(200).json(orders);
