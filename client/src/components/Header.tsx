@@ -4,7 +4,6 @@ import { CSSProperties } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { useUserContext } from '../contexts/UserContext';
-import account from '../icons/account.png';
 import adminIcon from '../icons/adminicon.png';
 import '../index.css';
 
@@ -32,9 +31,11 @@ function Header() {
             <Typography variant='body1'>Login</Typography>
           </NavLink>
         )}
-        <NavLink data-cy='admin-link' to='/admin'>
-          <img style={{ width: '3rem' }} src={adminIcon} alt='Admin' />
-        </NavLink>
+        {user && user.isAdmin && (
+          <NavLink data-cy='admin-link' to='/admin'>
+            <img style={{ width: '3rem' }} src={adminIcon} alt='Admin' />
+          </NavLink>
+        )}
         <NavLink to='/checkout'>
           <Badge
             sx={badgeStylesSX}
