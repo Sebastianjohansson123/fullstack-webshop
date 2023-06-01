@@ -35,7 +35,6 @@ export async function createOrder(req: Request, res: Response) {
     }
     await product.save();
   }
-
   res.status(201).json(savedPost);
 }
 
@@ -50,16 +49,6 @@ export async function updateOrderById(req: Request, res: Response) {
   res.status(200).json(updatedOrder);
 }
 
-export async function getProductsByCategory(req: Request, res: Response) {}
-export async function addProduct(req: Request, res: Response) {}
-
-export async function updateProduct(req: Request, res: Response) {
-  // Validate the order
-  await orderAddSchema.validate(req.body);
-
-  const product = await ProductModel.findOne({ _id: req.body.id });
-  await product?.updateOne({ $set: req.body });
-}
 export const orderAddSchema = object({
   address: object(),
   orderRows: array(),

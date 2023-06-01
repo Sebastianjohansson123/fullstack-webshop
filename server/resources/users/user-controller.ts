@@ -95,7 +95,6 @@ export async function getUsers(req: Request, res: Response) {
 }
 
 export async function getOwnUserInfo(req: Request, res: Response) {
-  console.log(req.session);
   if (!req.session?.username) {
     res.status(401).json(null);
   } else {
