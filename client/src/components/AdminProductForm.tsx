@@ -87,7 +87,6 @@ function AdminProductForm({ onSave, product }: Props) {
   const [imageUploaded, setImageUploaded] = useState<boolean>(false);
   const navigate = useNavigate();
   const { products } = useProducts();
-  console.log('products:', product);
 
   const formik = useFormik<adminFormValues>({
     validationSchema: adminFormSchema,
@@ -142,7 +141,6 @@ function AdminProductForm({ onSave, product }: Props) {
           if (!response.ok) throw new Error('Something went wrong');
 
           const data = await response.json();
-          console.log('answer from post product:', data);
 
           enqueueSnackbar('Your product has been added', {
             variant: 'success',
@@ -174,7 +172,6 @@ function AdminProductForm({ onSave, product }: Props) {
       if (!response.ok) throw new Error('Something went wrong');
 
       const data = await response.json();
-      console.log('answer from post image:', data);
       formik.setFieldValue('image', data);
       setImageUploaded(true);
     } catch (error) {

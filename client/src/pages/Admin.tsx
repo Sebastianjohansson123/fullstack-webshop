@@ -20,7 +20,7 @@ import { useUserContext } from '../contexts/UserContext';
 function Admin() {
   const [selectedSection, setSelectedSection] = useState('allCategories');
   const { products } = useProducts();
-  const { user, orders, getOrders } = useUserContext();
+  const { user, getOrders } = useUserContext();
   const [choosenCategory, setChoosenCategory] = useState('allCategories');
   const [productsOfChoosenCategory, setProductsOfChoosenCategory] = useState<
     Product[]
@@ -38,24 +38,25 @@ function Admin() {
     if (selectedSection === 'allCategories') {
       setProductsOfChoosenCategory(products);
     } else if (selectedSection === 'orders') {
-      getOrders();
+      return;
     } else if (selectedSection === 'users') {
-      console.log('users');
+      return
     } else {
       const filtered = products.filter(product =>
         product.category.includes(selectedSection)
       );
       setProductsOfChoosenCategory(filtered);
-      console.log('filtered', filtered);
     }
   }
 
   useEffect(() => {
     filterProducts(selectedSection);
+    getOrders();
   }, [products]);
 
   return (
     <>
+
       <Outlet />
       <Box sx={adminPageContainerSx}>
         <Box sx={productContainerSx}>
@@ -104,7 +105,7 @@ function Admin() {
                   <AdminCardProduct dataProduct={dataProduct} />
                 </Grid>
               ))}
-            {selectedSection === 'orders' && <OrderList orders={orders} />}
+            {selectedSection === 'orders' && <OrderList />}
             {selectedSection === 'users' && <UserList />}
             {selectedSection === 'Hats' &&
               productsOfChoosenCategory.map(dataProduct => (

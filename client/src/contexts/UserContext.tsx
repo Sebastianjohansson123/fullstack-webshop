@@ -14,7 +14,7 @@ interface User {
   _id: number;
 }
 
-export interface Adress {
+export interface adress {
   fullName: string;
   address: string;
   zipCode: number;
@@ -29,8 +29,8 @@ export interface Order {
   user: number;
   orderRows: [];
   totalPrice: number;
-  adress: Adress;
-  sent: boolean;
+  adress: adress;
+  Sent: boolean;
 }
 
 interface UserContextValue {
@@ -49,29 +49,31 @@ const UserContext = createContext<UserContextValue>(null as any);
 
 export const useUserContext = () => useContext(UserContext);
 
-export async function getOrders() {
-  const response = await fetch('/api/orders');
-  const data = await response.json();
-  return data;
-}
-
-export async function updateOrderbyId(id: string) {
-  try {
-    const response = await fetch('/api/orders/${id}', {
-      method: 'PUT',
-      // body: JSON.stringify({ sent: true }),
-      headers: { 'Content-type': 'application/json' },
-    });
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 export function UserProvider(props: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
+  async function getOrders() {
+    const response = await fetch('/api/orders');
+    const data = await response.json();
+    setOrders(data);
+  }
+
+  async function updateOrderbyId(id: string) {
+    try {
+      const response = await fetch(`/api/orders/${id}`, {
+        method: 'PUT',
+        // body: JSON.stringify({ sent: true }),
+        headers: { 'Content-type': 'application/json' },
+      });
+      if (response.ok) {
+        getOrders();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -120,7 +122,6 @@ export function UserProvider(props: PropsWithChildren) {
 
     if (response.ok) {
       setUser(null);
-      console.log('Du är nu utloggad');
     }
   };
 

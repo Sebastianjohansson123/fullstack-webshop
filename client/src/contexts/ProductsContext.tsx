@@ -33,7 +33,6 @@ export function ProductsProvider(props: PropsWithChildren) {
     const response = await fetch('/api/product');
     const data = await response.json();
     setProducts(data);
-    console.log('procucts:', data);
   }, []);
 
   const getProductsByCategory = useCallback(async () => {
