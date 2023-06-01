@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useCart } from '../contexts/CartContext';
 import { FormContext } from '../contexts/FormContext';
+import { useProducts } from '../contexts/ProductsContext';
 import { useUserContext } from '../contexts/UserContext';
 
 /* ----------------------
@@ -92,8 +93,9 @@ type checkoutFormValues = Yup.InferType<typeof checkoutFormSchema>;
 export default function CheckoutForm() {
   const navigate = useNavigate();
   const { setFormValues } = useContext(FormContext);
-  const { user } = useUserContext();
-  const { cartItems, totalPrice } = useCart();
+  const { user, getOrderForUser } = useUserContext();
+  const { cartItems, totalPrice, clearProductsFromCart } = useCart();
+  const { getProducts } = useProducts();
 
   const handlePlaceOrder = () => {
     // logiken skrivs här för att slutföra ordern
@@ -141,7 +143,9 @@ export default function CheckoutForm() {
           variant: 'success',
           // SnackbarProps: { 'data-cy': 'added-to-cart-toast' } as any,
         });
-        // navigate('/confirmation');
+        clearProductsFromCart();
+        getProducts();
+        navigate('/');
       } catch (error) {
         console.log(error);
       }

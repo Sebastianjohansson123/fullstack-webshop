@@ -46,7 +46,7 @@ Här är en lista på de olika skripten som kan köras i terminalen.
 ### VG
 
 - [x] Ett CI flöde ska sättas upp (i början av projektet) som kontrollerar prettier, eslint, typescript & tester i varje PR, tester kan lånas ifrån tidigare uppgifter (VG)
-- [ ] När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG)
+- [x] När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG)
 - [x] Administratörer ska kunna redigera produkt inklusive vilka kategorier den tillhör (VG)
 - [x] Administratörer ska kunna lägga till och ta bort produkter (VG)
 - [x] Backendapplikationen ska ha en fungerande global felhantering (VG)
