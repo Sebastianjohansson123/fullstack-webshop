@@ -41,10 +41,9 @@ const adminFormSchema = Yup.object().shape({
   price: Yup.number()
     .required('Please enter a price for your product.')
     .min(2, 'The price you have given is to low. We need to go profit.'),
-  size: Yup.string(),
-  // .required('Please enter a size for your product.')
+  size: Yup.string().required('Please enter a size for your product.'),
   color: Yup.string()
-    // .required('Please enter a color for your product.')
+    .required('Please enter a color for your product.')
     .min(
       1,
       'The name of the color you have given us it too short. Please give us a name of minimum 5 characters.'
@@ -68,7 +67,7 @@ const adminFormSchema = Yup.object().shape({
     3,
     'The detail you have given us it too short. Please give us a detail of minimum 3 characters.'
   ),
-  inStock: Yup.number(),
+  inStock: Yup.number().required('Please enter a number of products in stock.'),
   category: Yup.array(),
 });
 
@@ -86,7 +85,7 @@ interface Props {
 function AdminProductForm({ onSave, product }: Props) {
   const [imageUploaded, setImageUploaded] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { products } = useProducts();
+  const { products, getProducts } = useProducts();
 
   const formik = useFormik<adminFormValues>({
     validationSchema: adminFormSchema,
@@ -125,6 +124,7 @@ function AdminProductForm({ onSave, product }: Props) {
           enqueueSnackbar('Your product has been updated', {
             variant: 'success',
           });
+          getProducts();
           navigate('/admin');
         } catch (error) {
           console.error(error);
@@ -141,10 +141,10 @@ function AdminProductForm({ onSave, product }: Props) {
           if (!response.ok) throw new Error('Something went wrong');
 
           const data = await response.json();
-
           enqueueSnackbar('Your product has been added', {
             variant: 'success',
           });
+          getProducts();
           navigate('/admin');
           onSave();
         } catch (error) {
