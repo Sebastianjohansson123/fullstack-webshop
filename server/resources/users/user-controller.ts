@@ -105,3 +105,13 @@ export async function getOwnUserInfo(req: Request, res: Response) {
     res.status(200).json(req.session);
   }
 }
+
+export async function updateToAdmin(req: Request, res: Response) {
+  const user = await UserModel.findById(req.params.id);
+  if (!user) {
+    return res.status(404).json('User not found');
+  }
+  // update is admin to true
+  await user.updateOne({ $set: { isAdmin: true } }, { new: true });
+  res.status(200).json("User's admin status updated");
+}
