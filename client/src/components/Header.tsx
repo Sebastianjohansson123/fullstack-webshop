@@ -27,13 +27,17 @@ function Header() {
             <Typography variant='body1'>Logout</Typography>
           </NavLink>
         ) : (
-          <NavLink to='/login'>
+          <NavLink style={{ marginRight: '2rem' }} to='/login'>
             <Typography variant='body1'>Login</Typography>
           </NavLink>
         )}
         {user && user.isAdmin && (
           <NavLink data-cy='admin-link' to='/admin'>
-            <img style={{ width: '3rem' }} src={adminIcon} alt='Admin' />
+            <img
+              style={{ margin: '1rem', width: '3rem' }}
+              src={adminIcon}
+              alt='Admin'
+            />
           </NavLink>
         )}
         <NavLink to='/checkout'>
