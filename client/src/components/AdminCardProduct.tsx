@@ -1,15 +1,15 @@
 import {
   Box,
   Button,
-  CardActionArea,
-  Skeleton,
-  styled,
-  SxProps,
-  Theme,
   Card,
+  CardActionArea,
   CardContent,
   CardMedia,
+  Skeleton,
+  SxProps,
+  Theme,
   Typography,
+  styled,
 } from '@mui/material';
 
 import React, { useState } from 'react';
@@ -26,7 +26,7 @@ export default function ProductCard({ dataProduct }: Props) {
   // const { databaseProducts, setDatabaseProducts } = useProducts();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const { products } = useProducts();
+  const { products, deleteProduct } = useProducts();
 
   const handleLoad = () => {
     setLoading(false);
@@ -38,9 +38,9 @@ export default function ProductCard({ dataProduct }: Props) {
     setError(true);
   };
 
-  // const handleDelete = () => {
-  //   setOpenDeleteDialog(true);
-  // };
+  const handleDelete = () => {
+    deleteProduct(dataProduct._id!);
+  };
 
   const handleCloseDeleteDialog = () => {
     setOpenDeleteDialog(false);
@@ -135,7 +135,7 @@ export default function ProductCard({ dataProduct }: Props) {
             sx={deleteBtnSX}
             variant='contained'
             color='error'
-            // onClick={handleDelete}
+            onClick={handleDelete}
           >
             <Typography variant='body2'>Delete Product</Typography>
           </Button>

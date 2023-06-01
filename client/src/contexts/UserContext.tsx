@@ -14,7 +14,7 @@ interface User {
   _id: number;
 }
 
-export interface Adress {
+export interface adress {
   fullName: string;
   address: string;
   zipCode: number;
@@ -29,8 +29,8 @@ export interface Order {
   user: number;
   orderRows: [];
   totalPrice: number;
-  adress: Adress;
-  sent: boolean;
+  adress: adress;
+  Sent: boolean;
 }
 
 interface UserContextValue {
@@ -42,23 +42,38 @@ interface UserContextValue {
   getOrders: () => void;
   getOrderForUser: () => void;
   orders: Order[];
+  updateOrderbyId: (id: string) => void;
 }
 
 const UserContext = createContext<UserContextValue>(null as any);
 
 export const useUserContext = () => useContext(UserContext);
 
-export async function getOrders() {
-  const response = await fetch('/api/orders');
-  const data = await response.json();
-  return data;
-}
-
 export function UserProvider(props: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
+  async function getOrders() {
+    const response = await fetch('/api/orders');
+    const data = await response.json();
+    setOrders(data);
+  }
+
+  async function updateOrderbyId(id: string) {
+    try {
+      const response = await fetch(`/api/orders/${id}`, {
+        method: 'PUT',
+        // body: JSON.stringify({ sent: true }),
+        headers: { 'Content-type': 'application/json' },
+      });
+      if (response.ok) {
+        getOrders();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -77,16 +92,15 @@ export function UserProvider(props: PropsWithChildren) {
   }, []);
 
   const getOrderForUser = async () => {
-    const response = await fetch(`/api/orders/${user?._id}`);
-    const data = await response.json();
-    return data;
+    if (!user?.username) return;
+    try {
+      const response = await fetch(`/api/orders/user/${user?._id}`);
+      const data = await response.json();
+      setOrders(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
-
-  // export async function getOrderForUser() {
-  //   const response = await fetch(`/api/orders/${user?._id}`);
-  //   const data = await response.json();
-  //   return data;
-  // }
 
   const handleLogin = async (username: string, password: string) => {
     const response = await fetch('/api/users/login', {
@@ -109,7 +123,6 @@ export function UserProvider(props: PropsWithChildren) {
 
     if (response.ok) {
       setUser(null);
-      console.log('Du är nu utloggad');
     }
   };
 
@@ -124,6 +137,7 @@ export function UserProvider(props: PropsWithChildren) {
         getOrders,
         getOrderForUser,
         orders,
+        updateOrderbyId,
       }}
     >
       {props.children}

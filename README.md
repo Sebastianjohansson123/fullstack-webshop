@@ -36,7 +36,7 @@ Här är en lista på de olika skripten som kan köras i terminalen.
 - [x] Inga Lösenord får sparas i klartext i databasen (G)
 - [x] En besökare ska kunna beställa produkter från sidan, detta ska uppdatera lagersaldot i databasen (G)
 - [x] Administratörer ska kunna uppdatera antalet produkter i lager från admin delen av sidan (G)
-- [ ] Administratörer ska kunna se en lista på alla gjorda beställningar (G)
+- [x] Administratörer ska kunna se en lista på alla gjorda beställningar (G)
 - [x] Sidans produkter ska delas upp i kategorier, en produkt ska tillhöra minst en kategori, men kan tillhöra flera (G)
 - [x] Från hemsidan ska man kunna se en lista över alla produkter, och man ska kunna lista bara dom produkter som tillhör en kat(egori G)
 - [x] Besökare ska kunna lägga produkterna i en kundkorg, som är sparad i local-storage på klienten (G)
@@ -46,9 +46,11 @@ Här är en lista på de olika skripten som kan köras i terminalen.
 ### VG
 
 - [x] Ett CI flöde ska sättas upp (i början av projektet) som kontrollerar prettier, eslint, typescript & tester i varje PR, tester kan lånas ifrån tidigare uppgifter (VG)
-- [ ] När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG)
+- [x] När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG)
 - [x] Administratörer ska kunna redigera produkt inklusive vilka kategorier den tillhör (VG)
-- [halvt] Administratörer ska kunna lägga till och ta bort produkter (VG)
+- [x] Administratörer ska kunna lägga till och ta bort produkter (VG)
 - [x] Backendapplikationen ska ha en fungerande global felhantering (VG)
 - [x] En administratör ska kunna uppgradera en användare till administratör (VG)
-- [ ] Administratörer ska kunna markera beställningar som skickade (VG)
+- [x] Administratörer ska kunna markera beställningar som skickade (VG)
+
+<!-- Kolla igenom så att alla endpoints har valledering -->

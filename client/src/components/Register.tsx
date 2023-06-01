@@ -46,7 +46,6 @@ function RegisterForm() {
           navigate('/login', { state: { snackbar: true } });
         } else {
           const message = await response.text();
-          console.log(formik);
           throw new Error(message);
         }
       } catch (error) {
