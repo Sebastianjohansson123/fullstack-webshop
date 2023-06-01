@@ -11,7 +11,7 @@ function UserList() {
   const [users, setUsers] = useState<User[]>([]);
 
   const getUsers = async () => {
-    const response = await fetch("/api/users");
+    const response = await fetch('/api/users');
     const data = await response.json();
 
     if (response.ok) {
@@ -27,14 +27,14 @@ function UserList() {
     <>
       <div
         style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: "6rem",
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          marginTop: '6rem',
         }}
       >
-        {users.map((user) => (
+        {users.map(user => (
           <Users
             key={user._id}
             user={{
@@ -51,4 +51,3 @@ function UserList() {
 }
 
 export default UserList;
-

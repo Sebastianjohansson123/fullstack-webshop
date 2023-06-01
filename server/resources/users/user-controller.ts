@@ -81,10 +81,7 @@ export async function logoutUser(req: Request, res: Response) {
 
 export async function getUserById(req: Request, res: Response) {}
 
-export async function getUsers(
-  req: Request,
-  res: Response
-) {
+export async function getUsers(req: Request, res: Response) {
   const loggedInUser = req.session;
   const user = await UserModel.findOne({
     _id: loggedInUser?._id,
