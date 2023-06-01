@@ -42,6 +42,7 @@ export async function updateProduct(req: Request, res: Response) {
   const updatedPost = await ProductModel.findById(req.params.id);
   res.status(200).json(updatedPost);
 }
+
 export async function deleteProduct(req: Request, res: Response) {
   const product = await ProductModel.findById(req.params.id);
   if (!product) {

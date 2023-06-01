@@ -42,6 +42,7 @@ interface UserContextValue {
   getOrders: () => void;
   getOrderForUser: () => void;
   orders: Order[];
+  updateOrderbyId: (id: string) => void;
 }
 
 const UserContext = createContext<UserContextValue>(null as any);
@@ -52,6 +53,18 @@ export async function getOrders() {
   const response = await fetch('/api/orders');
   const data = await response.json();
   return data;
+}
+
+export async function updateOrderbyId(id: string) {
+  try {
+    const response = await fetch('/api/orders/${id}', {
+      method: 'PUT',
+      // body: JSON.stringify({ sent: true }),
+      headers: { 'Content-type': 'application/json' },
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export function UserProvider(props: PropsWithChildren) {
@@ -77,16 +90,14 @@ export function UserProvider(props: PropsWithChildren) {
   }, []);
 
   const getOrderForUser = async () => {
-    const response = await fetch(`/api/orders/${user?._id}`);
-    const data = await response.json();
-    return data;
+    try {
+      const response = await fetch(`/api/orders/${user?._id}`);
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
   };
-
-  // export async function getOrderForUser() {
-  //   const response = await fetch(`/api/orders/${user?._id}`);
-  //   const data = await response.json();
-  //   return data;
-  // }
 
   const handleLogin = async (username: string, password: string) => {
     const response = await fetch('/api/users/login', {
@@ -124,6 +135,7 @@ export function UserProvider(props: PropsWithChildren) {
         getOrders,
         getOrderForUser,
         orders,
+        updateOrderbyId,
       }}
     >
       {props.children}
