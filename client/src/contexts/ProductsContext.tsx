@@ -14,6 +14,7 @@ interface ProductsContextValue {
   getProducts: () => void;
   choosenCategory: string;
   setChoosenCategory: React.Dispatch<React.SetStateAction<string>>;
+  deleteProduct: (id: string) => void;
 }
 // Context setup
 const ProductsContext = createContext<ProductsContextValue>(null as never);
@@ -45,6 +46,13 @@ export function ProductsProvider(props: PropsWithChildren) {
     setProducts(data);
   }, []);
 
+  const deleteProduct = async (id: string) => {
+    await fetch(`/api/product/delete/${id}`, {
+      method: 'DELETE',
+    });
+    getProducts();
+  };
+
   useEffect(() => {
     getProductsByCategory();
   }, [choosenCategory, getProductsByCategory]);
@@ -63,6 +71,7 @@ export function ProductsProvider(props: PropsWithChildren) {
         getProducts,
         choosenCategory,
         setChoosenCategory,
+        deleteProduct,
       }}
     >
       {props.children}
