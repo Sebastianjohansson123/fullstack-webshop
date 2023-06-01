@@ -50,5 +50,5 @@ Här är en lista på de olika skripten som kan köras i terminalen.
 - [x] Administratörer ska kunna redigera produkt inklusive vilka kategorier den tillhör (VG)
 - [halvt] Administratörer ska kunna lägga till och ta bort produkter (VG)
 - [x] Backendapplikationen ska ha en fungerande global felhantering (VG)
-- [ ] En administratör ska kunna uppgradera en användare till administratör (VG)
+- [x] En administratör ska kunna uppgradera en användare till administratör (VG)
 - [ ] Administratörer ska kunna markera beställningar som skickade (VG)
