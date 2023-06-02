@@ -141,7 +141,6 @@ export default function CheckoutForm() {
         // Snackbar
         enqueueSnackbar('Order has been placed! 🙃 ', {
           variant: 'success',
-          // SnackbarProps: { 'data-cy': 'added-to-cart-toast' } as any,
         });
         clearProductsFromCart();
         getProducts();

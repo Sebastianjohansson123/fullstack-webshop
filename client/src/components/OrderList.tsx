@@ -42,13 +42,6 @@ export default function OrderList() {
         <Container>
           {orders.map((order: Order) => (
             <div style={{ marginBottom: '0.5rem' }} key={order._id}>
-              {/* <h2>Order ID: {order._id}</h2>
-              <h3>User ID: {order.user}</h3>
-              <h4>Total Price: {order.totalPrice}</h4>
-              <h4>Address: {order.address.address}</h4>
-              <h4>Name: {order.address.fullName}</h4>
-              <p>Sent: {order.Sent ? "Yes" : "No"}</p> */}
-
               <Accordion
                 sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}
                 expanded={expanded === order._id.toString()}

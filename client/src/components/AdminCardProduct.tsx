@@ -20,10 +20,9 @@ import { useProducts } from '../contexts/ProductsContext';
 interface Props {
   dataProduct: Product;
 }
-// Function for the cards to delete and edit inc. skeleton.
+
 export default function ProductCard({ dataProduct }: Props) {
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-  // const { databaseProducts, setDatabaseProducts } = useProducts();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const { products, deleteProduct } = useProducts();
@@ -45,11 +44,6 @@ export default function ProductCard({ dataProduct }: Props) {
   const handleCloseDeleteDialog = () => {
     setOpenDeleteDialog(false);
   };
-
-  // const handleDeleteProduct = (product: Product) => {
-  // const updatedProducts = databaseProducts.filter(p => p.id !== product.id);
-  // setDatabaseProducts(updatedProducts);
-  // };
 
   return (
     <Card sx={cardStyle} data-cy='product'>
@@ -141,12 +135,6 @@ export default function ProductCard({ dataProduct }: Props) {
           </Button>
         </Box>
       </Box>
-      {/* <AdminDeleteDialog
-        open={openDeleteDialog}
-        handleClose={handleCloseDeleteDialog}
-        handleDelete={handleDeleteProduct}
-        dataProduct={dataProduct}
-      /> */}
     </Card>
   );
 }

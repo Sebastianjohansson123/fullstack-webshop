@@ -1,4 +1,4 @@
-import { Paper, Typography, SxProps, Box, Theme } from '@mui/material';
+import { Box, Paper, SxProps, Theme, Typography } from '@mui/material';
 
 interface Props {
   totalPrice: number;
@@ -38,7 +38,6 @@ const totalPriceBoxStyleSx: SxProps<Theme> = theme => ({
   justifyContent: 'flex-end',
   width: '100%',
   mt: 2,
-  // [theme.breakpoints.up('md')]: {},
 });
 
 export default CheckoutTotalPrice;

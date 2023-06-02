@@ -75,7 +75,6 @@ export default function ProductCard({ product }: Props) {
               data-cy='product-title'
             >
               {product.name} {product.category[0].toString()}
-              {/* {product.name} {product.category[1].toString()} */}
             </Typography>
           </CardContent>
         </StyledCardActionArea>

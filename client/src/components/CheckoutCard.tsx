@@ -197,8 +197,6 @@ function CheckoutCard({ cartItem }: Props) {
        CSS STYLING
 ---------------------- */
 
-// Containers
-
 export const rightContainerSx: SxProps<Theme> = theme => ({
   display: 'flex',
   mr: 3,
@@ -256,8 +254,6 @@ export const cardImgStyle: CSSProperties = {
   objectFit: 'contain',
   borderRadius: '0.8rem',
 };
-
-// Button related
 
 export const quantityBoxStyleSx: SxProps<Theme> = theme => ({
   display: 'flex',
