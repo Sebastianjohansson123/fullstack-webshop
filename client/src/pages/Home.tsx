@@ -91,9 +91,15 @@ function Home() {
       </Box>
       <Box sx={productContainerSx}>
         <Box sx={categoryContainerSx}>
-          <Typography sx={h3StyleSx} variant='h3' gutterBottom>
-            Our Products
-          </Typography>
+          {selectedSection === 'Orders' ? (
+            <Typography sx={h3StyleSx} variant='h3' gutterBottom>
+              Your orders
+            </Typography>
+          ) : (
+            <Typography sx={h3StyleSx} variant='h3' gutterBottom>
+              Our Products
+            </Typography>
+          )}
           <Box sx={dropdownContainerSx}>
             <Select
               value={selectedSection}
@@ -149,7 +155,10 @@ function Home() {
                     sx={{ display: 'flex', justifyContent: 'space-between' }}
                     key={order._id}
                   >
-                    <Typography sx={{ marginTop: '1rem' }} variant='body2'>
+                    <Typography
+                      sx={{ marginTop: '1rem', width: '100%' }}
+                      variant='body2'
+                    >
                       {order._id}
                     </Typography>{' '}
                     <br />
@@ -166,10 +175,6 @@ function Home() {
               ))
             ) : (
               <></>
-
-              // <span> Sent ✔️</span>
-              // ) : (
-              //   <span> Pending ❌</span>
             )}
           </Box>
         ) : (

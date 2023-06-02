@@ -38,6 +38,7 @@ export async function updateProduct(req: Request, res: Response) {
   if (!oldProduct) {
     return res.status(404).json('Product not found');
   }
+  await ProductAddSchema.validate(req.body);
   await oldProduct.updateOne({ $set: req.body }, { new: true });
   const updatedPost = await ProductModel.findById(req.params.id);
   res.status(200).json(updatedPost);

@@ -29,8 +29,6 @@ import { useProducts } from '../contexts/ProductsContext';
       YUP VALIDATION
 ---------------------- */
 
-// type YupProduct = Record<keyof Omit<Product, 'id'>, Yup.AnySchema>;
-
 const adminFormSchema = Yup.object().shape({
   name: Yup.string()
     .required('Please write a product title')
@@ -399,7 +397,6 @@ function AdminProductForm({ onSave, product }: Props) {
                     control={
                       <Checkbox
                         name='hats'
-                        // id='categories'
                         checked={formik.values.category?.includes('Hats')}
                         onChange={() => {
                           if (formik.values.category?.includes('Hats')) {
@@ -425,7 +422,6 @@ function AdminProductForm({ onSave, product }: Props) {
                     control={
                       <Checkbox
                         name='coat'
-                        // id='categories'
                         checked={formik.values.category?.includes('Coats')}
                         onChange={() => {
                           if (formik.values.category?.includes('Coats')) {

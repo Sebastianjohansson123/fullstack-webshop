@@ -5,11 +5,8 @@ import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Navigate,
   Route,
-  RouteProps,
   RouterProvider,
-  useLocation,
 } from 'react-router-dom';
 import App from './App';
 import Login from './components/Login';
@@ -17,7 +14,7 @@ import Register from './components/Register';
 import { CartProvider } from './contexts/CartContext';
 import { FormProvider } from './contexts/FormContext';
 import { ProductsProvider } from './contexts/ProductsContext';
-import { UserProvider, useUserContext } from './contexts/UserContext';
+import { UserProvider } from './contexts/UserContext';
 import './index.css';
 import Admin from './pages/Admin';
 import AdminUpdateDatabase from './pages/AdminUpdateDatabase';
@@ -45,7 +42,7 @@ declare module '@mui/material/styles' {
     };
   }
 }
-// Using primary.dark as a form of hover effect for all the default buttons. This might not be optimal in the long run, but it works fine at the moment.
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -57,21 +54,6 @@ const theme = createTheme({
       dark: '#505050',
     },
   },
-  // --------Another sulution for styling only buttons in the project------
-  // components: {
-  //   MuiButton: (palette) => ({
-  //     styleOverrides: {
-  //       root: {
-  //         textTransform: 'none',
-  //         borderRadius: '0px',
-  //         '&:hover': {
-  //           backgroundColor: palette.secondary.main,
-  //         },
-  //       },
-  //       text: { }
-  //     }
-  //   })
-  // },
   typography: {
     fontFamily: 'cinzel',
     h1: {

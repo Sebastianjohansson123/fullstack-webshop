@@ -21,12 +21,7 @@ export async function registerUser(req: Request, res: Response) {
     password: yup.string().strict().required(),
   });
 
-  const result = userSchema.validate(req.body);
-
-  if (result instanceof yup.ValidationError) {
-    res.status(400).json(result.errors);
-    return;
-  }
+  await userSchema.validate(req.body);
 
   //Checking username to existing one
   const existingUser = await UserModel.findOne({
@@ -57,6 +52,8 @@ export async function loginUser(req: Request, res: Response) {
     res.status(401).json('Incorrect username or password');
     return;
   }
+
+  await UserCreateSchema.validate(req.body);
   const isAuth = await argon2.verify(user.password, password);
   if (!isAuth) {
     res.status(401).json('Incorrect username or password');
