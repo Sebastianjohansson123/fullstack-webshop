@@ -42,4 +42,4 @@ Utvecklare för projektet:
 Sebastian Johansson [GitHub](https://github.com/Sebastianjohansson123)<br>
 Thomas Ingvarsson [GitHub](https://github.com/GunnarIng) <br>
 Yehad Moussaoui [GitHub](https://github.com/ye-mou)<br>
-Mergim Shala [GitHub](https://github.com/mergimshalaalinusHernvall)
+Mergim Shala [GitHub](https://github.com/mergimshalaa)
